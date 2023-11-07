@@ -21,19 +21,30 @@ Sprite::Sprite(QWidget *parent)
     frames.append(frame3);
     frames.append(frame4);
 
-    connect(timer, &QTimer::timeout, this, [this]{
-        for(Frame* frame : frames){
-            emit sendFramesToPreview(frame);
-        }
-    });
+    timer = new QTimer(this);
+    timer->setInterval(1000);
+    timer->start();
+
+    framesIndex = 0;
+
+
+    connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
+
 }
 
 void Sprite::mousePressEvent(QMouseEvent * e) {
     QWidget* frame = this->childAt(e->pos());
     emit passChildSignal(frame);
+    emit sendFramesToPreview(frames[0]);
 }
 
 void Sprite::updateFrame(int pixelX, int pixelY, Frame* currFrame) {
     currFrame->image.setPixelColor(pixelX, pixelY, QColor::fromRgb(0, 0, 0));
     currFrame->repaint();
+}
+
+void Sprite::sendFrames(){
+    if (framesIndex == 4) framesIndex = 0;
+    emit sendFramesToPreview(frames[framesIndex]);
+    framesIndex++;
 }

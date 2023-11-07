@@ -17,6 +17,8 @@ private:
     Frame *currFrame;
 
 signals:
+public slots:
+    void updatePreview(Frame* frame);
 
 };
 

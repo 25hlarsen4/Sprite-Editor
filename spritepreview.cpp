@@ -1,10 +1,12 @@
+#include <QImage>
+#include <QDebug>
 #include "spritepreview.h"
 #include "qpainter.h"
 
 SpritePreview::SpritePreview(QWidget *parent)
     : QWidget{parent}
 {
-
+    currFrame = nullptr;
 }
 
 // just draw border for now to make visible
@@ -33,8 +35,8 @@ void SpritePreview::paintEvent(QPaintEvent *) {
         painter.drawImage(target, image);
     }
 }
-void SpritePreview::updateDisplay(Frame* frame){
+void SpritePreview::updatePreview(Frame* frame){
     currFrame = frame;
-
+    qDebug() << "update display";
     repaint();
 }

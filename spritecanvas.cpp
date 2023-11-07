@@ -32,7 +32,7 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
 
 void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
     currFrame = dynamic_cast<Frame *>(frameWidget);
-
+    qDebug() << "update display";
     repaint();
 }
 
