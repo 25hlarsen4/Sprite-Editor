@@ -8,7 +8,7 @@
 SpriteCanvas::SpriteCanvas(QWidget *parent)
     : QWidget{parent}
 {
-
+    currFrame = nullptr;
 }
 
 void SpriteCanvas::paintEvent(QPaintEvent *) {

@@ -20,6 +20,12 @@ Sprite::Sprite(QWidget *parent)
     frames.append(frame2);
     frames.append(frame3);
     frames.append(frame4);
+
+    connect(timer, &QTimer::timeout, this, [this]{
+        for(Frame* frame : frames){
+            emit sendFramesToPreview(frame);
+        }
+    });
 }
 
 void Sprite::mousePressEvent(QMouseEvent * e) {

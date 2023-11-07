@@ -14,6 +14,7 @@ public:
 private:
     // keep these in sync with sprite's frame list
     QList<Frame*> frames;
+    Frame *currFrame;
 
 signals:
 

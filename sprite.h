@@ -13,6 +13,7 @@ public:
 
     // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
     QList<Frame*> frames;
+    QTimer *timer;
 
 protected:
 
