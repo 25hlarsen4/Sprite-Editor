@@ -32,19 +32,25 @@ Sprite::Sprite(QWidget *parent)
 
 }
 
-void Sprite::mousePressEvent(QMouseEvent * e) {
+void Sprite::mousePressEvent(QMouseEvent * e)
+{
     QWidget* frame = this->childAt(e->pos());
     emit passChildSignal(frame);
     emit sendFramesToPreview(frames[0]);
 }
 
-void Sprite::updateFrame(int pixelX, int pixelY, Frame* currFrame) {
+void Sprite::updateFrame(int pixelX, int pixelY, Frame* currFrame)
+{
     currFrame->image.setPixelColor(pixelX, pixelY, QColor::fromRgb(0, 0, 0));
     currFrame->repaint();
 }
 
-void Sprite::sendFrames(){
-    if (framesIndex == 4) framesIndex = 0;
+void Sprite::sendFrames()
+{
+
+    if (framesIndex == frames.size()) framesIndex = 0;
+
     emit sendFramesToPreview(frames[framesIndex]);
+
     framesIndex++;
 }

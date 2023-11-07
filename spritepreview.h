@@ -18,6 +18,9 @@ private:
 
 signals:
 public slots:
+    /*
+     * updates the frame that is currently being previewed.
+    */
     void updatePreview(Frame* frame);
 
 };
