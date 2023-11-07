@@ -2,6 +2,7 @@
 #define SPRITEEDITOR_H
 
 #include <QMainWindow>
+#include "sprite.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SpriteEditor; }
@@ -12,10 +13,13 @@ class SpriteEditor : public QMainWindow
     Q_OBJECT
 
 public:
-    SpriteEditor(QWidget *parent = nullptr);
+    SpriteEditor(Sprite& sprite, QWidget *parent = nullptr);
     ~SpriteEditor();
 
 private:
     Ui::SpriteEditor *ui;
+
+public slots:
+
 };
 #endif // SPRITEEDITOR_H
