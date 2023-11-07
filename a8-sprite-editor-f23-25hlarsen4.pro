@@ -9,11 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    frame.cpp \
     main.cpp \
-    spriteeditor.cpp
+    sprite.cpp \
+    spritecanvas.cpp \
+    spriteeditor.cpp \
+    spritepreview.cpp
 
 HEADERS += \
-    spriteeditor.h
+    frame.h \
+    sprite.h \
+    spritecanvas.h \
+    spriteeditor.h \
+    spritepreview.h
 
 FORMS += \
     spriteeditor.ui
