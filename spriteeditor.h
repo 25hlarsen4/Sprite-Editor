@@ -21,6 +21,7 @@ signals:
 
 private:
     Ui::SpriteEditor *ui;
+    void setSpriteSize();
 
 private slots:
     /**

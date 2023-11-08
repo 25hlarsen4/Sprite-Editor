@@ -26,10 +26,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
 
     // connection from sprite frame added signal to this slot to add the frame widget to layout
     // (can just access the last frame in the list)
-
-
-
-
     connect(&sprite,
             &Sprite::passChildSignal,
             ui->canvasWidget,
@@ -55,12 +51,21 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &SpriteEditor::changeColor,
             ui->canvasWidget,
             &SpriteCanvas::changeColor);
+
+    setSpriteSize();
 }
 
 void SpriteEditor::chooseColor()
 {
     QColor color = QColorDialog::getColor(Qt::white, this);
     emit changeColor(color);
+}
+
+void SpriteEditor::setSpriteSize()
+{
+    int spriteSize = QInputDialog::getInt(this, tr("Sprite Editor"),
+                                          tr("Please Choose A Sprite Size!"), 10, 10, 100);
+
 }
 
 SpriteEditor::~SpriteEditor()
