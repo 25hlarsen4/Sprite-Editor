@@ -38,6 +38,21 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &Sprite::sendFramesToPreview,
             ui->previewWidget,
             &SpritePreview::updatePreview);
+
+    connect(ui->pickColorButton,
+            &QPushButton::pressed,
+            ui->colorPickerWidget,
+            &ColorPicker::setVisible);
+
+    connect(ui->colorPickerWidget->colorPicker,
+            &QColorDialog::colorSelected,
+            ui->canvasWidget,
+            &SpriteCanvas::updateCurrColor);
+
+    connect(ui->groupSelectCheckBox,
+            &QCheckBox::clicked,
+            ui->canvasWidget,
+            &SpriteCanvas::updateGroupSelectState);
 }
 
 SpriteEditor::~SpriteEditor()

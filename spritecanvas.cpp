@@ -4,11 +4,14 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QMouseEvent>
+#include <QRgba64>
 
 SpriteCanvas::SpriteCanvas(QWidget *parent)
     : QWidget{parent}
 {
     currFrame = nullptr;
+    groupSelect = false;
+    currColor = QColor(Qt::black);
 }
 
 void SpriteCanvas::paintEvent(QPaintEvent *) {
@@ -32,7 +35,6 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
 
 void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
     currFrame = dynamic_cast<Frame *>(frameWidget);
-    qDebug() << "update display";
     repaint();
 }
 
@@ -43,11 +45,76 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     // any x from 0 to 250/10=25 should be 0
     int pixelXCoord = xPos / 25;
     int pixelYCoord = yPos / 25;
-    qDebug() << "x: " << pixelXCoord << ", y: " << pixelYCoord;
+
+    if (groupSelect) {
+        selectedPixels.append(qMakePair(pixelXCoord, pixelYCoord));
+
+        // give a visual cue that it's selected (just make white for now)
+        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, QColor::fromRgb(255, 255, 255));
+        currFrame->repaint();
+
+        repaint();
+    }
 
 
-    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, QColor::fromRgb(0, 0, 0));
-    currFrame->repaint();
+    else {
+        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, currColor);
+        currFrame->repaint();
 
-    repaint();
+        repaint();
+    }
+}
+
+
+
+void SpriteCanvas::mouseReleaseEvent(QMouseEvent * e) {
+    int xPos = e->pos().x();
+    int yPos = e->pos().y();
+
+    // any x from 0 to 250/10=25 should be 0
+    int pixelXCoord = xPos / 25;
+    int pixelYCoord = yPos / 25;
+
+    if (groupSelect) {
+        selectedPixels.append(qMakePair(pixelXCoord, pixelYCoord));
+
+        // give a visual cue that it's selected (just make white for now)
+        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, QColor::fromRgb(255, 255, 255));
+        currFrame->repaint();
+
+        repaint();
+    }
+
+//    else if (floodFill) {
+//        // call flood fill algorithm
+//        currFrame->floodFill(pixelXCoord, pixelYCoord, currColor);
+//    }
+
+    else {
+        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, currColor);
+        currFrame->repaint();
+
+        repaint();
+    }
+
+}
+
+void SpriteCanvas::updateCurrColor(QColor color) {
+    currColor = color;
+
+    if (groupSelect) {
+        for (QPair<int, int> coords : selectedPixels) {
+            currFrame->image.setPixelColor(coords.first, coords.second, currColor);
+        }
+
+        currFrame->repaint();
+        repaint();
+
+        // "unselect all pixels"
+        selectedPixels.clear();
+    }
+}
+
+void SpriteCanvas::updateGroupSelectState() {
+    groupSelect = !groupSelect;
 }
