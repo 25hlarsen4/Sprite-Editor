@@ -4,6 +4,7 @@
 #include "sprite.h"
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QColorDialog>
 
 SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
     : QMainWindow(parent)
@@ -39,20 +40,32 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             ui->previewWidget,
             &SpritePreview::updatePreview);
 
-    connect(ui->pickColorButton,
-            &QPushButton::pressed,
-            ui->colorPickerWidget,
-            &ColorPicker::setVisible);
-
-    connect(ui->colorPickerWidget->colorPicker,
-            &QColorDialog::colorSelected,
-            ui->canvasWidget,
-            &SpriteCanvas::updateCurrColor);
 
     connect(ui->groupSelectCheckBox,
             &QCheckBox::clicked,
             ui->canvasWidget,
             &SpriteCanvas::updateGroupSelectState);
+
+    connect(ui->previewSpeedController,
+            &QAbstractSlider::valueChanged,
+            &sprite,
+            &Sprite::setPreviewSpeed);
+
+    connect(ui->colorButton,
+            &QPushButton::clicked,
+            this,
+            &SpriteEditor::chooseColor);
+
+    connect(this,
+            &SpriteEditor::changeColor,
+            ui->canvasWidget,
+            &SpriteCanvas::updateCurrColor);
+}
+
+void SpriteEditor::chooseColor()
+{
+    QColor color = QColorDialog::getColor(Qt::white, this);
+    emit changeColor(color);
 }
 
 SpriteEditor::~SpriteEditor()
