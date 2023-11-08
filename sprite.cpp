@@ -39,11 +39,6 @@ void Sprite::mousePressEvent(QMouseEvent * e)
     emit sendFramesToPreview(frames[0]);
 }
 
-void Sprite::updateFrame(int pixelX, int pixelY, Frame* currFrame)
-{
-    currFrame->image.setPixelColor(pixelX, pixelY, QColor::fromRgb(0, 0, 0));
-    currFrame->repaint();
-}
 
 void Sprite::sendFrames()
 {

@@ -45,7 +45,9 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int pixelYCoord = yPos / 25;
     qDebug() << "x: " << pixelXCoord << ", y: " << pixelYCoord;
 
-    emit penDrag(pixelXCoord, pixelYCoord, currFrame);
+
+    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, QColor::fromRgb(0, 0, 0));
+    currFrame->repaint();
 
     repaint();
 }
