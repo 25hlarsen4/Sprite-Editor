@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QColorDialog>
+#include <QInputDialog>
 
 SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
     : QMainWindow(parent)
