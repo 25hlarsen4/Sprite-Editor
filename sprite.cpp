@@ -54,3 +54,23 @@ void Sprite::sendFrames()
 
     framesIndex++;
 }
+const QJsonObject Sprite::toJson()
+{
+
+    QJsonObject json;
+    QJsonArray frameArray;
+
+    for (Frame* frame : frames)
+        frameArray.append(frame->toJson());
+
+    json["frames"] = frameArray;
+
+    return json;
+}
+void Sprite::fromJson(const QJsonObject &json)
+{
+//    frames.clear();
+//    const QJsonArray framesArray = json["frames"].toArray();
+//    for (const QJsonValue &frame : framesArray)
+//        frames.append(Frame::fromJson(frame.toObject()));
+}

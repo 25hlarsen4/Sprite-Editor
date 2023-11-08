@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QJsonObject>
+#include <QJsonArray>
 
 #include "frame.h"
 
@@ -12,6 +14,8 @@ class Sprite : public QWidget
 public:
     explicit Sprite(QWidget *parent = nullptr);
     void mousePressEvent(QMouseEvent *);
+    const QJsonObject toJson();
+    void fromJson(const QJsonObject &json);
 
     // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
     QList<Frame*> frames;

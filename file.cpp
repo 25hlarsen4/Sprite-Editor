@@ -7,13 +7,18 @@ File::File()
 {
 
 }
-//const QJsonObject File::saveFile(Sprite &sprite, string fileName)
-//{
-//    QJsonObject json;
-//    json["filename"] = fileName;
-////    QJsonArray npcArray;
-////    for (const Character &npc : mNpcs)
-////        npcArray.append(npc.toJson());
-//    json["sprite"] = sprite;
-//    return json;
-//}
+const bool File::saveFile(Sprite &sprite, QString fileName)
+{
+    QFile file("file.txt");
+
+//    if (!saveFile.open(QIODevice::WriteOnly)) {
+//        qWarning("Couldn't open save file.");
+//        return false;
+//    }
+
+//    QJsonObject gameObject = toJson();
+//    saveFile.write(saveFormat == Json ? QJsonDocument(gameObject).toJson()
+//                                      : QCborValue::fromJsonValue(gameObject).toCbor());
+
+    return true;
+}

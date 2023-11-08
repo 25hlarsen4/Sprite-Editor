@@ -12,8 +12,8 @@ Frame::Frame(QWidget *parent)
     this->setFocusPolicy(Qt::ClickFocus);
 
 
-    int width = 10;
-    int height = 10;
+    width = 10;
+    height = 10;
     QPixmap pixmap(width, height);
     pixmap.fill(QColor::fromRgb(128, 128, 128));
     image = pixmap.toImage();
@@ -55,4 +55,23 @@ void Frame::focusOutEvent(QFocusEvent *) {
 void Frame::updatePixel(int pixelX, int pixelY) {
     image.setPixelColor(pixelX, pixelY, QColor::fromRgb(0, 0, 0));
     repaint();
+}
+const QJsonObject Frame::toJson(){
+    QJsonObject json;
+    json["width"] = width;
+    json["level"] = height;
+    //json["image"] = image;
+    return json;
+}
+void Frame::fromJson(const QJsonObject &json)
+{
+
+    if (json.contains("width")
+        && json.contains("height")
+        && json.contains("data"))
+    {
+        width = json["width"].toInt();
+        height = json["height"].toInt();
+    }
+
 }
