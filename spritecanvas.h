@@ -18,11 +18,13 @@ public:
 private:
     Frame* currFrame;
     QRect source;
+    QColor color;
 
 signals:
 
 public slots:
     void updateDisplay(QWidget* frame);
+    void changeColor(QColor);
 
 };
 

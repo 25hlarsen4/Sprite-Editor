@@ -10,6 +10,7 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
 {
     currFrame = nullptr;
     source.setRect(0, 0, 10, 10);
+    color = QColor::fromRgb(0, 0, 0);
 }
 
 void SpriteCanvas::paintEvent(QPaintEvent *) {
@@ -17,7 +18,6 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
     QRect target(0, 0, 250, 250);
 
     if (currFrame) {
-        qDebug() << source;
         painter.drawImage(target, currFrame->image, source);
     }
 
@@ -43,6 +43,7 @@ void SpriteCanvas::wheelEvent(QWheelEvent * e){
         newX = e->position().x()/25 - newSize/2 + 1;
         newY = e->position().y()/25 - newSize/2 + 1;
     }else{
+        // Change from hardcoded 10 to some image size
         if(source.width() < 10){
             newSize = source.width() + 1;
         }
@@ -60,8 +61,11 @@ void SpriteCanvas::wheelEvent(QWheelEvent * e){
 
 void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
     currFrame = dynamic_cast<Frame *>(frameWidget);
-    qDebug() << "update display";
     repaint();
+}
+
+void SpriteCanvas::changeColor(QColor newColor){
+    color = newColor;
 }
 
 void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
@@ -71,10 +75,9 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     // any x from 0 to 250/10=25 should be 0
     int pixelXCoord = source.x() + xPos/(250/source.width());
     int pixelYCoord = source.y() + yPos/(250/source.height());
-    qDebug() << "x: " << pixelXCoord << ", y: " << pixelYCoord;
 
 
-    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, QColor::fromRgb(0, 0, 0));
+    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
     currFrame->repaint();
 
     repaint();
