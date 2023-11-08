@@ -38,6 +38,11 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &Sprite::sendFramesToPreview,
             ui->previewWidget,
             &SpritePreview::updatePreview);
+
+    connect(ui->previewSpeedController,
+            &QAbstractSlider::valueChanged,
+            &sprite,
+            &Sprite::setPreviewSpeed);
 }
 
 SpriteEditor::~SpriteEditor()

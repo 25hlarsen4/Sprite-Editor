@@ -29,7 +29,6 @@ Sprite::Sprite(QWidget *parent)
 
 
     connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
-
 }
 
 void Sprite::mousePressEvent(QMouseEvent * e)
@@ -49,6 +48,12 @@ void Sprite::sendFrames()
 
     framesIndex++;
 }
+
+void Sprite::setPreviewSpeed(int speed)
+{
+    timer->setInterval(1000 - 900*speed*0.01);
+}
+
 const QJsonObject Sprite::toJson()
 {
 
