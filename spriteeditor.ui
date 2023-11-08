@@ -57,20 +57,6 @@
      </rect>
     </property>
    </widget>
-
-   <widget class="QCheckBox" name="groupSelectCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>80</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Group Select</string>
-    </property>
-
    <widget class="QSlider" name="previewSpeedController">
     <property name="geometry">
      <rect>
@@ -145,7 +131,6 @@
       <string>Color</string>
      </property>
     </widget>
-
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -170,13 +155,7 @@
   <customwidget>
    <class>SpritePreview</class>
    <extends>QWidget</extends>
-   <header>spritepreview.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ColorPicker</class>
-   <extends>QWidget</extends>
-   <header location="global">colorpicker.h</header>
+   <header location="global">spritepreview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

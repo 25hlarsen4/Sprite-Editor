@@ -40,12 +40,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             ui->previewWidget,
             &SpritePreview::updatePreview);
 
-
-    connect(ui->groupSelectCheckBox,
-            &QCheckBox::clicked,
-            ui->canvasWidget,
-            &SpriteCanvas::updateGroupSelectState);
-
     connect(ui->previewSpeedController,
             &QAbstractSlider::valueChanged,
             &sprite,
@@ -59,7 +53,7 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
     connect(this,
             &SpriteEditor::changeColor,
             ui->canvasWidget,
-            &SpriteCanvas::updateCurrColor);
+            &SpriteCanvas::changeColor);
 }
 
 void SpriteEditor::chooseColor()
