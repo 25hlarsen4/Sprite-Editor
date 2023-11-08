@@ -36,7 +36,6 @@ signals:
     void sendFramesToPreview(Frame* frame);
 
 public slots:
-    void updateFrame(int pixelX, int pixelY, Frame* currFrame);
 
     /*
      * emits a signal to spritepreview of the frame at the current index to be previewed.
