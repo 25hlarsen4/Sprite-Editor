@@ -8,7 +8,7 @@
 SpriteCanvas::SpriteCanvas(QWidget *parent)
     : QWidget{parent}
 {
-
+    currFrame = nullptr;
 }
 
 void SpriteCanvas::paintEvent(QPaintEvent *) {
@@ -32,7 +32,7 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
 
 void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
     currFrame = dynamic_cast<Frame *>(frameWidget);
-
+    qDebug() << "update display";
     repaint();
 }
 
@@ -45,7 +45,9 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int pixelYCoord = yPos / 25;
     qDebug() << "x: " << pixelXCoord << ", y: " << pixelYCoord;
 
-    emit penDrag(pixelXCoord, pixelYCoord, currFrame);
+
+    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, QColor::fromRgb(0, 0, 0));
+    currFrame->repaint();
 
     repaint();
 }

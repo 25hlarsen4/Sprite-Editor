@@ -34,11 +34,10 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &SpriteCanvas::updateDisplay);
 
 
-
-    connect(ui->canvasWidget,
-            &SpriteCanvas::penDrag,
-            &sprite,
-            &Sprite::updateFrame);
+    connect(&sprite,
+            &Sprite::sendFramesToPreview,
+            ui->previewWidget,
+            &SpritePreview::updatePreview);
 }
 
 SpriteEditor::~SpriteEditor()

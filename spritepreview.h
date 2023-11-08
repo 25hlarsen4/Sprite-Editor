@@ -14,8 +14,14 @@ public:
 private:
     // keep these in sync with sprite's frame list
     QList<Frame*> frames;
+    Frame *currFrame;
 
 signals:
+public slots:
+    /*
+     * updates the frame that is currently being previewed.
+    */
+    void updatePreview(Frame* frame);
 
 };
 

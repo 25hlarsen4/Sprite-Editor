@@ -18,7 +18,6 @@ private:
     Frame* currFrame;
 
 signals:
-    void penDrag(int pixelX, int pixelY, Frame* currFrame);
 
 public slots:
     void updateDisplay(QWidget* frame);
