@@ -9,6 +9,8 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     : QWidget{parent}
 {
     currFrame = nullptr;
+    source.setRect(0, 0, 10, 10);
+    color = QColor::fromRgb(0, 0, 0);
 }
 
 void SpriteCanvas::paintEvent(QPaintEvent *) {
@@ -16,7 +18,7 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
     QRect target(0, 0, 250, 250);
 
     if (currFrame) {
-        painter.drawImage(target, currFrame->image);
+        painter.drawImage(target, currFrame->image, source);
     }
 
     else {
@@ -30,10 +32,40 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
     }
 }
 
+void SpriteCanvas::wheelEvent(QWheelEvent * e){
+    int newSize = source.width();
+    int newX = source.x();
+    int newY = source.y();
+    if(e->angleDelta().y() > 0){
+        if(source.width() > 1){
+            newSize = source.width() - 1;
+        }
+        newX = e->position().x()/25 - newSize/2 + 1;
+        newY = e->position().y()/25 - newSize/2 + 1;
+    }else{
+        // Change from hardcoded 10 to some image size
+        if(source.width() < 10){
+            newSize = source.width() + 1;
+        }
+        if(newX > 0){
+            newX = newX - 1;
+        }
+        if(newY > 0){
+            newY = newY - 1;
+        }
+    }
+    source.setRect(newX, newY, newSize, newSize);
+    currFrame->repaint();
+    repaint();
+}
+
 void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
     currFrame = dynamic_cast<Frame *>(frameWidget);
-    qDebug() << "update display";
     repaint();
+}
+
+void SpriteCanvas::changeColor(QColor newColor){
+    color = newColor;
 }
 
 void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
@@ -41,12 +73,11 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int yPos = e->pos().y();
 
     // any x from 0 to 250/10=25 should be 0
-    int pixelXCoord = xPos / 25;
-    int pixelYCoord = yPos / 25;
-    qDebug() << "x: " << pixelXCoord << ", y: " << pixelYCoord;
+    int pixelXCoord = source.x() + xPos/(250/source.width());
+    int pixelYCoord = source.y() + yPos/(250/source.height());
 
 
-    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, QColor::fromRgb(0, 0, 0));
+    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
     currFrame->repaint();
 
     repaint();

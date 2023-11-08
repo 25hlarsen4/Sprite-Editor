@@ -42,6 +42,7 @@ public slots:
      * Increment index or set to 0 if current index is greater than number of frames.
     */
     void sendFrames();
+    void setPreviewSpeed(int);
 
 };
 

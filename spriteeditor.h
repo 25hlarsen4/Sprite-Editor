@@ -16,8 +16,18 @@ public:
     SpriteEditor(Sprite& sprite, QWidget *parent = nullptr);
     ~SpriteEditor();
 
+signals:
+    void changeColor(QColor);
+
 private:
     Ui::SpriteEditor *ui;
+
+private slots:
+    /**
+     * @brief chooseColor Shows the color picker and sets the current color on the canvas
+     * Source: https://www.youtube.com/watch?v=fl3q_5bxhlk
+     */
+    void chooseColor();
 
 public slots:
 
