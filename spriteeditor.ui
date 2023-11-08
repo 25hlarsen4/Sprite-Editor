@@ -57,6 +57,42 @@
      </rect>
     </property>
    </widget>
+   <widget class="ColorPicker" name="colorPickerWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>10</y>
+      <width>120</width>
+      <height>80</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pickColorButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pick Color</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="groupSelectCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>80</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Group Select</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -80,7 +116,13 @@
   <customwidget>
    <class>SpritePreview</class>
    <extends>QWidget</extends>
-   <header location="global">spritepreview.h</header>
+   <header>spritepreview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorPicker</class>
+   <extends>QWidget</extends>
+   <header location="global">colorpicker.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
