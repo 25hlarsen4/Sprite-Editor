@@ -69,8 +69,8 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int yPos = e->pos().y();
 
     // any x from 0 to 250/10=25 should be 0
-    int pixelXCoord = xPos / 25;
-    int pixelYCoord = yPos / 25;
+    int pixelXCoord = source.x() + xPos/(250/source.width());
+    int pixelYCoord = source.y() + yPos/(250/source.height());
     qDebug() << "x: " << pixelXCoord << ", y: " << pixelYCoord;
 
 
