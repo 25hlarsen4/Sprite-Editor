@@ -26,6 +26,7 @@ public:
 protected:
 
 private:
+    int spriteSize;
 
 signals:
     void passChildSignal(QWidget* frame);
@@ -43,6 +44,7 @@ public slots:
     */
     void sendFrames();
     void setPreviewSpeed(int);
+    void setSpriteSize(int);
 
 };
 

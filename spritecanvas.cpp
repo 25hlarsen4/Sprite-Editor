@@ -9,7 +9,6 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     : QWidget{parent}
 {
     currFrame = nullptr;
-    source.setRect(0, 0, 10, 10);
     color = QColor::fromRgb(0, 0, 0);
 }
 
@@ -40,11 +39,10 @@ void SpriteCanvas::wheelEvent(QWheelEvent * e){
         if(source.width() > 1){
             newSize = source.width() - 1;
         }
-        newX = e->position().x()/25 - newSize/2 + 1;
-        newY = e->position().y()/25 - newSize/2 + 1;
+        newX = e->position().x()/(250/spriteSize) - newSize/2 + 1;
+        newY = e->position().y()/(250/spriteSize) - newSize/2 + 1;
     }else{
-        // Change from hardcoded 10 to some image size
-        if(source.width() < 10){
+        if(source.width() < spriteSize){
             newSize = source.width() + 1;
         }
         if(newX > 0){
@@ -66,6 +64,12 @@ void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
 
 void SpriteCanvas::changeColor(QColor newColor){
     color = newColor;
+}
+
+
+void SpriteCanvas::setSpriteSize(int size){
+    spriteSize = size;
+    source.setRect(0, 0, spriteSize, spriteSize);
 }
 
 void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {

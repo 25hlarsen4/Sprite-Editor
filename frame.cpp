@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QSizePolicy>
 
-Frame::Frame(QWidget *parent)
+Frame::Frame(QWidget *parent, int spriteSize)
     : QWidget{parent}
 {
     this->setFixedSize(QSize(120, 120));
@@ -12,8 +12,8 @@ Frame::Frame(QWidget *parent)
     this->setFocusPolicy(Qt::ClickFocus);
 
 
-    width = 10;
-    height = 10;
+    width = spriteSize;
+    height = spriteSize;
     QPixmap pixmap(width, height);
     pixmap.fill(QColor::fromRgb(128, 128, 128));
     image = pixmap.toImage();

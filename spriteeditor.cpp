@@ -15,10 +15,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
 
     QVBoxLayout *layout = new QVBoxLayout(&sprite);
     layout->setSizeConstraint(layout->SetMinimumSize);
-    layout->addWidget(sprite.frames.at(0));
-    layout->addWidget(sprite.frames.at(1));
-    layout->addWidget(sprite.frames.at(2));
-    layout->addWidget(sprite.frames.at(3));
 
     ui->scrollArea->setWidget(&sprite);
 
@@ -52,7 +48,22 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             ui->canvasWidget,
             &SpriteCanvas::changeColor);
 
+    connect(this,
+            &SpriteEditor::sendSpriteSize,
+            ui->canvasWidget,
+            &SpriteCanvas::setSpriteSize);
+
+    connect(this,
+            &SpriteEditor::sendSpriteSize,
+            &sprite,
+            &Sprite::setSpriteSize);
+
     setSpriteSize();
+
+    layout->addWidget(sprite.frames.at(0));
+    layout->addWidget(sprite.frames.at(1));
+    layout->addWidget(sprite.frames.at(2));
+    layout->addWidget(sprite.frames.at(3));
 }
 
 void SpriteEditor::chooseColor()
@@ -65,7 +76,7 @@ void SpriteEditor::setSpriteSize()
 {
     int spriteSize = QInputDialog::getInt(this, tr("Sprite Editor"),
                                           tr("Please Choose A Sprite Size!"), 10, 10, 100);
-
+    emit sendSpriteSize(spriteSize);
 }
 
 SpriteEditor::~SpriteEditor()
