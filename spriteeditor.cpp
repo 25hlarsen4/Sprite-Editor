@@ -75,7 +75,7 @@ void SpriteEditor::chooseColor()
 void SpriteEditor::setSpriteSize()
 {
     int spriteSize = QInputDialog::getInt(this, tr("Sprite Editor"),
-                                          tr("Please Choose A Sprite Size!"), 10, 10, 100);
+                                          tr("Please Choose A Sprite Size From 10-50!"), 10, 10, 50);
     emit sendSpriteSize(spriteSize);
 }
 
