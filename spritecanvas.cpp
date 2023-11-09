@@ -39,8 +39,16 @@ void SpriteCanvas::wheelEvent(QWheelEvent * e){
         if(source.width() > 1){
             newSize = source.width() - 1;
         }
-        newX = e->position().x()/(250/spriteSize) - newSize/2 + 1;
-        newY = e->position().y()/(250/spriteSize) - newSize/2 + 1;
+        if(e->position().x() - 125 > 0){
+            newX = newX + 1;
+        }else{
+            newX = newX - 1;
+        }
+        if(e->position().y() - 125 > 0){
+            newY = newY + 1;
+        }else{
+            newY = newY - 1;
+        }
     }else{
         if(source.width() < spriteSize){
             newSize = source.width() + 1;
