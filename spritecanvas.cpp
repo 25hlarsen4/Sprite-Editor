@@ -9,6 +9,11 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     : QWidget{parent}
 {
     currFrame = nullptr;
+
+    groupSelect = false;
+    clickIsForAnchorSelection = false;
+    clickIsForPasting = false;
+
     color = QColor::fromRgb(0, 0, 0);
 }
 
@@ -17,15 +22,50 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
     QRect target(0, 0, 250, 250);
 
     if (currFrame) {
-        painter.drawImage(target, currFrame->image, source);
+        // make a copy of currFrame's image so we can draw on it to show pixel selection without altering the actual
+        // image data
+        QImage img = QImage(currFrame->image);
+        painter.drawImage(target, img, source);
+
+
+        // if a group pixel selection is in progress, draw semi-transparent layer over the selected pixels
+        // to show they've been selected
+        if (groupSelect) {
+            QPainter painter2(&img);
+            QPen pen = QPen(QRgba64::fromRgba(0, 255, 255, 50));
+            pen.setWidth(1);
+            painter2.setPen(pen);
+
+            for (QPair<int, int> coords : selectedPixels) {
+                // draw on the copied image
+                painter2.drawPoint(coords.first, coords.second);
+            }
+            // draw the copied image onto the widget
+            painter.drawImage(target, img, source);
+        }
     }
 
     else {
         int width = 10;
         int height = 10;
         QPixmap pixmap(width, height);
-        pixmap.fill(QColor::fromRgb(128, 128, 128));
+        pixmap.fill(QColor::fromRgbF(0,0,0,0.1));
         QImage image = pixmap.toImage();
+
+        for(int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++)
+            {
+                if(i % 2 != 0 && j % 2 != 0)
+                {
+                    image.setPixelColor(i, j, QColor::fromRgbF(0,0,0,0.3));
+                }
+
+                if(i % 2 == 0 && j % 2 == 0)
+                {
+                    image.setPixelColor(i, j, QColor::fromRgbF(0,0,0,0.3));
+                }
+            }
+        }
 
         painter.drawImage(target, image);
     }
@@ -73,6 +113,19 @@ void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
 
 void SpriteCanvas::changeColor(QColor newColor){
     color = newColor;
+
+    if (groupSelect) {
+        for (QPair<int, int> coords : selectedPixels) {
+            currFrame->image.setPixelColor(coords.first, coords.second, color);
+        }
+
+        currFrame->repaint();
+        repaint();
+
+        // "unselect" all pixels
+        selectedPixels.clear();
+        repaint();
+    }
 }
 
 
@@ -81,17 +134,117 @@ void SpriteCanvas::setSpriteSize(int size){
     source.setRect(0, 0, spriteSize, spriteSize);
 }
 
+void SpriteCanvas::updateGroupSelectState() {
+    groupSelect = !groupSelect;
+}
+
+void SpriteCanvas::updateCopyPasteState() {
+    qDebug() << "pick anchor selection";
+    clickIsForAnchorSelection = true;
+}
+
 void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int xPos = e->pos().x();
     int yPos = e->pos().y();
 
-    // any x from 0 to 250/10=25 should be 0
     int pixelXCoord = source.x() + xPos/(250/source.width());
     int pixelYCoord = source.y() + yPos/(250/source.height());
 
 
-    currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
-    currFrame->repaint();
+    if (groupSelect) {
+        QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
 
-    repaint();
+        if (selectedPixels.contains(pixelCoords) == false) {
+            selectedPixels.append(pixelCoords);
+        }
+
+        // give a visual cue that it's selected
+        repaint();
+    }
+
+
+    else {
+        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
+        currFrame->repaint();
+
+        repaint();
+    }
+}
+
+
+
+void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
+    int xPos = e->pos().x();
+    int yPos = e->pos().y();
+
+    int pixelXCoord = source.x() + xPos/(250/source.width());
+    int pixelYCoord = source.y() + yPos/(250/source.height());
+
+    if (groupSelect) {
+        if (clickIsForAnchorSelection) {
+            pastingAnchorPoint = qMakePair(pixelXCoord, pixelYCoord);
+            qDebug() << "anchor point: " << pastingAnchorPoint;
+            clickIsForAnchorSelection = false;
+            clickIsForPasting = true;
+        }
+        else if (clickIsForPasting) {
+            QPair<int, int> pastePoint = qMakePair(pixelXCoord, pixelYCoord);
+            qDebug() << "paste point: " << pastePoint;
+            clickIsForPasting = false;
+
+            // now define the translation
+            int xTranslation = pastePoint.first - pastingAnchorPoint.first;
+            qDebug() << "x translation: " << xTranslation;
+            int yTranslation = pastePoint.second - pastingAnchorPoint.second;
+            qDebug() << "y translation: " << yTranslation;
+
+            for (QPair<int, int> coords : selectedPixels) {
+                qDebug() << "original point: " << coords;
+                QColor pixelColor = currFrame->image.pixelColor(coords.first, coords.second);
+
+                int resultX = coords.first + xTranslation;
+                int resultY = coords.second + yTranslation;
+                QPair<int, int> resPoint = qMakePair(resultX, resultY);
+                qDebug() << "result point: " << resPoint;
+
+                // make sure it's a valid pixel position
+                if (resultX >= 0 && resultX < source.width() && resultY >= 0 && resultY < source.height()) {
+                    qDebug() << "valid";
+                    currFrame->image.setPixelColor(resultX, resultY, pixelColor);
+                    qDebug() << "color: " << pixelColor;
+                }
+
+            }
+
+            currFrame->repaint();
+
+            selectedPixels.clear();
+
+            repaint();
+
+            emit pastingDone();
+        }
+
+
+        // otherwise just add to group
+        else {
+            selectedPixels.append(qMakePair(pixelXCoord, pixelYCoord));
+
+            // give a visual cue that it's selected
+            repaint();
+        }
+    }
+
+    //    else if (floodFill) {
+    //        // call flood fill algorithm
+    //        currFrame->floodFill(pixelXCoord, pixelYCoord, color);
+    //    }
+
+    else {
+        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
+        currFrame->repaint();
+
+        repaint();
+    }
+
 }

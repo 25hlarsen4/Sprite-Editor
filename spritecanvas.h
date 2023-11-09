@@ -13,6 +13,7 @@ public:
     // Override the default paintEvent with drawing of the shape
     void paintEvent(QPaintEvent *);
     void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *);
 
 private:
@@ -20,6 +21,11 @@ private:
     QRect source;
     QColor color;
     int spriteSize;
+    bool groupSelect;
+    QList<QPair<int, int>> selectedPixels;
+    QPair<int, int> pastingAnchorPoint;
+    bool clickIsForAnchorSelection;
+    bool clickIsForPasting;
 
 signals:
 
@@ -27,6 +33,11 @@ public slots:
     void updateDisplay(QWidget* frame);
     void changeColor(QColor);
     void setSpriteSize(int);
+    void updateGroupSelectState();
+    void updateCopyPasteState();
+
+signals:
+    void pastingDone();
 
 };
 

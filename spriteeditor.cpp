@@ -18,6 +18,8 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
 
     ui->scrollArea->setWidget(&sprite);
 
+    ui->cpInstructionsLabel->setVisible(false);
+
     // connection from add frame button signal to sprite slot to create new frame
 
     // connection from sprite frame added signal to this slot to add the frame widget to layout
@@ -58,6 +60,29 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &sprite,
             &Sprite::setSpriteSize);
 
+
+
+    connect(ui->groupSelectCheckBox,
+            &QCheckBox::clicked,
+            ui->canvasWidget,
+            &SpriteCanvas::updateGroupSelectState);
+
+    connect(ui->copyGroupButton,
+            &QPushButton::pressed,
+            ui->canvasWidget,
+            &SpriteCanvas::updateCopyPasteState);
+
+    connect(ui->copyGroupButton,
+            &QPushButton::pressed,
+            this,
+            &SpriteEditor::showCpInstructions);
+
+    connect(ui->canvasWidget,
+            &SpriteCanvas::pastingDone,
+            this,
+            &SpriteEditor::hideCpInstructions);
+
+
     setSpriteSize();
 
     layout->addWidget(sprite.frames.at(0));
@@ -77,6 +102,14 @@ void SpriteEditor::setSpriteSize()
     int spriteSize = QInputDialog::getInt(this, tr("Sprite Editor"),
                                           tr("Please Choose A Sprite Size From 10-50!"), 10, 10, 50);
     emit sendSpriteSize(spriteSize);
+}
+
+void SpriteEditor::showCpInstructions() {
+    ui->cpInstructionsLabel->setVisible(true);
+}
+
+void SpriteEditor::hideCpInstructions() {
+    ui->cpInstructionsLabel->setVisible(false);
 }
 
 SpriteEditor::~SpriteEditor()

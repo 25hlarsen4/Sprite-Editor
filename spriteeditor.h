@@ -31,6 +31,9 @@ private slots:
      */
     void chooseColor();
 
+    void showCpInstructions();
+    void hideCpInstructions();
+
 public slots:
 
 };
