@@ -29,6 +29,7 @@ void SpritePreview::paintEvent(QPaintEvent *) {
         painter.drawImage(target, image);
     }
 }
+
 void SpritePreview::updatePreview(Frame* frame){
     currFrame = frame;
     repaint();

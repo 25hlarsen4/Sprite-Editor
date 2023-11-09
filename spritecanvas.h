@@ -19,12 +19,14 @@ private:
     Frame* currFrame;
     QRect source;
     QColor color;
+    int spriteSize;
 
 signals:
 
 public slots:
     void updateDisplay(QWidget* frame);
     void changeColor(QColor);
+    void setSpriteSize(int);
 
 };
 

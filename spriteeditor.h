@@ -18,9 +18,11 @@ public:
 
 signals:
     void changeColor(QColor);
+    void sendSpriteSize(int);
 
 private:
     Ui::SpriteEditor *ui;
+    void setSpriteSize();
 
 private slots:
     /**
