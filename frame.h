@@ -20,6 +20,8 @@ public:
     int width;
     int height;
 
+    QList<QPair<int, int>> selectablePixels;
+
 signals:
 
 public slots:

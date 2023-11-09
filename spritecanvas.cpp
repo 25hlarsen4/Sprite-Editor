@@ -150,24 +150,35 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int pixelXCoord = source.x() + xPos/(250/source.width());
     int pixelYCoord = source.y() + yPos/(250/source.height());
 
-
+    // if we're selecting pixels
     if (groupSelect) {
         QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
 
-        if (selectedPixels.contains(pixelCoords) == false) {
+        // only "select" the pixel if it is "selectable" (has been drawn on before and is not already selected)
+        if (currFrame->selectablePixels.contains(pixelCoords) && !selectedPixels.contains(pixelCoords)) {
             selectedPixels.append(pixelCoords);
         }
+
+//        if (selectedPixels.contains(pixelCoords) == false) {
+//            selectedPixels.append(pixelCoords);
+//        }
 
         // give a visual cue that it's selected
         repaint();
     }
 
-
+    // if we're drawing
     else {
         currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
         currFrame->repaint();
 
         repaint();
+
+        // this pixel is now selectable because it's been drawn on
+        QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
+        if (!currFrame->selectablePixels.contains(pixelCoords)) {
+            currFrame->selectablePixels.append(pixelCoords);
+        }
     }
 }
 
@@ -180,6 +191,7 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     int pixelXCoord = source.x() + xPos/(250/source.width());
     int pixelYCoord = source.y() + yPos/(250/source.height());
 
+    // if we're selecting pixels
     if (groupSelect) {
         if (clickIsForAnchorSelection) {
             pastingAnchorPoint = qMakePair(pixelXCoord, pixelYCoord);
@@ -209,9 +221,13 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
 
                 // make sure it's a valid pixel position
                 if (resultX >= 0 && resultX < source.width() && resultY >= 0 && resultY < source.height()) {
-                    qDebug() << "valid";
                     currFrame->image.setPixelColor(resultX, resultY, pixelColor);
-                    qDebug() << "color: " << pixelColor;
+
+                    // this pixel is now selectable because it's been drawn on
+                    QPair<int, int> pixelCoords = qMakePair(resultX, resultY);
+                    if (!currFrame->selectablePixels.contains(pixelCoords)) {
+                        currFrame->selectablePixels.append(pixelCoords);
+                    }
                 }
 
             }
@@ -228,7 +244,12 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
 
         // otherwise just add to group
         else {
-            selectedPixels.append(qMakePair(pixelXCoord, pixelYCoord));
+            QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
+
+            // only "select" the pixel if it is "selectable" (has been drawn on before and is not already selected)
+            if (currFrame->selectablePixels.contains(pixelCoords) && !selectedPixels.contains(pixelCoords)) {
+                selectedPixels.append(pixelCoords);
+            }
 
             // give a visual cue that it's selected
             repaint();
@@ -240,11 +261,18 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     //        currFrame->floodFill(pixelXCoord, pixelYCoord, color);
     //    }
 
+    // if we're drawing
     else {
         currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
         currFrame->repaint();
 
         repaint();
+
+        // this pixel is now selectable because it's been drawn on
+        QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
+        if (!currFrame->selectablePixels.contains(pixelCoords)) {
+            currFrame->selectablePixels.append(pixelCoords);
+        }
     }
 
 }
