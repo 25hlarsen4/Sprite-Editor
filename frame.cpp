@@ -73,22 +73,3 @@ void Frame::updatePixel(int pixelX, int pixelY) {
     image.setPixelColor(pixelX, pixelY, QColor::fromRgb(0, 0, 0));
     repaint();
 }
-const QJsonObject Frame::toJson(){
-    QJsonObject json;
-    json["width"] = width;
-    json["level"] = height;
-    //json["image"] = image;
-    return json;
-}
-void Frame::fromJson(const QJsonObject &json)
-{
-
-    if (json.contains("width")
-        && json.contains("height")
-        && json.contains("data"))
-    {
-        width = json["width"].toInt();
-        height = json["height"].toInt();
-    }
-
-}
