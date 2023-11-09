@@ -60,12 +60,12 @@ const QJsonObject File::toJson(Sprite *sprite)
 bool File::saveFile(Sprite &sprite)
 {
 
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save Sprite"), "",
-                                                    tr("sprite (*.ssp);;All Files (*)"));
+//    QString fileName = QFileDialog::getSaveFileName(this,
+//                                                    tr("Save Sprite"), "",
+//                                                    tr("sprite (*.ssp);;All Files (*)"));
 
     qDebug() << "saving file";
-    fileName += ".json";
+    QString fileName = "untitled.json";
 
     QFile file(fileName);
 

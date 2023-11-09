@@ -16,7 +16,7 @@ class File
 public:
     File();
     const QJsonObject toJson(Sprite *sprite);
-    //bool saveFile(Sprite &sprite);
+    bool saveFile(Sprite &sprite);
 };
 
 #endif // FILE_H
