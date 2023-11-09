@@ -14,8 +14,6 @@ public:
     void paintEvent(QPaintEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
-    const QJsonObject toJson();
-    void fromJson(const QJsonObject &json);
     QImage image;
     int width;
     int height;
