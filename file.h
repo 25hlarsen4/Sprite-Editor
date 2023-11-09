@@ -1,7 +1,9 @@
 #ifndef FILE_H
 #define FILE_H
 #include <QJsonObject>
+#include <QJsonDocument>
 #include <QFile>
+#include <QFileDialog>
 
 #include "sprite.h"
 
@@ -13,7 +15,8 @@ class File
 {
 public:
     File();
-    const bool saveFile(Sprite &sprite, QString fileName);
+    const QJsonObject toJson(Sprite *sprite);
+    //bool saveFile(Sprite &sprite);
 };
 
 #endif // FILE_H
