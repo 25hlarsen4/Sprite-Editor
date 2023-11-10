@@ -194,6 +194,17 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     int pixelXCoord = source.x() + xPos/(250/source.width());
     int pixelYCoord = source.y() + yPos/(250/source.height());
 
+    if (bucketFillOn){
+
+        int xPos = e->pos().x();
+        int yPos = e->pos().y();
+
+        int pixelXCoord = source.x() + xPos/(250/source.width());
+        int pixelYCoord = source.y() + yPos/(250/source.height());
+
+        currFrame->bucketFill(pixelXCoord, pixelYCoord, color);
+    }
+
     // if we're selecting pixels
     if (groupSelect) {
         if (clickIsForAnchorSelection) {
@@ -271,17 +282,6 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
         if (!currFrame->selectablePixels.contains(pixelCoords)) {
             currFrame->selectablePixels.append(pixelCoords);
         }
-    }
-
-    if (bucketFillOn){
-
-        int xPos = e->pos().x();
-        int yPos = e->pos().y();
-
-        int pixelXCoord = source.x() + xPos/(250/source.width());
-        int pixelYCoord = source.y() + yPos/(250/source.height());
-
-        currFrame->bucketFill(pixelXCoord, pixelYCoord, color);
     }
 }
 
