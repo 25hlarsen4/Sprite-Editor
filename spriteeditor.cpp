@@ -7,7 +7,7 @@
 #include <QColorDialog>
 #include <QInputDialog>
 
-SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
+SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::SpriteEditor)
 {
@@ -82,6 +82,16 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             this,
             &SpriteEditor::hideCpInstructions);
 
+    connect(ui->saveButton,
+            &QPushButton::clicked,
+            &sprite,
+            &Sprite::saveSpriteToFile);
+    connect(&sprite,
+            &Sprite::saveSprite,
+            &file,
+            &File::saveFile);
+
+
 
     setSpriteSize();
 
@@ -116,4 +126,7 @@ SpriteEditor::~SpriteEditor()
 {
     delete ui;
 }
+
+
+
 

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "sprite.h"
+#include "file.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SpriteEditor; }
@@ -13,7 +14,7 @@ class SpriteEditor : public QMainWindow
     Q_OBJECT
 
 public:
-    SpriteEditor(Sprite& sprite, QWidget *parent = nullptr);
+    SpriteEditor(Sprite& sprite, File& file, QWidget *parent = nullptr);
     ~SpriteEditor();
 
 signals:

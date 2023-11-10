@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QFile>
 #include <QFileDialog>
+#include <QWidget>
 
 #include "sprite.h"
 
@@ -11,12 +12,14 @@
  * need to save:
  * frames
 */
-class File
+class File : public QWidget
 {
+    Q_OBJECT
 public:
-    File();
+    File(QWidget *parent = nullptr);
     const QJsonObject toJson(Sprite *sprite);
-    bool saveFile(Sprite &sprite);
+public slots:
+    bool saveFile(Sprite *sprite);
 };
 
 #endif // FILE_H

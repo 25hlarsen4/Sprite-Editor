@@ -3,7 +3,9 @@
 /*
  *
 */
-File::File()
+
+File::File(QWidget *parent)
+    : QWidget{parent}
 {
 
 }
@@ -57,15 +59,15 @@ const QJsonObject File::toJson(Sprite *sprite)
     return spriteObject;
 }
 
-bool File::saveFile(Sprite &sprite)
+bool File::saveFile(Sprite *sprite)
 {
 
-//    QString fileName = QFileDialog::getSaveFileName(this,
-//                                                    tr("Save Sprite"), "",
-//                                                    tr("sprite (*.ssp);;All Files (*)"));
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Sprite"), "",
+                                                    tr("sprite (*.ssp);All Files (*)"));
 
     qDebug() << "saving file";
-    QString fileName = "untitled.json";
+
 
     QFile file(fileName);
 
@@ -74,7 +76,7 @@ bool File::saveFile(Sprite &sprite)
         return false;
     }
 
-    QJsonObject spriteObject = toJson(&sprite);
+    QJsonObject spriteObject = toJson(sprite);
 
     QJsonDocument jsonDoc(spriteObject);
 

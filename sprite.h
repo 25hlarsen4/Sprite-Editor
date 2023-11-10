@@ -33,6 +33,7 @@ signals:
      * This signal sends a frame to the preview.
     */
     void sendFramesToPreview(Frame* frame);
+    void saveSprite(Sprite*);
 
 public slots:
 
@@ -43,6 +44,7 @@ public slots:
     void sendFrames();
     void setPreviewSpeed(int);
     void setSpriteSize(int);
+    void saveSpriteToFile();
 
 };
 

@@ -55,3 +55,7 @@ void Sprite::setSpriteSize(int size){
 
     framesIndex = 0;
 }
+void Sprite::saveSpriteToFile(){
+    qDebug() << "save sprite to file";
+    emit saveSprite(this);
+}
