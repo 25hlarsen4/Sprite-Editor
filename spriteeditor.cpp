@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QQueue>
 
 SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
     : QMainWindow(parent)
@@ -60,8 +61,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &sprite,
             &Sprite::setSpriteSize);
 
-
-
     connect(ui->groupSelectCheckBox,
             &QCheckBox::clicked,
             ui->canvasWidget,
@@ -81,6 +80,11 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &SpriteCanvas::pastingDone,
             this,
             &SpriteEditor::hideCpInstructions);
+
+    connect(ui->bucketFillBox,
+            &QCheckBox::clicked,
+            ui->canvasWidget,
+            &SpriteCanvas::updateBucketFillState);
 
 
     setSpriteSize();

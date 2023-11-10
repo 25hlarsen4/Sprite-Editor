@@ -13,6 +13,7 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     groupSelect = false;
     clickIsForAnchorSelection = false;
     clickIsForPasting = false;
+    bucketFillOn = false;
 
     color = QColor::fromRgb(0, 0, 0);
 }
@@ -138,6 +139,10 @@ void SpriteCanvas::updateGroupSelectState() {
     groupSelect = !groupSelect;
 }
 
+void SpriteCanvas::updateBucketFillState() {
+    bucketFillOn = !bucketFillOn;
+}
+
 void SpriteCanvas::updateCopyPasteState() {
     qDebug() << "pick anchor selection";
     clickIsForAnchorSelection = true;
@@ -159,9 +164,9 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
             selectedPixels.append(pixelCoords);
         }
 
-//        if (selectedPixels.contains(pixelCoords) == false) {
-//            selectedPixels.append(pixelCoords);
-//        }
+        //        if (selectedPixels.contains(pixelCoords) == false) {
+        //            selectedPixels.append(pixelCoords);
+        //        }
 
         // give a visual cue that it's selected
         repaint();
@@ -181,8 +186,6 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
         }
     }
 }
-
-
 
 void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     int xPos = e->pos().x();
@@ -256,11 +259,6 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
         }
     }
 
-    //    else if (floodFill) {
-    //        // call flood fill algorithm
-    //        currFrame->floodFill(pixelXCoord, pixelYCoord, color);
-    //    }
-
     // if we're drawing
     else {
         currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
@@ -275,4 +273,15 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
         }
     }
 
+    if (bucketFillOn){
+
+        int xPos = e->pos().x();
+        int yPos = e->pos().y();
+
+        int pixelXCoord = source.x() + xPos/(250/source.width());
+        int pixelYCoord = source.y() + yPos/(250/source.height());
+
+        currFrame->bucketFill(pixelXCoord, pixelYCoord, color);
+    }
 }
+
