@@ -59,3 +59,7 @@ void Sprite::saveSpriteToFile(){
     qDebug() << "save sprite to file";
     emit saveSprite(this);
 }
+void Sprite::openSpriteFromFile(){
+    qDebug() << "open sprite from file";
+    emit openSprite(this);
+}

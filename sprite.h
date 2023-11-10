@@ -34,6 +34,7 @@ signals:
     */
     void sendFramesToPreview(Frame* frame);
     void saveSprite(Sprite*);
+    void openSprite(Sprite*);
 
 public slots:
 
@@ -44,7 +45,9 @@ public slots:
     void sendFrames();
     void setPreviewSpeed(int);
     void setSpriteSize(int);
+
     void saveSpriteToFile();
+    void openSpriteFromFile();
 
 };
 

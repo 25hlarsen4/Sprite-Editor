@@ -16,10 +16,17 @@ class File : public QWidget
 {
     Q_OBJECT
 public:
+
     File(QWidget *parent = nullptr);
-    const QJsonObject toJson(Sprite *sprite);
+
+    const QJsonObject serializeToJson(Sprite *sprite);
+    void deserializeFromJson(Sprite *sprite, QJsonObject spriteObject);
+
 public slots:
-    bool saveFile(Sprite *sprite);
+
+    bool saveFile(Sprite*);
+    bool loadFile(Sprite*);
+
 };
 
 #endif // FILE_H

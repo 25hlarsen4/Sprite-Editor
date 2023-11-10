@@ -90,6 +90,14 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &Sprite::saveSprite,
             &file,
             &File::saveFile);
+    connect(ui->openButton,
+            &QPushButton::clicked,
+            &sprite,
+            &Sprite::openSpriteFromFile);
+    connect(&sprite,
+            &Sprite::openSprite,
+            &file,
+            &File::loadFile);
 
 
 

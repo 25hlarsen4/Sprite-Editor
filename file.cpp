@@ -10,7 +10,7 @@ File::File(QWidget *parent)
 
 }
 
-const QJsonObject File::toJson(Sprite *sprite)
+const QJsonObject File::serializeToJson(Sprite *sprite)
 {
 
     QJsonObject spriteObject;
@@ -52,6 +52,7 @@ const QJsonObject File::toJson(Sprite *sprite)
         frameObject["imageData"] = pixelArray;
 
         frameArray.append(frameObject);
+
     }
 
     spriteObject["frames"] = frameArray;
@@ -64,7 +65,7 @@ bool File::saveFile(Sprite *sprite)
 
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Sprite"), "",
-                                                    tr("sprite (*.ssp);All Files (*)"));
+                                                    tr("sprite (*.ssp)"));
 
     qDebug() << "saving file";
 
@@ -87,3 +88,42 @@ bool File::saveFile(Sprite *sprite)
     return true;
 }
 
+void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
+{
+
+    QJsonArray frameArray = spriteObject["frames"].toArray();
+
+    for (const QJsonValue & frame : frameArray)
+    {
+        Frame frame;
+        QJsonObject frameObject = frame.toObject();
+
+    }
+
+}
+
+
+bool File::loadFile(Sprite* sprite)
+{
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    "/home",
+                                                    tr("sprite (*.ssp)"));
+
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+        return false;
+    }
+
+    QByteArray saveData = file.readAll();
+
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(saveData));
+
+    QJsonObject spriteObject = jsonDoc.object();
+
+    deserializeFromJson(sprite, spriteObject);
+
+    return true;
+}
