@@ -25,12 +25,12 @@ Frame::Frame(int spriteSize, QWidget *parent)
         {
             if(i % 2 != 0 && j % 2 != 0)
             {
-                image.setPixelColor(i, j, QColor::fromRgbF(0,0,0,0.3));
+                updatePixel(i, j, QColor::fromRgbF(0,0,0,0.3));
             }
 
             if(i % 2 == 0 && j % 2 == 0)
             {
-                image.setPixelColor(i, j, QColor::fromRgbF(0,0,0,0.3));
+                updatePixel(i, j, QColor::fromRgbF(0,0,0,0.3));
             }
         }
     }
@@ -70,7 +70,7 @@ void Frame::focusOutEvent(QFocusEvent *) {
     repaint();
 }
 
-void Frame::updatePixel(int pixelX, int pixelY, QColor color) {
+void Frame::updatePixel(int pixelX, int pixelY, const QColor& color) {
     image.setPixelColor(pixelX, pixelY, color);
     repaint();
 }
