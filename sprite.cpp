@@ -50,6 +50,8 @@ void Sprite::setSpriteSize(int size){
     frames.append(frame3);
     frames.append(frame4);
 
+    emit passChildSignal(frame1);
+
     timer->setInterval(1000);
     timer->start();
 

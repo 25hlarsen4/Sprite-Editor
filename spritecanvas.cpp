@@ -25,14 +25,13 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
     if (currFrame) {
         // make a copy of currFrame's image so we can draw on it to show pixel selection without altering the actual
         // image data
-        QImage img = QImage(currFrame->image);
-        painter.drawImage(target, img, source);
+        QImage copy = currFrame->image.copy(0, 0, currFrame->image.width(), currFrame->image.height());
 
 
         // if a group pixel selection is in progress, draw semi-transparent layer over the selected pixels
         // to show they've been selected
         if (groupSelect) {
-            QPainter painter2(&img);
+            QPainter painter2(&copy);
             QPen pen = QPen(QRgba64::fromRgba(0, 255, 255, 50));
             pen.setWidth(1);
             painter2.setPen(pen);
@@ -41,35 +40,29 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
                 // draw on the copied image
                 painter2.drawPoint(coords.first, coords.second);
             }
-            // draw the copied image onto the widget
-            painter.drawImage(target, img, source);
         }
-    }
 
-    else {
-        int width = 10;
-        int height = 10;
-        QPixmap pixmap(width, height);
-//        pixmap.fill(QColor::fromRgb(128, 128, 128));
-        pixmap.fill(QColor::fromRgbF(0,0,0,0.2));
-        QImage image = pixmap.toImage();
 
-        for(int i = 0; i < width; i++) {
-            for(int j = 0; j < height; j++)
-            {
-                if(i % 2 != 0 && j % 2 != 0)
+        // draw checkers to show transparent pixels
+        for(int i = 0; i < currFrame->image.width(); i++) {
+            for(int j = 0; j < currFrame->image.height(); j++)
                 {
-                    image.setPixelColor(i, j, QColor::fromRgbF(0,0,0,0.3));
+                if(i % 2 != 0 && j % 2 != 0 && currFrame->image.pixelColor(i, j).alpha() == 0)
+                {
+                    copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,60));
                 }
-
-                if(i % 2 == 0 && j % 2 == 0)
+                else if(i % 2 == 0 && j % 2 == 0 && currFrame->image.pixelColor(i, j).alpha() == 0)
                 {
-                    image.setPixelColor(i, j, QColor::fromRgbF(0,0,0,0.3));
+                    copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,60));
+                }
+                else if (currFrame->image.pixelColor(i, j).alpha() == 0)
+                {
+                    copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,50));
                 }
             }
         }
 
-        painter.drawImage(target, image);
+        painter.drawImage(target, copy, source);
     }
 }
 
@@ -118,7 +111,7 @@ void SpriteCanvas::changeColor(QColor newColor){
 
     if (groupSelect) {
         for (QPair<int, int> coords : selectedPixels) {
-            currFrame->image.setPixelColor(coords.first, coords.second, color);
+            currFrame->updatePixel(coords.first, coords.second, color);
         }
 
         currFrame->repaint();
@@ -138,9 +131,6 @@ void SpriteCanvas::setSpriteSize(int size){
 
 void SpriteCanvas::updateGroupSelectState() {
     groupSelect = !groupSelect;
-
-    // give a visual cue that group select is on
-    repaint();
 }
 
 void SpriteCanvas::updateBucketFillState() {
@@ -168,17 +158,13 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
             selectedPixels.append(pixelCoords);
         }
 
-        //        if (selectedPixels.contains(pixelCoords) == false) {
-        //            selectedPixels.append(pixelCoords);
-        //        }
-
         // give a visual cue that it's selected
         repaint();
     }
 
     // if we're drawing
     else {
-        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
+        currFrame->updatePixel(pixelXCoord, pixelYCoord, color);
         currFrame->repaint();
 
         repaint();
@@ -213,33 +199,26 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     if (groupSelect) {
         if (clickIsForAnchorSelection) {
             pastingAnchorPoint = qMakePair(pixelXCoord, pixelYCoord);
-            qDebug() << "anchor point: " << pastingAnchorPoint;
             clickIsForAnchorSelection = false;
             clickIsForPasting = true;
         }
         else if (clickIsForPasting) {
             QPair<int, int> pastePoint = qMakePair(pixelXCoord, pixelYCoord);
-            qDebug() << "paste point: " << pastePoint;
             clickIsForPasting = false;
 
             // now define the translation
             int xTranslation = pastePoint.first - pastingAnchorPoint.first;
-            qDebug() << "x translation: " << xTranslation;
             int yTranslation = pastePoint.second - pastingAnchorPoint.second;
-            qDebug() << "y translation: " << yTranslation;
 
             for (QPair<int, int> coords : selectedPixels) {
-                qDebug() << "original point: " << coords;
                 QColor pixelColor = currFrame->image.pixelColor(coords.first, coords.second);
 
                 int resultX = coords.first + xTranslation;
                 int resultY = coords.second + yTranslation;
-                QPair<int, int> resPoint = qMakePair(resultX, resultY);
-                qDebug() << "result point: " << resPoint;
 
                 // make sure it's a valid pixel position
                 if (resultX >= 0 && resultX < source.width() && resultY >= 0 && resultY < source.height()) {
-                    currFrame->image.setPixelColor(resultX, resultY, pixelColor);
+                    currFrame->updatePixel(resultX, resultY, pixelColor);
 
                     // this pixel is now selectable because it's been drawn on
                     QPair<int, int> pixelCoords = qMakePair(resultX, resultY);
@@ -276,7 +255,7 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
 
     // if we're drawing
     else {
-        currFrame->image.setPixelColor(pixelXCoord, pixelYCoord, color);
+        currFrame->updatePixel(pixelXCoord, pixelYCoord, color);
         currFrame->repaint();
 
         repaint();

@@ -25,7 +25,7 @@ public:
 signals:
 
 public slots:
-    void updatePixel(int pixelX, int pixelY);
+    void updatePixel(int pixelX, int pixelY, QColor color);
 
 };
 
