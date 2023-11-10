@@ -7,6 +7,7 @@
 #include <QWidget>
 
 #include "sprite.h"
+#include "frame.h"
 
 /*
  * need to save:
@@ -21,6 +22,8 @@ public:
 
     const QJsonObject serializeToJson(Sprite *sprite);
     void deserializeFromJson(Sprite *sprite, QJsonObject spriteObject);
+signals:
+    void fileLoaded(Frame* frame);
 
 public slots:
 

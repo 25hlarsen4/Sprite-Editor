@@ -98,6 +98,10 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &Sprite::openSprite,
             &file,
             &File::loadFile);
+    connect(&file,
+            &File::fileLoaded,
+            &sprite,
+            &Sprite::updateSprite);
 
 
 

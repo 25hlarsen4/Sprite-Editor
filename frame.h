@@ -10,10 +10,13 @@ class Frame : public QWidget
 {
     Q_OBJECT
 public:
-    Frame(QWidget *parent, int spriteSize);
+
+    Frame(int spriteSize, QWidget *parent = nullptr);
+
     void paintEvent(QPaintEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
+
     QImage image;
     int width;
     int height;
@@ -23,7 +26,7 @@ public:
 signals:
 
 public slots:
-    void updatePixel(int pixelX, int pixelY);
+    void updatePixel(int pixelX, int pixelY, QColor color);
 
 };
 

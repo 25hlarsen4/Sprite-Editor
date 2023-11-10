@@ -29,21 +29,29 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
 
             QJsonArray arrayRow;
 
-            for(int j = 0; i < frame->height; i++){
+            for(int j = 0; j < frame->height; j++){
 
                 QColor currentPixel = frame->image.pixel(i,j);
 
                 QJsonObject pixelData;
+                int red, green, blue, alpha;
+
+                currentPixel.getRgb(&red, &green, &blue, &alpha);
+
+                qDebug() << "red: " << red;
+                qDebug() << "green: " << green;
+                qDebug() << "blue: " << blue;
 
                 pixelData["x"] = i;
                 pixelData["y"] = j;
-                pixelData["red"] = qRed(currentPixel.value());
-                pixelData["green"] = qGreen(currentPixel.value());
-                pixelData["blue"] = qBlue(currentPixel.value());
+                pixelData["red"] = red;
+                pixelData["green"] = green;
+                pixelData["blue"] = blue;
 
                 arrayRow.append(pixelData);
 
             }
+            frameObject["row"] = arrayRow;
 
             pixelArray.append(arrayRow);
 
@@ -77,7 +85,7 @@ bool File::saveFile(Sprite *sprite)
         return false;
     }
 
-    QJsonObject spriteObject = toJson(sprite);
+    QJsonObject spriteObject = serializeToJson(sprite);
 
     QJsonDocument jsonDoc(spriteObject);
 
@@ -90,15 +98,40 @@ bool File::saveFile(Sprite *sprite)
 
 void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 {
+    sprite->frames.clear();
 
     QJsonArray frameArray = spriteObject["frames"].toArray();
 
-    for (const QJsonValue & frame : frameArray)
+    for (const QJsonValue & frameJson : frameArray)
     {
-        Frame frame;
-        QJsonObject frameObject = frame.toObject();
+
+        QJsonObject frameObject = frameJson.toObject();
+
+        int frameSize = frameObject["width"].toInt();
+        Frame* frame = new Frame(frameSize);
+
+        QJsonArray pixelArray = frameObject["imageData"].toArray();
+
+        for(const QJsonValue &rowArray : pixelArray )
+        {
+            QJsonArray arrayRow = rowArray.toArray();
+            for(const QJsonValue &pixelData : arrayRow)
+            {
+                int x = pixelData["x"].toInt();
+                int y = pixelData["y"].toInt();
+                int red = pixelData["red"].toInt();
+                int green = pixelData["green"].toInt();
+                int blue = pixelData["blue"].toInt();
+                frame->updatePixel(x, y, QColor::fromRgb(red, green, blue));
+            }
+
+        }
+        emit fileLoaded(frame);
+        sprite->frames.append(frame);
 
     }
+
+
 
 }
 

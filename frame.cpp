@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QSizePolicy>
 
-Frame::Frame(QWidget *parent, int spriteSize)
+Frame::Frame(int spriteSize, QWidget *parent)
     : QWidget{parent}
 {
     this->setFixedSize(QSize(120, 120));
@@ -35,6 +35,7 @@ Frame::Frame(QWidget *parent, int spriteSize)
         }
     }
 }
+
 
 void Frame::paintEvent(QPaintEvent *) {
     //    QImage image("C:/Users/hanna/Downloads/background.png");
@@ -69,7 +70,7 @@ void Frame::focusOutEvent(QFocusEvent *) {
     repaint();
 }
 
-void Frame::updatePixel(int pixelX, int pixelY) {
-    image.setPixelColor(pixelX, pixelY, QColor::fromRgb(0, 0, 0));
+void Frame::updatePixel(int pixelX, int pixelY, QColor color) {
+    image.setPixelColor(pixelX, pixelY, color);
     repaint();
 }
