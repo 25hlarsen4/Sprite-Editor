@@ -17,7 +17,7 @@ Frame::Frame(QWidget *parent, int spriteSize)
     height = spriteSize;
     QPixmap pixmap(width, height);
     //    pixmap.fill(QColor::fromRgb(128, 128, 128));
-    pixmap.fill(QColor::fromRgbF(0,0,0,0.1));
+    pixmap.fill(QColor::fromRgbF(0,0,0,0.2));
     image = pixmap.toImage();
 
 

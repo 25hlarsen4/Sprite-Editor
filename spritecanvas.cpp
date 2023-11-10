@@ -50,7 +50,8 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
         int width = 10;
         int height = 10;
         QPixmap pixmap(width, height);
-        pixmap.fill(QColor::fromRgbF(0,0,0,0.1));
+//        pixmap.fill(QColor::fromRgb(128, 128, 128));
+        pixmap.fill(QColor::fromRgbF(0,0,0,0.2));
         QImage image = pixmap.toImage();
 
         for(int i = 0; i < width; i++) {
@@ -137,6 +138,9 @@ void SpriteCanvas::setSpriteSize(int size){
 
 void SpriteCanvas::updateGroupSelectState() {
     groupSelect = !groupSelect;
+
+    // give a visual cue that group select is on
+    repaint();
 }
 
 void SpriteCanvas::updateBucketFillState() {
