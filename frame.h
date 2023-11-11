@@ -10,7 +10,7 @@ class Frame : public QWidget
 {
     Q_OBJECT
 public:
-    Frame(int spriteSize, QWidget *parent);
+    Frame(QWidget *parent, int spriteSize);
     void paintEvent(QPaintEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
