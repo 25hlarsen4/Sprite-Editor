@@ -16,6 +16,8 @@ public:
     void paintEvent(QPaintEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
+    void bucketFill(int pixelX, int pixelY, QColor newColor);
+    bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor);
 
     QImage image;
     int width;
@@ -26,7 +28,7 @@ public:
 signals:
 
 public slots:
-    void updatePixel(int pixelX, int pixelY, const QColor& color);
+    void updatePixel(int pixelX, int pixelY, const QColor color);
 
 };
 
