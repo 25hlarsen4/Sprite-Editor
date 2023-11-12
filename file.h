@@ -37,6 +37,9 @@ public:
      */
     void deserializeFromJson(Sprite *sprite, QJsonObject spriteObject);
 
+private:
+    QString fileName;
+
 signals:
 
     /**

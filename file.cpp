@@ -1,11 +1,8 @@
 #include "file.h"
 
-/*
- *
-*/
-
 File::File(QWidget *parent)
     : QWidget{parent}
+    , fileName("untitled.ssp")
 {
 
 }
@@ -17,7 +14,8 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
     QJsonArray frameArray;
 
     // temp
-    for (Frame* frame : sprite->frames){
+    for (Frame* frame : sprite->frames)
+    {
 
         QJsonObject frameObject;
 
@@ -26,11 +24,13 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
 
         QJsonArray pixelArray;
 
-        for(int i = 0; i < frame->width; i++){
+        for(int i = 0; i < frame->width; i++)
+        {
 
             QJsonArray arrayRow;
 
-            for(int j = 0; j < frame->height; j++){
+            for(int j = 0; j < frame->height; j++)
+            {
 
                 QColor currentPixel = frame->image.pixel(i,j);
 
@@ -75,16 +75,19 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
 bool File::saveFile(Sprite *sprite)
 {
 
-    QString fileName = QFileDialog::getSaveFileName(this,
+
+    fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Sprite"), "",
                                                     tr("sprite (*.ssp)"));
+
 
     qDebug() << "saving file";
 
 
     QFile file(fileName);
 
-    if (!file.open(QIODevice::WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly))
+    {
         qWarning("Couldn't open save file.");
         return false;
     }
@@ -150,7 +153,8 @@ bool File::loadFile(Sprite* sprite)
 
     QFile file(fileName);
 
-    if (!file.open(QIODevice::ReadOnly)) {
+    if (!file.open(QIODevice::ReadOnly))
+    {
         qWarning("Couldn't open save file.");
         return false;
     }
