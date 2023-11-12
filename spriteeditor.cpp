@@ -61,6 +61,11 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &sprite,
             &Sprite::setSpriteSize);
 
+    connect(ui->groupSelectCheckBox,
+            &QCheckBox::clicked,
+            ui->canvasWidget,
+            &SpriteCanvas::updateGroupSelectState);
+
     connect(ui->copyGroupButton,
             &QPushButton::pressed,
             ui->canvasWidget,
@@ -79,6 +84,26 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &QCheckBox::clicked,
             ui->canvasWidget,
             &SpriteCanvas::updateBucketFillState);
+    connect(ui->saveButton,
+            &QPushButton::clicked,
+            &sprite,
+            &Sprite::saveSpriteToFile);
+    connect(&sprite,
+            &Sprite::saveSprite,
+            &file,
+            &File::saveFile);
+    connect(ui->openButton,
+            &QPushButton::clicked,
+            &sprite,
+            &Sprite::openSpriteFromFile);
+    connect(&sprite,
+            &Sprite::openSprite,
+            &file,
+            &File::loadFile);
+    connect(&file,
+            &File::fileLoaded,
+            &sprite,
+            &Sprite::updateSprite);
 
     connect(ui->saveButton,
             &QPushButton::clicked,

@@ -26,6 +26,7 @@ private:
     QPair<int, int> pastingAnchorPoint;
     bool clickIsForAnchorSelection;
     bool clickIsForPasting;
+    bool bucketFillOn;
 
 signals:
 
@@ -35,6 +36,7 @@ public slots:
     void setSpriteSize(int);
     void updateGroupSelectState();
     void updateCopyPasteState();
+    void updateBucketFillState();
 
 signals:
     void pastingDone();

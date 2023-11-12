@@ -62,14 +62,17 @@ void Sprite::setSpriteSize(int size){
 
     framesIndex = 0;
 }
+
 void Sprite::saveSpriteToFile(){
     qDebug() << "save sprite to file";
     emit saveSprite(this);
 }
+
 void Sprite::openSpriteFromFile(){
     qDebug() << "open sprite from file";
-    emit openSprite(this);
+    //emit openSprite(this);
 }
+
 void Sprite::updateSprite(Frame* frame){
     emit passChildSignal(frame);
 }

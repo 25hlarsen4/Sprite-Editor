@@ -14,6 +14,7 @@ class Sprite : public QWidget
 public:
     explicit Sprite(QWidget *parent = nullptr);
     ~Sprite();
+
     void mousePressEvent(QMouseEvent *);
 
     // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
@@ -34,6 +35,7 @@ signals:
      * This signal sends a frame to the preview.
     */
     void sendFramesToPreview(Frame* frame);
+
     void saveSprite(Sprite*);
     void openSprite(Sprite*);
 

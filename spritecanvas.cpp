@@ -13,6 +13,7 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     groupSelect = false;
     clickIsForAnchorSelection = false;
     clickIsForPasting = false;
+    bucketFillOn = false;
 
     color = QColor::fromRgb(0, 0, 0);
 }
@@ -137,7 +138,9 @@ void SpriteCanvas::setSpriteSize(int size){
 void SpriteCanvas::updateGroupSelectState() {
     groupSelect = !groupSelect;
 }
-
+void SpriteCanvas::updateBucketFillState() {
+    bucketFillOn = !bucketFillOn;
+}
 void SpriteCanvas::updateCopyPasteState() {
     qDebug() << "pick anchor selection";
     clickIsForAnchorSelection = true;

@@ -144,7 +144,6 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 bool File::loadFile(Sprite* sprite)
 {
 
-
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     "/home",
                                                     tr("sprite (*.ssp)"));

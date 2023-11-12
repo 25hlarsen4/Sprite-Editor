@@ -12,7 +12,6 @@ class Frame : public QWidget
 public:
 
     Frame(int spriteSize, QWidget *parent = nullptr);
-
     void paintEvent(QPaintEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
