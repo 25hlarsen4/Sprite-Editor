@@ -51,6 +51,7 @@ public slots:
 
     void saveSpriteToFile();
     void openSpriteFromFile();
+    void createNewFile();
 
     void updateSprite(Frame* frame);
 

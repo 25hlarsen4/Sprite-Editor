@@ -124,10 +124,10 @@ void SpriteEditor::setSpriteSize()
 }
 void SpriteEditor::createFileActions(Sprite &sprite)
 {
-//    newAct = new QAction(tr("&New"), this);
-//    newAct->setShortcuts(QKeySequence::New);
-//    newAct->setStatusTip(tr("Create a new file"));
-//    connect(newAct, &QAction::triggered, this, &MainWindow::newFile);
+    newAction = new QAction(tr("&New"), this);
+    newAction->setShortcuts(QKeySequence::New);
+    newAction->setStatusTip(tr("Create a new file"));
+    connect(newAction, &QAction::triggered, &sprite, &Sprite::createNewFile);
 
     saveAction = new QAction(tr("&Save"), this);
     saveAction->setShortcuts(QKeySequence::Save);
@@ -142,11 +142,10 @@ void SpriteEditor::createFileActions(Sprite &sprite)
 void SpriteEditor::createFileMenu()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
-    //fileMenu->addAction(newAct);
+    fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
     fileMenu->addAction(saveAction);
     fileMenu->addSeparator();
-    //fileMenu->addAction(exitAct);
 
 //    editMenu = menuBar()->addMenu(tr("&Edit"));
 //    editMenu->addAction(undoAct);
@@ -162,22 +161,22 @@ void SpriteEditor::createFileMenu()
 //    helpMenu->addAction(aboutQtAct);
 
     QString  menuStyle(
-        "QMenuBar { \
-                background-color: rgb(75, 75, 75); \
-        }"
+        "QMenuBar {"
+            "background-color: rgb(75, 75, 75);"
+        "}"
         "QMenuBar::item {"
-        "color: rgb(255, 255, 255)"
+            "color: rgb(255, 255, 255)"
         "}"
         "QMenuBar::item:selected{"
-        "background-color: rgb(50, 50, 50);"
+            "background-color: rgb(50, 50, 50);"
         "}"
         "QMenu::item{"
-        "background-color: rgb(75, 75, 75);"
+            "background-color: rgb(75, 75, 75);"
         "color: rgb(255, 255, 255);"
         "}"
         "QMenu::item:selected{"
-        "background-color: rgb(50, 50, 50);"
-        "color: rgb(255, 255, 255);"
+            "background-color: rgb(50, 50, 50);"
+            "color: rgb(255, 255, 255);"
         "}"
         );
     this->setStyleSheet(menuStyle);

@@ -63,14 +63,21 @@ void Sprite::setSpriteSize(int size){
     framesIndex = 0;
 }
 
-void Sprite::saveSpriteToFile(){
+void Sprite::saveSpriteToFile()
+{
     qDebug() << "save sprite to file";
     emit saveSprite(this);
 }
 
-void Sprite::openSpriteFromFile(){
+void Sprite::openSpriteFromFile()
+{
     qDebug() << "open sprite from file";
     emit openSprite(this);
+}
+
+void Sprite::createNewFile()
+{
+
 }
 
 void Sprite::updateSprite(Frame* frame){
