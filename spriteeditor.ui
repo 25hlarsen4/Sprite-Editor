@@ -112,19 +112,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="saveButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>75</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Save</string>
-    </property>
-   </widget>
    <widget class="QCheckBox" name="bucketFillBox">
     <property name="geometry">
      <rect>
@@ -136,19 +123,6 @@
     </property>
     <property name="text">
      <string>Bucket Fill</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="openButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>40</y>
-      <width>75</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Open</string>
     </property>
    </widget>
    <widget class="QPushButton" name="colorButton">

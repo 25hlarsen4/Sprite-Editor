@@ -24,6 +24,15 @@ signals:
 private:
     Ui::SpriteEditor *ui;
     void setSpriteSize();
+    void createFileActions(Sprite &sprite);
+    void createFileMenu();
+
+    QMenu *fileMenu;
+
+    QAction *newAction;
+    QAction *openAction;
+    QAction *saveAction;
+    QAction *exitAct;
 
 private slots:
     /**

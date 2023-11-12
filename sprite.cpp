@@ -70,7 +70,7 @@ void Sprite::saveSpriteToFile(){
 
 void Sprite::openSpriteFromFile(){
     qDebug() << "open sprite from file";
-    //emit openSprite(this);
+    emit openSprite(this);
 }
 
 void Sprite::updateSprite(Frame* frame){
