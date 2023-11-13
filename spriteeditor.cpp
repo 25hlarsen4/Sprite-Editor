@@ -227,7 +227,6 @@ void SpriteEditor::addFrame()
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
     selectedFrame = newFrame;
     frameSelected(selectedFrame);
-
 }
 
 void SpriteEditor::copyFrame() {
@@ -241,7 +240,7 @@ void SpriteEditor::copyFrame() {
     if (index == mySprite.frames.size()) {
         mySprite.frames.append(newFrame);
     } else {
-        mySprite.frames.insert(index - 1, newFrame);
+        mySprite.frames.insert(index, newFrame);
     }
     layout->insertWidget(index, newFrame);
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
