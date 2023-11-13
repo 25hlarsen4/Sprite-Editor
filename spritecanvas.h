@@ -15,6 +15,7 @@ public:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void wheelEvent(QWheelEvent *);
+    void setCurrentFrame(Frame* frame);
 
 private:
     Frame* currFrame;
@@ -27,6 +28,7 @@ private:
     bool clickIsForAnchorSelection;
     bool clickIsForPasting;
     bool bucketFillOn;
+    Frame *selectedFrame;
 
 signals:
 

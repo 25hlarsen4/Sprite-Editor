@@ -5,10 +5,12 @@
 #include <QMouseEvent>
 
 Sprite::Sprite(QWidget *parent)
-    : QWidget{parent}
+    : QWidget{parent},currentFrameIndex(0)
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
+    connect(timer, &QTimer::timeout, this, &Sprite::updateAnimationFrame);
+
 }
 
 Sprite::~Sprite(){
@@ -36,9 +38,10 @@ void Sprite::sendFrames()
     framesIndex++;
 }
 
+
 void Sprite::setPreviewSpeed(int speed)
 {
-    timer->setInterval(1000 - 900*speed*0.01);
+    timer->setInterval(1000 / speed);
 }
 
 void Sprite::setSpriteSize(int size){
@@ -84,4 +87,25 @@ void Sprite::createNewFile()
 
 void Sprite::updateSprite(Frame* frame){
     emit passChildSignal(frame);
+}
+
+void Sprite::adjustFrameCount(int frameCount) {
+    while (frames.size() > frameCount) {
+        Frame* frame = frames.takeLast();
+        delete frame;
+    }
+
+    while (frames.size() < frameCount) {
+        Frame* newFrame = new Frame(spriteSize);
+        frames.append(newFrame);
+    }
+
+    // Optionally, emit a signal to update the UI
+    emit framesUpdated();
+}
+
+void Sprite::updateAnimationFrame() {
+    // Update the frame index and the preview
+    currentFrameIndex = (currentFrameIndex + 1) % frames.size();
+    emit sendFramesToPreview(frames[currentFrameIndex]);
 }

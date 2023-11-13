@@ -17,16 +17,21 @@ public:
 
     void mousePressEvent(QMouseEvent *);
 
+    void adjustFrameCount(int frameCount);
+    void updateAnimationFrame();
+
     // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
     QList<Frame*> frames;
     QTimer *timer;
 
     int framesIndex;
+    int spriteSize;
+    int currentFrameIndex;
 
 protected:
 
 private:
-    int spriteSize;
+
 
 signals:
     void passChildSignal(QWidget* frame);
@@ -35,6 +40,8 @@ signals:
      * This signal sends a frame to the preview.
     */
     void sendFramesToPreview(Frame* frame);
+    void frameCopied(Frame* newFrame);
+    void framesUpdated();
 
     void saveSprite(Sprite*);
     void openSprite(Sprite*);

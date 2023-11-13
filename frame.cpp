@@ -13,6 +13,7 @@ Frame::Frame(int spriteSize, QWidget *parent)
     this->setFocusPolicy(Qt::ClickFocus);
 
 
+
     width = spriteSize;
     height = spriteSize;
     QPixmap pixmap(width, height);
@@ -82,6 +83,10 @@ void Frame::focusOutEvent(QFocusEvent *) {
 void Frame::updatePixel(int pixelX, int pixelY, QColor color) {
     image.setPixelColor(pixelX, pixelY, color);
     repaint();
+}
+
+void Frame::mousePressEvent(QMouseEvent *event) {
+    emit clicked(this);
 }
 
 // https://www.geeksforgeeks.org/flood-fill-algorithm/

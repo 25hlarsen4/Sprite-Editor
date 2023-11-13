@@ -18,6 +18,10 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     color = QColor::fromRgb(0, 0, 0);
 }
 
+void SpriteCanvas::setCurrentFrame(Frame* frame) {
+    currFrame = frame;
+}
+
 void SpriteCanvas::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     QRect target(0, 0, 250, 250);
@@ -26,7 +30,8 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
         // make a copy of currFrame's image so we can draw on it to show pixel selection without altering the actual
         // image data
         QImage copy = currFrame->image.copy(0, 0, currFrame->image.width(), currFrame->image.height());
-
+        painter.drawImage(target, currFrame->image, source);
+        update();
 
         // if a group pixel selection is in progress, draw semi-transparent layer over the selected pixels
         // to show they've been selected
@@ -41,7 +46,6 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
                 painter2.drawPoint(coords.first, coords.second);
             }
         }
-
 
         // draw checkers to show transparent pixels
         for(int i = 0; i < currFrame->image.width(); i++) {
@@ -63,6 +67,15 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
         }
 
         painter.drawImage(target, copy, source);
+    }
+    else {
+        int width = 10;
+        int height = 10;
+        QPixmap pixmap(width, height);
+        pixmap.fill(QColor::fromRgb(128, 128, 128));
+        QImage image = pixmap.toImage();
+        painter.drawImage(target, image);
+        update();
     }
 }
 
@@ -175,6 +188,24 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
             currFrame->selectablePixels.append(pixelCoords);
         }
     }
+
+    if (!(e->buttons() & Qt::LeftButton)) {
+        return;
+    }
+
+    // from Tiffany's code, not sure can delete or not
+    int canvasSize = 250;
+    qreal xRatio = static_cast<qreal>(currFrame->image.width()) / canvasSize;
+    qreal yRatio = static_cast<qreal>(currFrame->image.height()) / canvasSize;
+
+    int imageX = static_cast<int>(e->pos().x() * xRatio);
+    int imageY = static_cast<int>(e->pos().y() * yRatio);
+
+
+    if (imageX >= 0 && imageX < currFrame->image.width() && imageY >= 0 && imageY < currFrame->image.height()) {
+        currFrame->image.setPixelColor(imageX, imageY, color);
+        currFrame->update();
+    }
 }
 
 void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
@@ -267,4 +298,3 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
         }
     }
 }
-

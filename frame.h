@@ -21,10 +21,12 @@ public:
     QImage image;
     int width;
     int height;
+    void mousePressEvent(QMouseEvent *event);
 
     QList<QPair<int, int>> selectablePixels;
 
 signals:
+    void clicked(Frame* frame);
 
 public slots:
 

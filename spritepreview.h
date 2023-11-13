@@ -10,6 +10,7 @@ class SpritePreview : public QWidget
 public:
     explicit SpritePreview(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *);
+    void addFrame(Frame* frame);
 
 private:
     // keep these in sync with sprite's frame list

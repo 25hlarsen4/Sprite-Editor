@@ -2,6 +2,8 @@
 #define SPRITEEDITOR_H
 
 #include <QMainWindow>
+#include "QtWidgets/qboxlayout.h"
+#include "QtWidgets/qslider.h"
 #include "sprite.h"
 #include "file.h"
 
@@ -16,13 +18,18 @@ class SpriteEditor : public QMainWindow
 public:
     SpriteEditor(Sprite& sprite, File& file, QWidget *parent = nullptr);
     ~SpriteEditor();
+    QVBoxLayout* layout;
+    QSlider *frameCountSlider;
 
 signals:
     void changeColor(QColor);
     void sendSpriteSize(int);
+    void connectFrameSignals(Frame* frame);
 
 private:
     Ui::SpriteEditor *ui;
+    int spriteSize;
+    Sprite& mySprite;
     void setSpriteSize();
     void createFileActions(Sprite &sprite);
     void createFileMenu();
@@ -33,6 +40,8 @@ private:
     QAction *openAction;
     QAction *saveAction;
     QAction *exitAct;
+    void addFrame();
+    Frame* selectedFrame;
 
 private slots:
     /**
@@ -40,11 +49,18 @@ private slots:
      * Source: https://www.youtube.com/watch?v=fl3q_5bxhlk
      */
     void chooseColor();
+    void copyFrame();
+    void deleteFrame();
+
 
     void showCpInstructions();
     void hideCpInstructions();
 
 public slots:
+    void onFrameCopied(Frame* newFrame);
+    void frameSelected(Frame* frame);
+
+
 
 };
 #endif // SPRITEEDITOR_H
