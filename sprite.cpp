@@ -11,6 +11,13 @@ Sprite::Sprite(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
 }
 
+Sprite::~Sprite(){
+    for(Frame* frame : frames){
+        delete frame;
+    }
+    frames.clear();
+}
+
 void Sprite::mousePressEvent(QMouseEvent * e)
 {
     QWidget* frame = this->childAt(e->pos());
@@ -36,13 +43,13 @@ void Sprite::setPreviewSpeed(int speed)
 
 void Sprite::setSpriteSize(int size){
     spriteSize = size;
-    Frame* frame1 = new Frame(nullptr, spriteSize);
+    Frame* frame1 = new Frame(spriteSize);
     frame1->image.setPixelColor(1, 1, QColor::fromRgb(255, 0, 0));
-    Frame* frame2 = new Frame(nullptr, spriteSize);
+    Frame* frame2 = new Frame(spriteSize);
     frame2->image.setPixelColor(1, 1, QColor::fromRgb(0, 255, 0));
-    Frame* frame3 = new Frame(nullptr, spriteSize);
+    Frame* frame3 = new Frame(spriteSize);
     frame3->image.setPixelColor(1, 1, QColor::fromRgb(0, 0, 255));
-    Frame* frame4 = new Frame(nullptr, spriteSize);
+    Frame* frame4 = new Frame(spriteSize);
     frame4->image.setPixelColor(1, 1, QColor::fromRgb(0, 100, 100));
 
     frames.append(frame1);
@@ -56,4 +63,25 @@ void Sprite::setSpriteSize(int size){
     timer->start();
 
     framesIndex = 0;
+}
+
+void Sprite::saveSpriteToFile()
+{
+    qDebug() << "save sprite to file";
+    emit saveSprite(this);
+}
+
+void Sprite::openSpriteFromFile()
+{
+    qDebug() << "open sprite from file";
+    emit openSprite(this);
+}
+
+void Sprite::createNewFile()
+{
+
+}
+
+void Sprite::updateSprite(Frame* frame){
+    emit passChildSignal(frame);
 }

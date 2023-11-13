@@ -7,8 +7,12 @@
 #include <QColorDialog>
 #include <QInputDialog>
 #include <QQueue>
+<<<<<<< HEAD
+=======
+#include <QAction>
+>>>>>>> refs/heads/Bracken
 
-SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
+SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::SpriteEditor)
 {
@@ -80,14 +84,36 @@ SpriteEditor::SpriteEditor(Sprite& sprite, QWidget *parent)
             &SpriteCanvas::pastingDone,
             this,
             &SpriteEditor::hideCpInstructions);
-
     connect(ui->bucketFillBox,
             &QCheckBox::clicked,
             ui->canvasWidget,
             &SpriteCanvas::updateBucketFillState);
 
+<<<<<<< HEAD
+    connect(ui->bucketFillBox,
+            &QCheckBox::clicked,
+            ui->canvasWidget,
+            &SpriteCanvas::updateBucketFillState);
+
+=======
+    connect(&sprite,
+            &Sprite::saveSprite,
+            &file,
+            &File::saveFile);
+    connect(&sprite,
+            &Sprite::openSprite,
+            &file,
+            &File::loadFile);
+    connect(&file,
+            &File::fileLoaded,
+            &sprite,
+            &Sprite::updateSprite);
+>>>>>>> refs/heads/Bracken
 
     setSpriteSize();
+
+    createFileActions(sprite);
+    createFileMenu();
 
     layout->addWidget(sprite.frames.at(0));
     layout->addWidget(sprite.frames.at(1));
@@ -107,6 +133,65 @@ void SpriteEditor::setSpriteSize()
                                           tr("Please Choose A Sprite Size From 10-50!"), 10, 10, 50);
     emit sendSpriteSize(spriteSize);
 }
+void SpriteEditor::createFileActions(Sprite &sprite)
+{
+    newAction = new QAction(tr("&New"), this);
+    newAction->setShortcuts(QKeySequence::New);
+    newAction->setStatusTip(tr("Create a new file"));
+    connect(newAction, &QAction::triggered, &sprite, &Sprite::createNewFile);
+
+    saveAction = new QAction(tr("&Save"), this);
+    saveAction->setShortcuts(QKeySequence::Save);
+    saveAction->setStatusTip(tr("Save file"));
+    connect(saveAction, &QAction::triggered, &sprite, &Sprite::saveSpriteToFile);
+
+    openAction = new QAction(tr("&Open"), this);
+    openAction->setShortcuts(QKeySequence::Open);
+    openAction->setStatusTip(tr("Open file"));
+    connect(openAction, &QAction::triggered, &sprite, &Sprite::openSpriteFromFile);
+}
+void SpriteEditor::createFileMenu()
+{
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    fileMenu->addAction(saveAction);
+    fileMenu->addSeparator();
+
+//    editMenu = menuBar()->addMenu(tr("&Edit"));
+//    editMenu->addAction(undoAct);
+//    editMenu->addAction(redoAct);
+//    editMenu->addSeparator();
+//    editMenu->addAction(cutAct);
+//    editMenu->addAction(copyAct);
+//    editMenu->addAction(pasteAct);
+//    editMenu->addSeparator();
+
+//    helpMenu = menuBar()->addMenu(tr("&Help"));
+//    helpMenu->addAction(aboutAct);
+//    helpMenu->addAction(aboutQtAct);
+
+    QString  menuStyle(
+        "QMenuBar {"
+            "background-color: rgb(75, 75, 75);"
+        "}"
+        "QMenuBar::item {"
+            "color: rgb(255, 255, 255)"
+        "}"
+        "QMenuBar::item:selected{"
+            "background-color: rgb(50, 50, 50);"
+        "}"
+        "QMenu::item{"
+            "background-color: rgb(75, 75, 75);"
+        "color: rgb(255, 255, 255);"
+        "}"
+        "QMenu::item:selected{"
+            "background-color: rgb(50, 50, 50);"
+            "color: rgb(255, 255, 255);"
+        "}"
+        );
+    this->setStyleSheet(menuStyle);
+}
 
 void SpriteEditor::showCpInstructions() {
     ui->cpInstructionsLabel->setVisible(true);
@@ -120,4 +205,7 @@ SpriteEditor::~SpriteEditor()
 {
     delete ui;
 }
+
+
+
 

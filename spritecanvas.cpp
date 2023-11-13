@@ -132,11 +132,17 @@ void SpriteCanvas::setSpriteSize(int size){
 void SpriteCanvas::updateGroupSelectState() {
     groupSelect = !groupSelect;
 }
+<<<<<<< HEAD
 
 void SpriteCanvas::updateBucketFillState() {
     bucketFillOn = !bucketFillOn;
 }
 
+=======
+void SpriteCanvas::updateBucketFillState() {
+    bucketFillOn = !bucketFillOn;
+}
+>>>>>>> refs/heads/Bracken
 void SpriteCanvas::updateCopyPasteState() {
     qDebug() << "pick anchor selection";
     clickIsForAnchorSelection = true;

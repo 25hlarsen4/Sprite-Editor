@@ -13,6 +13,8 @@ class Sprite : public QWidget
     Q_OBJECT
 public:
     explicit Sprite(QWidget *parent = nullptr);
+    ~Sprite();
+
     void mousePressEvent(QMouseEvent *);
 
     // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
@@ -34,6 +36,9 @@ signals:
     */
     void sendFramesToPreview(Frame* frame);
 
+    void saveSprite(Sprite*);
+    void openSprite(Sprite*);
+
 public slots:
 
     /*
@@ -43,6 +48,12 @@ public slots:
     void sendFrames();
     void setPreviewSpeed(int);
     void setSpriteSize(int);
+
+    void saveSpriteToFile();
+    void openSpriteFromFile();
+    void createNewFile();
+
+    void updateSprite(Frame* frame);
 
 };
 
