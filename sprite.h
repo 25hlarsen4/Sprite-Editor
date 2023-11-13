@@ -45,6 +45,7 @@ signals:
 
     void saveSprite(Sprite*);
     void openSprite(Sprite*);
+    void sendSpriteToView(Sprite*);
 
 public slots:
 

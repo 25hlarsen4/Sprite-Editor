@@ -16,25 +16,8 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
 {
     ui->setupUi(this);
 
-    layout = new QVBoxLayout(&sprite);
+    layout = new QHBoxLayout(&sprite);
     layout->setSizeConstraint(layout->SetMinimumSize);
-
-    // Add Frame Button
-//    QPushButton *addFrameButton = new QPushButton("Add Frame", this);
-//    layout->addWidget(addFrameButton); // Add the button to the layout
-
-//    QPushButton *CopyFrameButton = new QPushButton("Copy Frame", this);
-//    layout->addWidget(CopyFrameButton); // Add the button to the layout
-
-//    QPushButton *DeleteFrameButton = new QPushButton("Delete Frame", this);
-//    layout->addWidget(DeleteFrameButton); // Add the button to the layout
-
-    // Add the sprite frames to the layout
-    for (int i = 0; i < sprite.frames.size(); ++i) {
-        layout->addWidget(sprite.frames.at(i));
-    }
-
-    ui->scrollArea->setWidget(&sprite);
 
     ui->cpInstructionsLabel->setVisible(false);
 
@@ -47,7 +30,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &Sprite::passChildSignal,
             ui->canvasWidget,
             &SpriteCanvas::updateDisplay);
-
 
     connect(&sprite,
             &Sprite::sendFramesToPreview,
@@ -115,6 +97,10 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &File::fileLoaded,
             &sprite,
             &Sprite::updateSprite);
+    connect(&sprite,
+            &Sprite::sendSpriteToView,
+            this,
+            &SpriteEditor::addFramesToLayout);
 
     connect(ui->copyFrameButton, &QPushButton::clicked, this, &SpriteEditor::copyFrame);
     connect(&mySprite, &Sprite::frameCopied, this, &SpriteEditor::onFrameCopied);
@@ -126,18 +112,39 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     createFileActions(sprite);
     createFileMenu();
 
-    layout->addWidget(sprite.frames.at(0));
-    layout->addWidget(sprite.frames.at(1));
-    layout->addWidget(sprite.frames.at(2));
-    layout->addWidget(sprite.frames.at(3));
+    ui->scrollArea->setWidget(&sprite);
+
+
     for (int i = 0; i < sprite.frames.size(); ++i) {
         Frame* frame = sprite.frames.at(i);
         layout->addWidget(frame);
         connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
     }
+
 }
 
 
+void SpriteEditor::addFramesToLayout(Sprite *sprite)
+{
+    delete layout;
+
+    QHBoxLayout *newLayout = new QHBoxLayout(sprite);
+
+    // Add the sprite frames to the layout
+    for (int i = 0; i < sprite->frames.size(); ++i) {
+        Frame* frame = sprite->frames.at(i);
+        newLayout->addWidget(frame);
+        connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
+    }
+
+    ui->scrollArea->setWidget(sprite);
+
+    layout = new QHBoxLayout();
+
+    layout = newLayout;
+
+
+}
 
 void SpriteEditor::chooseColor()
 {

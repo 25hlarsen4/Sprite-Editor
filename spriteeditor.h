@@ -18,7 +18,7 @@ class SpriteEditor : public QMainWindow
 public:
     SpriteEditor(Sprite& sprite, File& file, QWidget *parent = nullptr);
     ~SpriteEditor();
-    QVBoxLayout* layout;
+    QHBoxLayout* layout;
     //QSlider *frameCountSlider;
 
 signals:
@@ -51,6 +51,8 @@ private slots:
     void chooseColor();
     void copyFrame();
     void deleteFrame();
+
+    void addFramesToLayout(Sprite *sprite);
 
 
     void showCpInstructions();

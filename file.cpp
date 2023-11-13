@@ -106,6 +106,9 @@ bool File::saveFile(Sprite *sprite)
 void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 {
     sprite->frames.clear();
+//    for(Frame* frame : sprite->frames){
+//        delete frame;
+//    }
 
     QJsonArray frameArray = spriteObject["frames"].toArray();
 
@@ -138,6 +141,7 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
         sprite->frames.append(frame);
 
     }
+
 
 
 

@@ -48,17 +48,10 @@ void Sprite::setSpriteSize(int size){
     spriteSize = size;
     Frame* frame1 = new Frame(spriteSize);
     frame1->image.setPixelColor(1, 1, QColor::fromRgb(255, 0, 0));
-    Frame* frame2 = new Frame(spriteSize);
-    frame2->image.setPixelColor(1, 1, QColor::fromRgb(0, 255, 0));
-    Frame* frame3 = new Frame(spriteSize);
-    frame3->image.setPixelColor(1, 1, QColor::fromRgb(0, 0, 255));
-    Frame* frame4 = new Frame(spriteSize);
-    frame4->image.setPixelColor(1, 1, QColor::fromRgb(0, 100, 100));
+
 
     frames.append(frame1);
-    frames.append(frame2);
-    frames.append(frame3);
-    frames.append(frame4);
+
 
     emit passChildSignal(frame1);
 
@@ -87,6 +80,7 @@ void Sprite::createNewFile()
 
 void Sprite::updateSprite(Frame* frame){
     emit passChildSignal(frame);
+    emit sendSpriteToView(this);
 }
 
 void Sprite::adjustFrameCount(int frameCount) {
