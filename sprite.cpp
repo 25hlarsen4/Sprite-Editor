@@ -47,11 +47,8 @@ void Sprite::setPreviewSpeed(int speed)
 void Sprite::setSpriteSize(int size){
     spriteSize = size;
     Frame* frame1 = new Frame(spriteSize);
-    frame1->image.setPixelColor(1, 1, QColor::fromRgb(255, 0, 0));
-
 
     frames.append(frame1);
-
 
     emit passChildSignal(frame1);
 

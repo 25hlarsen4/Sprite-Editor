@@ -105,10 +105,10 @@ bool File::saveFile(Sprite *sprite)
 
 void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 {
-    sprite->frames.clear();
 //    for(Frame* frame : sprite->frames){
 //        delete frame;
 //    }
+    sprite->frames.clear();
 
     QJsonArray frameArray = spriteObject["frames"].toArray();
 
