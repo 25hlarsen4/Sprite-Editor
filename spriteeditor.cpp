@@ -19,6 +19,20 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     layout = new QVBoxLayout(&sprite);
     layout->setSizeConstraint(layout->SetMinimumSize);
 
+    // prevent other ui elements from taking focus from the frame widgets
+    ui->addFrameButton->setFocusPolicy(Qt::NoFocus);
+    ui->copyFrameButton->setFocusPolicy(Qt::NoFocus);
+    ui->deleteFrameButton->setFocusPolicy(Qt::NoFocus);
+    ui->colorButton->setFocusPolicy(Qt::NoFocus);
+    ui->lassoButton->setFocusPolicy(Qt::NoFocus);
+    ui->paintButton->setFocusPolicy(Qt::NoFocus);
+    ui->penButton->setFocusPolicy(Qt::NoFocus);
+    ui->copyGroupButton->setFocusPolicy(Qt::NoFocus);
+    ui->groupSelectCheckBox->setFocusPolicy(Qt::NoFocus);
+    ui->bucketFillBox->setFocusPolicy(Qt::NoFocus);
+    ui->previewSpeedController->setFocusPolicy(Qt::NoFocus);
+    ui->scrollArea->setFocusPolicy(Qt::NoFocus);
+
     // Add Frame Button
 //    QPushButton *addFrameButton = new QPushButton("Add Frame", this);
 //    layout->addWidget(addFrameButton); // Add the button to the layout
@@ -227,6 +241,8 @@ void SpriteEditor::addFrame()
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
     selectedFrame = newFrame;
     frameSelected(selectedFrame);
+    // automatically give the new frame focus
+    selectedFrame->setFocus();
 }
 
 void SpriteEditor::copyFrame() {

@@ -144,6 +144,13 @@ void SpriteCanvas::setSpriteSize(int size){
 
 void SpriteCanvas::updateGroupSelectState() {
     groupSelect = !groupSelect;
+
+    // cover the case where they select pixels and turn off group select before
+    // doing anything to them
+    if (!groupSelect) {
+        selectedPixels.clear();
+    }
+
 }
 
 void SpriteCanvas::updateBucketFillState() {
