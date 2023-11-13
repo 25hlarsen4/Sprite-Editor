@@ -19,7 +19,7 @@ public:
     SpriteEditor(Sprite& sprite, File& file, QWidget *parent = nullptr);
     ~SpriteEditor();
     QVBoxLayout* layout;
-    QSlider *frameCountSlider;
+    //QSlider *frameCountSlider;
 
 signals:
     void changeColor(QColor);

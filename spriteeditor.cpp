@@ -20,14 +20,14 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     layout->setSizeConstraint(layout->SetMinimumSize);
 
     // Add Frame Button
-    QPushButton *addFrameButton = new QPushButton("Add Frame", this);
-    layout->addWidget(addFrameButton); // Add the button to the layout
+//    QPushButton *addFrameButton = new QPushButton("Add Frame", this);
+//    layout->addWidget(addFrameButton); // Add the button to the layout
 
-    QPushButton *CopyFrameButton = new QPushButton("Copy Frame", this);
-    layout->addWidget(CopyFrameButton); // Add the button to the layout
+//    QPushButton *CopyFrameButton = new QPushButton("Copy Frame", this);
+//    layout->addWidget(CopyFrameButton); // Add the button to the layout
 
-    QPushButton *DeleteFrameButton = new QPushButton("Delete Frame", this);
-    layout->addWidget(DeleteFrameButton); // Add the button to the layout
+//    QPushButton *DeleteFrameButton = new QPushButton("Delete Frame", this);
+//    layout->addWidget(DeleteFrameButton); // Add the button to the layout
 
     // Add the sprite frames to the layout
     for (int i = 0; i < sprite.frames.size(); ++i) {
@@ -39,7 +39,7 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     ui->cpInstructionsLabel->setVisible(false);
 
     // connection from add frame button signal to sprite slot to create new frame
-    connect(addFrameButton, &QPushButton::clicked, this, &SpriteEditor::addFrame);
+    connect(ui->addFrameButton, &QPushButton::clicked, this, &SpriteEditor::addFrame);
 
     // connection from sprite frame added signal to this slot to add the frame widget to layout
     // (can just access the last frame in the list)
@@ -116,10 +116,10 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &sprite,
             &Sprite::updateSprite);
 
-    connect(CopyFrameButton, &QPushButton::clicked, this, &SpriteEditor::copyFrame);
+    connect(ui->copyFrameButton, &QPushButton::clicked, this, &SpriteEditor::copyFrame);
     connect(&mySprite, &Sprite::frameCopied, this, &SpriteEditor::onFrameCopied);
-    connect(DeleteFrameButton, &QPushButton::clicked, this, &SpriteEditor::deleteFrame);
-    connect(frameCountSlider, &QSlider::valueChanged, &mySprite, &Sprite::adjustFrameCount);
+    connect(ui->deleteFrameButton, &QPushButton::clicked, this, &SpriteEditor::deleteFrame);
+    connect(ui->frameCountSlider, &QSlider::valueChanged, &mySprite, &Sprite::adjustFrameCount);
 
     setSpriteSize();
 

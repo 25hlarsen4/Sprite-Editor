@@ -56,6 +56,8 @@ public slots:
     void setPreviewSpeed(int);
     void setSpriteSize(int);
 
+
+
     void saveSpriteToFile();
     void openSpriteFromFile();
     void createNewFile();

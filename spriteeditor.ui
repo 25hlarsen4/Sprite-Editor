@@ -187,6 +187,58 @@
      <string>Bucket Fill</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="addFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>141</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Frame</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="copyFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>131</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Frame</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="deleteFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>141</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete Frame</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="frameCountSlider">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>50</y>
+      <width>22</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
