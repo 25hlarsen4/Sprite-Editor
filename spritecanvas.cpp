@@ -201,18 +201,18 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     }
 
     // from Tiffany's code, not sure can delete or not
-    int canvasSize = 250;
-    qreal xRatio = static_cast<qreal>(currFrame->image.width()) / canvasSize;
-    qreal yRatio = static_cast<qreal>(currFrame->image.height()) / canvasSize;
+//    int canvasSize = 250;
+//    qreal xRatio = static_cast<qreal>(currFrame->image.width()) / canvasSize;
+//    qreal yRatio = static_cast<qreal>(currFrame->image.height()) / canvasSize;
 
-    int imageX = static_cast<int>(e->pos().x() * xRatio);
-    int imageY = static_cast<int>(e->pos().y() * yRatio);
+//    int imageX = static_cast<int>(e->pos().x() * xRatio);
+//    int imageY = static_cast<int>(e->pos().y() * yRatio);
 
 
-    if (imageX >= 0 && imageX < currFrame->image.width() && imageY >= 0 && imageY < currFrame->image.height()) {
-        currFrame->image.setPixelColor(imageX, imageY, color);
-        currFrame->update();
-    }
+//    if (imageX >= 0 && imageX < currFrame->image.width() && imageY >= 0 && imageY < currFrame->image.height()) {
+//        currFrame->image.setPixelColor(imageX, imageY, color);
+//        currFrame->update();
+//    }
 }
 
 void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
