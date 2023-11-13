@@ -9,7 +9,6 @@ Sprite::Sprite(QWidget *parent)
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
-    connect(timer, &QTimer::timeout, this, &Sprite::updateAnimationFrame);
 
 }
 
@@ -22,19 +21,21 @@ Sprite::~Sprite(){
 
 void Sprite::mousePressEvent(QMouseEvent * e)
 {
-    QWidget* frame = this->childAt(e->pos());
-    emit passChildSignal(frame);
-    emit sendFramesToPreview(frames[0]);
+    if(frames.size() != 0){
+        QWidget* frame = this->childAt(e->pos());
+        emit passChildSignal(frame);
+        emit sendFramesToPreview(frames[0]);
+    }
 }
 
 
 void Sprite::sendFrames()
 {
 
-    if (framesIndex == frames.size()) framesIndex = 0;
-
-    emit sendFramesToPreview(frames[framesIndex]);
-
+    if (framesIndex >= frames.size()) framesIndex = 0;
+    if(frames.size() != 0){
+        emit sendFramesToPreview(frames[framesIndex]);
+    }
     framesIndex++;
 }
 
@@ -102,10 +103,4 @@ void Sprite::adjustFrameCount(int frameCount) {
 
     // Optionally, emit a signal to update the UI
     emit framesUpdated();
-}
-
-void Sprite::updateAnimationFrame() {
-    // Update the frame index and the preview
-    currentFrameIndex = (currentFrameIndex + 1) % frames.size();
-    emit sendFramesToPreview(frames[currentFrameIndex]);
 }
