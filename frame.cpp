@@ -16,24 +16,16 @@ Frame::Frame(int spriteSize, QWidget *parent)
     width = spriteSize;
     height = spriteSize;
     QPixmap pixmap(width, height);
-<<<<<<< HEAD
+
     // An image should start fully transparent
     pixmap.fill(QColor::fromRgb(0,0,0,0));
     image = pixmap.toImage();
-=======
-//    pixmap.fill(QColor::fromRgb(128, 128, 128));
-    pixmap.fill(QColor::fromRgb(0,0,0,0));
-    image = pixmap.toImage();
 
->>>>>>> refs/heads/Bracken
 }
 
 
 void Frame::paintEvent(QPaintEvent *) {
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/heads/Bracken
     QPainter painter(this);
 
     int x = 3;
@@ -49,7 +41,6 @@ void Frame::paintEvent(QPaintEvent *) {
         pen.setWidth(penWidth);
         painter.setPen(pen);
         painter.drawRect(x-3, y-3, w+3, h+3);
-<<<<<<< HEAD
     }
 
     // want to draw checkers to signify transparency, but do it on a copy so we don't change
@@ -74,31 +65,6 @@ void Frame::paintEvent(QPaintEvent *) {
         }
     }
 
-=======
-    }
-    // want to draw checkers to signify transparency, but do it on a copy so we don't change
-    // the actual image data
-    QImage copy = image.copy(0, 0, width, height);
-
-    for(int i = 0; i < width; i++) {
-        for(int j = 0; j < height; j++)
-        {
-            if(i % 2 != 0 && j % 2 != 0 && image.pixelColor(i, j).alpha() == 0)
-            {
-                copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,60));
-            }
-            else if(i % 2 == 0 && j % 2 == 0 && image.pixelColor(i, j).alpha() == 0)
-            {
-                copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,60));
-            }
-            else if (image.pixelColor(i, j).alpha() == 0)
-            {
-                copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,50));
-            }
-        }
-    }
-
->>>>>>> refs/heads/Bracken
     painter.drawImage(target, copy);
 }
 

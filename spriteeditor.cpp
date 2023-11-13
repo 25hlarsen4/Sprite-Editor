@@ -7,10 +7,7 @@
 #include <QColorDialog>
 #include <QInputDialog>
 #include <QQueue>
-<<<<<<< HEAD
-=======
 #include <QAction>
->>>>>>> refs/heads/Bracken
 
 SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     : QMainWindow(parent)
@@ -89,13 +86,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             ui->canvasWidget,
             &SpriteCanvas::updateBucketFillState);
 
-<<<<<<< HEAD
-    connect(ui->bucketFillBox,
-            &QCheckBox::clicked,
-            ui->canvasWidget,
-            &SpriteCanvas::updateBucketFillState);
-
-=======
     connect(&sprite,
             &Sprite::saveSprite,
             &file,
@@ -108,7 +98,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &File::fileLoaded,
             &sprite,
             &Sprite::updateSprite);
->>>>>>> refs/heads/Bracken
 
     setSpriteSize();
 

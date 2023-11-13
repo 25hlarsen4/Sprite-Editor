@@ -17,10 +17,7 @@ public:
     void focusOutEvent(QFocusEvent *);
     void bucketFill(int pixelX, int pixelY, QColor newColor);
     bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor);
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/heads/Bracken
     QImage image;
     int width;
     int height;
@@ -30,11 +27,8 @@ public:
 signals:
 
 public slots:
-<<<<<<< HEAD
+
     void updatePixel(int pixelX, int pixelY, QColor color);
-=======
-    void updatePixel(int pixelX, int pixelY, const QColor color);
->>>>>>> refs/heads/Bracken
 
 };
 
