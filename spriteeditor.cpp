@@ -28,8 +28,9 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     ui->paintButton->setFocusPolicy(Qt::NoFocus);
     ui->penButton->setFocusPolicy(Qt::NoFocus);
     ui->copyGroupButton->setFocusPolicy(Qt::NoFocus);
-    ui->groupSelectCheckBox->setFocusPolicy(Qt::NoFocus);
-    ui->bucketFillBox->setFocusPolicy(Qt::NoFocus);
+    ui->groupSelectButton->setFocusPolicy(Qt::NoFocus);
+    ui->bucketFillButton->setFocusPolicy(Qt::NoFocus);
+    ui->eraseButton->setFocusPolicy(Qt::NoFocus);
     ui->previewSpeedController->setFocusPolicy(Qt::NoFocus);
     ui->scrollArea->setFocusPolicy(Qt::NoFocus);
 
@@ -93,10 +94,20 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &sprite,
             &Sprite::setSpriteSize);
 
-    connect(ui->groupSelectCheckBox,
-            &QCheckBox::clicked,
+    connect(ui->groupSelectButton,
+            &QRadioButton::toggled,
             ui->canvasWidget,
             &SpriteCanvas::updateGroupSelectState);
+
+    connect(ui->eraseButton,
+            &QRadioButton::toggled,
+            ui->canvasWidget,
+            &SpriteCanvas::updateEraserState);
+
+    connect(ui->bucketFillButton,
+            &QRadioButton::toggled,
+            ui->canvasWidget,
+            &SpriteCanvas::updateBucketFillState);
 
     connect(ui->copyGroupButton,
             &QPushButton::pressed,
@@ -112,10 +123,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &SpriteCanvas::pastingDone,
             this,
             &SpriteEditor::hideCpInstructions);
-    connect(ui->bucketFillBox,
-            &QCheckBox::clicked,
-            ui->canvasWidget,
-            &SpriteCanvas::updateBucketFillState);
 
     connect(&sprite,
             &Sprite::saveSprite,
@@ -149,6 +156,10 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
         layout->addWidget(frame);
         connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
     }
+}
+
+void SpriteEditor::test(bool checked) {
+    qDebug() << "checked: " << checked;
 }
 
 

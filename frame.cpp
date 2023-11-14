@@ -26,7 +26,6 @@ Frame::Frame(int spriteSize, QWidget *parent)
 
 
 void Frame::paintEvent(QPaintEvent *) {
-
     QPainter painter(this);
 
     int x = 3;
@@ -90,8 +89,10 @@ void Frame::mousePressEvent(QMouseEvent *event) {
 }
 
 // https://www.geeksforgeeks.org/flood-fill-algorithm/
-void Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
+QList<QPair<int, int>> Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
 {
+    QList<QPair<int, int>> modifiedPixels;
+
     QColor oldColor = image.pixelColor(pixelX, pixelY);
 
     QQueue< QPair<int, int> > pixelQueue;
@@ -100,6 +101,7 @@ void Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
     pixelQueue.enqueue(pixel);
 
     image.setPixelColor(pixelX,pixelY,newColor);
+    modifiedPixels.append(qMakePair(pixelX, pixelY));
 
     while (pixelQueue.size() > 0) {
 
@@ -112,6 +114,7 @@ void Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
         if (isValidPixel(posX + 1, posY, oldColor, newColor)) {
 
             image.setPixelColor(posX + 1,posY,newColor);
+            modifiedPixels.append(qMakePair(posX + 1, posY));
             pixel.first = posX + 1;
             pixel.second = posY;
             pixelQueue.enqueue(pixel);
@@ -119,6 +122,7 @@ void Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
 
         if (isValidPixel(posX - 1, posY, oldColor, newColor)) {
             image.setPixelColor(posX - 1,posY,newColor);
+            modifiedPixels.append(qMakePair(posX - 1, posY));
             pixel.first = posX - 1;
             pixel.second = posY;
             pixelQueue.enqueue(pixel);
@@ -126,6 +130,7 @@ void Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
 
         if (isValidPixel(posX, posY + 1, oldColor, newColor)) {
             image.setPixelColor(posX,posY + 1,newColor);
+            modifiedPixels.append(qMakePair(posX, posY + 1));
             pixel.first = posX;
             pixel.second = posY + 1;
             pixelQueue.enqueue(pixel);
@@ -133,11 +138,14 @@ void Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
 
         if (isValidPixel(posX, posY - 1, oldColor, newColor)) {
             image.setPixelColor(posX,posY - 1,newColor);
+            modifiedPixels.append(qMakePair(posX, posY - 1));
             pixel.first = posX;
             pixel.second = posY - 1;
             pixelQueue.enqueue(pixel);
         }
     }
+
+    return modifiedPixels;
 }
 
 bool Frame::isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor)

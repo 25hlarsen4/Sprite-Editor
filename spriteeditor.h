@@ -56,6 +56,8 @@ private slots:
     void showCpInstructions();
     void hideCpInstructions();
 
+    void test(bool);
+
 public slots:
     void onFrameCopied(Frame* newFrame);
     void frameSelected(Frame* frame);

@@ -15,7 +15,7 @@ public:
     void paintEvent(QPaintEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
-    void bucketFill(int pixelX, int pixelY, QColor newColor);
+    QList<QPair<int, int>> bucketFill(int pixelX, int pixelY, QColor newColor);
     bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor);
 
     QImage image;

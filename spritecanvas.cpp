@@ -14,6 +14,7 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     clickIsForAnchorSelection = false;
     clickIsForPasting = false;
     bucketFillOn = false;
+    eraserOn = false;
 
     color = QColor::fromRgb(0, 0, 0);
 }
@@ -142,8 +143,9 @@ void SpriteCanvas::setSpriteSize(int size){
     source.setRect(0, 0, spriteSize, spriteSize);
 }
 
-void SpriteCanvas::updateGroupSelectState() {
-    groupSelect = !groupSelect;
+void SpriteCanvas::updateGroupSelectState(bool checked) {
+//    groupSelect = !groupSelect;
+    groupSelect = checked;
 
     // cover the case where they select pixels and turn off group select before
     // doing anything to them
@@ -153,13 +155,27 @@ void SpriteCanvas::updateGroupSelectState() {
 
 }
 
-void SpriteCanvas::updateBucketFillState() {
-    bucketFillOn = !bucketFillOn;
+void SpriteCanvas::updateBucketFillState(bool checked) {
+    bucketFillOn = checked;
 }
 
+void SpriteCanvas::updateEraserState(bool checked) {
+    eraserOn = checked;
+}
+
+
 void SpriteCanvas::updateCopyPasteState() {
-    qDebug() << "pick anchor selection";
-    clickIsForAnchorSelection = true;
+    // qDebug() << "pick anchor selection";
+    // only copy if there are selected pixels
+    if (selectedPixels.size() > 0) {
+        clickIsForAnchorSelection = true;
+    }
+    else {
+        // give message saying no selected pixels to copy
+    }
+
+    // before
+//    clickIsForAnchorSelection = true;
 }
 
 void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
@@ -169,8 +185,21 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int pixelXCoord = source.x() + xPos/(250/source.width());
     int pixelYCoord = source.y() + yPos/(250/source.height());
 
+    if (eraserOn) {
+        currFrame->updatePixel(pixelXCoord, pixelYCoord, QColor::fromRgb(0,0,0,0));
+        repaint();
+
+        // make the pixel unselectable (QList doesn't have a nice remove method so needed to do it manually)
+        QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
+        for (int i = 0; i < currFrame->selectablePixels.size(); i++) {
+            if (currFrame->selectablePixels.at(i) == pixelCoords) {
+                currFrame->selectablePixels.removeAt(i);
+            }
+        }
+    }
+
     // if we're selecting pixels
-    if (groupSelect) {
+    else if (groupSelect) {
         QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
 
         // only "select" the pixel if it is "selectable" (has been drawn on before and is not already selected)
@@ -230,11 +259,30 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
         int pixelXCoord = source.x() + xPos/(250/source.width());
         int pixelYCoord = source.y() + yPos/(250/source.height());
 
-        currFrame->bucketFill(pixelXCoord, pixelYCoord, color);
+        QList<QPair<int, int>> modifiedPixels = currFrame->bucketFill(pixelXCoord, pixelYCoord, color);
+        // these pixels are now selectable since they've been colored
+        for (QPair<int, int> pixel : modifiedPixels) {
+            if (!currFrame->selectablePixels.contains(pixel)) {
+                currFrame->selectablePixels.append(pixel);
+            }
+        }
+    }
+
+    else if (eraserOn) {
+        currFrame->updatePixel(pixelXCoord, pixelYCoord, QColor::fromRgb(0,0,0,0));
+        repaint();
+
+        // make the pixel unselectable (QList doesn't have a nice remove method so needed to do it manually)
+        QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
+        for (int i = 0; i < currFrame->selectablePixels.size(); i++) {
+            if (currFrame->selectablePixels.at(i) == pixelCoords) {
+                currFrame->selectablePixels.removeAt(i);
+            }
+        }
     }
 
     // if we're selecting pixels
-    if (groupSelect) {
+    else if (groupSelect) {
         if (clickIsForAnchorSelection) {
             pastingAnchorPoint = qMakePair(pixelXCoord, pixelYCoord);
             clickIsForAnchorSelection = false;
