@@ -86,6 +86,10 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &SpriteCanvas::updateBucketFillState);
 
     connect(&sprite,
+            &Sprite::sendAllFramesToPreview,
+            ui->previewWidget,
+            &SpritePreview::loadNewFrames);
+    connect(&sprite,
             &Sprite::saveSprite,
             &file,
             &File::saveFile);
