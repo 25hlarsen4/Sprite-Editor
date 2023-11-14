@@ -29,6 +29,7 @@ private:
     bool clickIsForPasting;
     bool bucketFillOn;
     bool eraserOn;
+    bool penToolOn;
     Frame *selectedFrame;
 
 signals:
@@ -41,6 +42,7 @@ public slots:
     void updateCopyPasteState();
     void updateBucketFillState(bool);
     void updateEraserState(bool);
+    void updatePenToolState(bool);
 
 signals:
     void pastingDone();

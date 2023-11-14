@@ -15,6 +15,7 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     clickIsForPasting = false;
     bucketFillOn = false;
     eraserOn = false;
+    penToolOn = true;
 
     color = QColor::fromRgb(0, 0, 0);
 }
@@ -163,6 +164,10 @@ void SpriteCanvas::updateEraserState(bool checked) {
     eraserOn = checked;
 }
 
+void SpriteCanvas::updatePenToolState(bool checked) {
+    penToolOn = checked;
+}
+
 
 void SpriteCanvas::updateCopyPasteState() {
     // qDebug() << "pick anchor selection";
@@ -212,7 +217,7 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     }
 
     // if we're drawing
-    else {
+    else if (penToolOn){
         currFrame->updatePixel(pixelXCoord, pixelYCoord, color);
         currFrame->repaint();
 
@@ -340,7 +345,7 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     }
 
     // if we're drawing
-    else {
+    else if (penToolOn) {
         currFrame->updatePixel(pixelXCoord, pixelYCoord, color);
         currFrame->repaint();
 

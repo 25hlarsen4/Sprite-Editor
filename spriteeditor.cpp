@@ -31,6 +31,7 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     ui->groupSelectButton->setFocusPolicy(Qt::NoFocus);
     ui->bucketFillButton->setFocusPolicy(Qt::NoFocus);
     ui->eraseButton->setFocusPolicy(Qt::NoFocus);
+    ui->penToolButton->setFocusPolicy(Qt::NoFocus);
     ui->previewSpeedController->setFocusPolicy(Qt::NoFocus);
     ui->scrollArea->setFocusPolicy(Qt::NoFocus);
 
@@ -103,6 +104,11 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &QRadioButton::toggled,
             ui->canvasWidget,
             &SpriteCanvas::updateEraserState);
+
+    connect(ui->penToolButton,
+            &QRadioButton::toggled,
+            ui->canvasWidget,
+            &SpriteCanvas::updatePenToolState);
 
     connect(ui->bucketFillButton,
             &QRadioButton::toggled,
