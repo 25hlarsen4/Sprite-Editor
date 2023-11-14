@@ -22,9 +22,11 @@ Sprite::~Sprite(){
 
 void Sprite::mousePressEvent(QMouseEvent * e)
 {
+
     QWidget* frame = this->childAt(e->pos());
     emit passChildSignal(frame);
     emit sendFramesToPreview(frames[0]);
+
 }
 
 
@@ -32,7 +34,8 @@ void Sprite::sendFrames()
 {
     if (framesIndex >= frames.size()) framesIndex = 0;
     if(!frames.isEmpty()){
-        //emit sendFramesToPreview(frames[framesIndex]);
+        qDebug() << "frames[index]: " << framesIndex;
+        emit sendFramesToPreview(frames[framesIndex]);
     }
     framesIndex++;
 }
@@ -50,11 +53,13 @@ void Sprite::setPreviewSpeed(int speed)
 void Sprite::setSpriteSize(int size){
 
     spriteSize = size;
-    Frame* frame1 = new Frame(spriteSize);
+    if(frames.isEmpty()){
+        Frame* frame1 = new Frame(spriteSize);
+        emit passChildSignal(frame1);
+        frames.append(frame1);
+    }
 
-    frames.append(frame1);
 
-    emit passChildSignal(frame1);
 
     timer->setInterval(1000);
     timer->start();
@@ -71,6 +76,7 @@ void Sprite::saveSpriteToFile()
 
 void Sprite::openSpriteFromFile()
 {
+    timer->stop();
     qDebug() << "open sprite from file";
     emit openSprite(this);
 }
@@ -81,6 +87,7 @@ void Sprite::createNewFile()
 }
 
 void Sprite::updateSprite(){
+    timer->start();
 
     if(!frames.isEmpty()){
 

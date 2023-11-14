@@ -56,45 +56,6 @@
       <height>280</height>
      </rect>
     </property>
-    <widget class="QPushButton" name="penButton">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>70</width>
-       <height>70</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Pen</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="paintButton">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>70</y>
-       <width>70</width>
-       <height>70</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Paint</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="lassoButton">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>140</y>
-       <width>70</width>
-       <height>70</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Lasso</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="colorButton">
      <property name="geometry">
       <rect>
@@ -122,19 +83,6 @@
      <string>Copy Group</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="groupSelectCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>60</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Select Pixels</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="cpInstructionsLabel">
     <property name="geometry">
      <rect>
@@ -149,19 +97,6 @@
     </property>
     <property name="wordWrap">
      <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="bucketFillBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>77</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Bucket Fill</string>
     </property>
    </widget>
    <widget class="QPushButton" name="addFrameButton">
@@ -188,19 +123,6 @@
     </property>
     <property name="text">
      <string>Copy Frame</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="frameCountSlider">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>50</y>
-      <width>22</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
     </property>
    </widget>
    <widget class="QPushButton" name="deleteFrameButton">
@@ -238,6 +160,58 @@
       </rect>
      </property>
     </widget>
+   </widget>
+   <widget class="QRadioButton" name="penToolButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string> Pen Tool</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="bucketFillButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bucket Fill</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="eraseButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>100</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Erase</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="groupSelectButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>140</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Select Pixels</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

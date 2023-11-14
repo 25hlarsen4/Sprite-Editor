@@ -61,8 +61,8 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &sprite,
             &Sprite::setSpriteSize);
 
-    connect(ui->groupSelectCheckBox,
-            &QCheckBox::clicked,
+    connect(ui->groupSelectButton,
+            &QRadioButton::clicked,
             ui->canvasWidget,
             &SpriteCanvas::updateGroupSelectState);
 
@@ -80,8 +80,8 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             &SpriteCanvas::pastingDone,
             this,
             &SpriteEditor::hideCpInstructions);
-    connect(ui->bucketFillBox,
-            &QCheckBox::clicked,
+    connect(ui->bucketFillButton,
+            &QRadioButton::clicked,
             ui->canvasWidget,
             &SpriteCanvas::updateBucketFillState);
 
@@ -105,7 +105,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     connect(ui->copyFrameButton, &QPushButton::clicked, this, &SpriteEditor::copyFrame);
     connect(&mySprite, &Sprite::frameCopied, this, &SpriteEditor::onFrameCopied);
     connect(ui->deleteFrameButton, &QPushButton::clicked, this, &SpriteEditor::deleteFrame);
-    connect(ui->frameCountSlider, &QSlider::valueChanged, &mySprite, &Sprite::adjustFrameCount);
 
     setSpriteSize();
 

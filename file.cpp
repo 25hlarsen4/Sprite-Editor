@@ -32,7 +32,7 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
             for(int j = 0; j < frame->height; j++)
             {
 
-                QColor currentPixel = frame->image.pixel(i,j);
+                QColor currentPixel = frame->image.pixelColor(i,j);
 
                 QJsonObject pixelData;
                 int red, green, blue, alpha;
@@ -144,6 +144,7 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
         }
 
         sprite->frames.append(frame);
+        sprite->setSpriteSize(frameSize);
 
     }
 
