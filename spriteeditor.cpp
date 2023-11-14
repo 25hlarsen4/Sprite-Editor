@@ -8,6 +8,7 @@
 #include <QInputDialog>
 #include <QQueue>
 #include <QAction>
+#include <QString>
 
 SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     : QMainWindow(parent)
@@ -175,6 +176,8 @@ void SpriteEditor::test(bool checked) {
 void SpriteEditor::chooseColor()
 {
     QColor color = QColorDialog::getColor(Qt::white, this);
+    QString backGroundColor("background-color: rgb(" + QString::number(color.red()) + "," + QString::number(color.green()) + "," + QString::number(color.blue()) +");");
+    ui->colorButton->setStyleSheet(backGroundColor);
     emit changeColor(color);
 }
 
