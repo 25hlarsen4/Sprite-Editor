@@ -18,6 +18,8 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     penToolOn = true;
 
     color = QColor::fromRgb(0, 0, 0);
+
+    editScreenSize = 325;
 }
 
 void SpriteCanvas::setCurrentFrame(Frame* frame) {
@@ -26,7 +28,7 @@ void SpriteCanvas::setCurrentFrame(Frame* frame) {
 
 void SpriteCanvas::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-    QRect target(0, 0, 250, 250);
+    QRect target(0, 0, editScreenSize, editScreenSize);
 
     if (currFrame) {
         // make a copy of currFrame's image so we can draw on it to show pixel selection without altering the actual
@@ -187,8 +189,8 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
     int xPos = e->pos().x();
     int yPos = e->pos().y();
 
-    int pixelXCoord = source.x() + xPos/(250/source.width());
-    int pixelYCoord = source.y() + yPos/(250/source.height());
+    int pixelXCoord = source.x() + xPos/(editScreenSize/source.width());
+    int pixelYCoord = source.y() + yPos/(editScreenSize/source.height());
 
     if (eraserOn) {
         currFrame->updatePixel(pixelXCoord, pixelYCoord, QColor::fromRgb(0,0,0,0));
@@ -253,16 +255,16 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     int xPos = e->pos().x();
     int yPos = e->pos().y();
 
-    int pixelXCoord = source.x() + xPos/(250/source.width());
-    int pixelYCoord = source.y() + yPos/(250/source.height());
+    int pixelXCoord = source.x() + xPos/(editScreenSize/source.width());
+    int pixelYCoord = source.y() + yPos/(editScreenSize/source.height());
 
     if (bucketFillOn){
 
         int xPos = e->pos().x();
         int yPos = e->pos().y();
 
-        int pixelXCoord = source.x() + xPos/(250/source.width());
-        int pixelYCoord = source.y() + yPos/(250/source.height());
+        int pixelXCoord = source.x() + xPos/(editScreenSize/source.width());
+        int pixelYCoord = source.y() + yPos/(editScreenSize/source.height());
 
         QList<QPair<int, int>> modifiedPixels = currFrame->bucketFill(pixelXCoord, pixelYCoord, color);
         // these pixels are now selectable since they've been colored

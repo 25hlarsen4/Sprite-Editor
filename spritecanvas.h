@@ -31,6 +31,7 @@ private:
     bool eraserOn;
     bool penToolOn;
     Frame *selectedFrame;
+    int editScreenSize;
 
 signals:
 

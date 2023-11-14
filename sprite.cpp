@@ -42,7 +42,15 @@ void Sprite::sendFrames()
 
 void Sprite::setPreviewSpeed(int speed)
 {
-    timer->setInterval(1000 / speed);
+    if (speed > 0)
+    {
+        timer->setInterval(1000 / speed);
+    }
+
+    else
+    {
+        timer->setInterval(1000 / speed);
+    }
 }
 
 void Sprite::setSpriteSize(int size){

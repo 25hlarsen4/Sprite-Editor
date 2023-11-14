@@ -2,7 +2,7 @@
 #include "ui_spriteeditor.h"
 #include "spritecanvas.h"
 #include "sprite.h"
-#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QDebug>
 #include <QColorDialog>
 #include <QInputDialog>
@@ -16,7 +16,7 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
 {
     ui->setupUi(this);
 
-    layout = new QVBoxLayout(&sprite);
+    layout = new QHBoxLayout(&sprite);
     layout->setSizeConstraint(layout->SetMinimumSize);
 
     // prevent other ui elements from taking focus from the frame widgets
@@ -24,9 +24,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     ui->copyFrameButton->setFocusPolicy(Qt::NoFocus);
     ui->deleteFrameButton->setFocusPolicy(Qt::NoFocus);
     ui->colorButton->setFocusPolicy(Qt::NoFocus);
-    ui->lassoButton->setFocusPolicy(Qt::NoFocus);
-    ui->paintButton->setFocusPolicy(Qt::NoFocus);
-    ui->penButton->setFocusPolicy(Qt::NoFocus);
     ui->copyGroupButton->setFocusPolicy(Qt::NoFocus);
     ui->groupSelectButton->setFocusPolicy(Qt::NoFocus);
     ui->bucketFillButton->setFocusPolicy(Qt::NoFocus);
@@ -146,7 +143,6 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     connect(ui->copyFrameButton, &QPushButton::clicked, this, &SpriteEditor::copyFrame);
     connect(&mySprite, &Sprite::frameCopied, this, &SpriteEditor::onFrameCopied);
     connect(ui->deleteFrameButton, &QPushButton::clicked, this, &SpriteEditor::deleteFrame);
-    connect(ui->frameCountSlider, &QSlider::valueChanged, &mySprite, &Sprite::adjustFrameCount);
 
     setSpriteSize();
 
