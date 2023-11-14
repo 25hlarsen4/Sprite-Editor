@@ -145,19 +145,6 @@
      <string>Copy Group</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="groupSelectCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>60</y>
-      <width>91</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Select Pixels</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="cpInstructionsLabel">
     <property name="geometry">
      <rect>
@@ -172,19 +159,6 @@
     </property>
     <property name="wordWrap">
      <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="bucketFillBox">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>77</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Bucket Fill</string>
     </property>
    </widget>
    <widget class="QPushButton" name="addFrameButton">
@@ -239,6 +213,45 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
+   <widget class="QRadioButton" name="eraseButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Erase</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="groupSelectButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Select Pixels</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="bucketFillButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bucket Fill</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -246,7 +259,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
