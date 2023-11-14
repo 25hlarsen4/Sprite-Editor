@@ -10,10 +10,11 @@
 #include <QAction>
 #include <QString>
 
-SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
+SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::SpriteEditor)
-    , mySprite(sprite)
+//    , mySprite(&sprite)
+    , mySprite(new Sprite)
 {
     ui->setupUi(this);
 
@@ -23,7 +24,7 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     ui->groupSelectButton->setIcon(QIcon(":/icons/images/selectIcon.jpg"));
     ui->bucketFillButton->setIcon(QIcon(":/icons/images/bucketFillIcon.jpg"));
 
-    layout = new QHBoxLayout(&sprite);
+    layout = new QHBoxLayout(mySprite);
     layout->setSizeConstraint(layout->SetMinimumSize);
 
     // prevent other ui elements from taking focus from the frame widgets
@@ -50,11 +51,11 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
 //    layout->addWidget(DeleteFrameButton); // Add the button to the layout
 
     // Add the sprite frames to the layout
-    for (int i = 0; i < sprite.frames.size(); ++i) {
-        layout->addWidget(sprite.frames.at(i));
+    for (int i = 0; i < mySprite->frames.size(); ++i) {
+        layout->addWidget(mySprite->frames.at(i));
     }
 
-    ui->scrollArea->setWidget(&sprite);
+    ui->scrollArea->setWidget(mySprite);
 
     ui->cpInstructionsLabel->setVisible(false);
 
@@ -63,20 +64,20 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
 
     // connection from sprite frame added signal to this slot to add the frame widget to layout
     // (can just access the last frame in the list)
-    connect(&sprite,
+    connect(mySprite,
             &Sprite::passChildSignal,
             ui->canvasWidget,
             &SpriteCanvas::updateDisplay);
 
 
-    connect(&sprite,
+    connect(mySprite,
             &Sprite::sendFramesToPreview,
             ui->previewWidget,
             &SpritePreview::updatePreview);
 
     connect(ui->previewSpeedController,
             &QAbstractSlider::valueChanged,
-            &sprite,
+            mySprite,
             &Sprite::setPreviewSpeed);
 
     connect(ui->colorButton,
@@ -96,7 +97,7 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
 
     connect(this,
             &SpriteEditor::sendSpriteSize,
-            &sprite,
+            mySprite,
             &Sprite::setSpriteSize);
 
     connect(ui->groupSelectButton,
@@ -134,34 +135,34 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
             this,
             &SpriteEditor::hideCpInstructions);
 
-    connect(&sprite,
+    connect(mySprite,
             &Sprite::saveSprite,
             &file,
             &File::saveFile);
-    connect(&sprite,
+    connect(mySprite,
             &Sprite::openSprite,
             &file,
             &File::loadFile);
     connect(&file,
             &File::fileLoaded,
-            &sprite,
+            mySprite,
             &Sprite::updateSprite);
 
     connect(ui->copyFrameButton, &QPushButton::clicked, this, &SpriteEditor::copyFrame);
-    connect(&mySprite, &Sprite::frameCopied, this, &SpriteEditor::onFrameCopied);
+    connect(mySprite, &Sprite::frameCopied, this, &SpriteEditor::onFrameCopied);
     connect(ui->deleteFrameButton, &QPushButton::clicked, this, &SpriteEditor::deleteFrame);
 
     setSpriteSize();
 
-    createFileActions(sprite);
+    createFileActions(mySprite);
     createFileMenu();
 
 //    layout->addWidget(sprite.frames.at(0));
 //    layout->addWidget(sprite.frames.at(1));
 //    layout->addWidget(sprite.frames.at(2));
 //    layout->addWidget(sprite.frames.at(3));
-    for (int i = 0; i < sprite.frames.size(); ++i) {
-        Frame* frame = sprite.frames.at(i);
+    for (int i = 0; i < mySprite->frames.size(); ++i) {
+        Frame* frame = mySprite->frames.at(i);
         layout->addWidget(frame);
         connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
     }
@@ -187,22 +188,22 @@ void SpriteEditor::setSpriteSize()
                                           tr("Please Choose A Sprite Size From 10-50!"), 10, 10, 50);
     emit sendSpriteSize(spriteSize);
 }
-void SpriteEditor::createFileActions(Sprite &sprite)
+void SpriteEditor::createFileActions(Sprite* mySprite)
 {
     newAction = new QAction(tr("&New"), this);
     newAction->setShortcuts(QKeySequence::New);
     newAction->setStatusTip(tr("Create a new file"));
-    connect(newAction, &QAction::triggered, &sprite, &Sprite::createNewFile);
+    connect(newAction, &QAction::triggered, mySprite, &Sprite::createNewFile);
 
     saveAction = new QAction(tr("&Save"), this);
     saveAction->setShortcuts(QKeySequence::Save);
     saveAction->setStatusTip(tr("Save file"));
-    connect(saveAction, &QAction::triggered, &sprite, &Sprite::saveSpriteToFile);
+    connect(saveAction, &QAction::triggered, mySprite, &Sprite::saveSpriteToFile);
 
     openAction = new QAction(tr("&Open"), this);
     openAction->setShortcuts(QKeySequence::Open);
     openAction->setStatusTip(tr("Open file"));
-    connect(openAction, &QAction::triggered, &sprite, &Sprite::openSpriteFromFile);
+    connect(openAction, &QAction::triggered, mySprite, &Sprite::openSpriteFromFile);
 }
 void SpriteEditor::createFileMenu()
 {
@@ -258,7 +259,7 @@ void SpriteEditor::hideCpInstructions() {
 void SpriteEditor::addFrame()
 {
     Frame* newFrame = new Frame(spriteSize);
-    mySprite.frames.append(newFrame);
+    mySprite->frames.append(newFrame);
     layout->addWidget(newFrame);
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
     selectedFrame = newFrame;
@@ -272,17 +273,17 @@ void SpriteEditor::copyFrame() {
         return; // No selected frame to copy
     }
 
-    Frame* newFrame = new Frame(mySprite.spriteSize);
+    Frame* newFrame = new Frame(mySprite->spriteSize);
     newFrame->image = selectedFrame->image.copy();
     int index = layout->indexOf(selectedFrame);
-    if (index == mySprite.frames.size()) {
-        mySprite.frames.append(newFrame);
+    if (index == mySprite->frames.size()) {
+        mySprite->frames.append(newFrame);
     } else {
-        mySprite.frames.insert(index, newFrame);
+        mySprite->frames.insert(index, newFrame);
     }
     layout->insertWidget(index, newFrame);
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
-    emit mySprite.frameCopied(newFrame);
+    emit mySprite->frameCopied(newFrame);
     newFrame->show();
 }
 
@@ -308,7 +309,7 @@ void SpriteEditor::deleteFrame() {
         return;
     }
 
-    int index = mySprite.frames.indexOf(selectedFrame);
+    int index = mySprite->frames.indexOf(selectedFrame);
     if (index == -1) {
         qDebug() << "Selected frame is not in the list.";
         return;
@@ -316,12 +317,12 @@ void SpriteEditor::deleteFrame() {
 
     disconnect(selectedFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
     layout->removeWidget(selectedFrame);
-    mySprite.frames.removeAt(index);
+    mySprite->frames.removeAt(index);
     delete selectedFrame;
 
     // Update selectedFrame
-    if (!mySprite.frames.isEmpty()) {
-        selectedFrame = mySprite.frames.first();
+    if (!mySprite->frames.isEmpty()) {
+        selectedFrame = mySprite->frames.first();
         frameSelected(selectedFrame);
     } else {
         selectedFrame = nullptr;
