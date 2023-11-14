@@ -16,6 +16,12 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
 {
     ui->setupUi(this);
 
+    // set icons
+    ui->eraseButton->setIcon(QIcon(":/icons/images/eraserIcon.jpg"));
+    ui->penToolButton->setIcon(QIcon(":/icons/images/penToolIcon.jpg"));
+    ui->groupSelectButton->setIcon(QIcon(":/icons/images/selectIcon.jpg"));
+    ui->bucketFillButton->setIcon(QIcon(":/icons/images/bucketFillIcon.jpg"));
+
     layout = new QHBoxLayout(&sprite);
     layout->setSizeConstraint(layout->SetMinimumSize);
 
@@ -149,10 +155,10 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
     createFileActions(sprite);
     createFileMenu();
 
-    layout->addWidget(sprite.frames.at(0));
-    layout->addWidget(sprite.frames.at(1));
-    layout->addWidget(sprite.frames.at(2));
-    layout->addWidget(sprite.frames.at(3));
+//    layout->addWidget(sprite.frames.at(0));
+//    layout->addWidget(sprite.frames.at(1));
+//    layout->addWidget(sprite.frames.at(2));
+//    layout->addWidget(sprite.frames.at(3));
     for (int i = 0; i < sprite.frames.size(); ++i) {
         Frame* frame = sprite.frames.at(i);
         layout->addWidget(frame);

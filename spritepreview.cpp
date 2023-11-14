@@ -19,15 +19,15 @@ void SpritePreview::paintEvent(QPaintEvent *) {
         painter.drawImage(target, currFrame->image);
     }
 
-    else {
-        int width = 10;
-        int height = 10;
-        QPixmap pixmap(width, height);
-        pixmap.fill(QColor::fromRgb(128, 128, 128));
-        QImage image = pixmap.toImage();
+//    else {
+//        int width = 10;
+//        int height = 10;
+//        QPixmap pixmap(width, height);
+//        pixmap.fill(QColor::fromRgb(128, 128, 128));
+//        QImage image = pixmap.toImage();
 
-        painter.drawImage(target, image);
-    }
+//        painter.drawImage(target, image);
+//    }
 }
 
 void SpritePreview::addFrame(Frame* frame) {
