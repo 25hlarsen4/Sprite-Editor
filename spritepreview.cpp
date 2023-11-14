@@ -31,10 +31,14 @@ void SpritePreview::paintEvent(QPaintEvent *) {
 }
 
 void SpritePreview::addFrame(Frame* frame) {
-    currFrame = frame;
-    repaint();
+    if(frame){
+        currFrame = frame;
+        repaint();
+    }
 }
 void SpritePreview::updatePreview(Frame* frame){
-    currFrame = frame;
-    repaint();
+    if(frame){
+        currFrame = frame;
+        repaint();
+    }
 }

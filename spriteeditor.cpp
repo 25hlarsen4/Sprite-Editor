@@ -126,22 +126,23 @@ SpriteEditor::SpriteEditor(Sprite& sprite, File& file, QWidget *parent)
 
 void SpriteEditor::addFramesToLayout(Sprite *sprite)
 {
+    QLayoutItem *child;
+    while ((child = layout->takeAt(0)) != 0)  {
+        delete child->widget();
+        delete child;
+    }
     delete layout;
 
     QHBoxLayout *newLayout = new QHBoxLayout(sprite);
 
     // Add the sprite frames to the layout
-    for (int i = 0; i < sprite->frames.size(); ++i) {
-        Frame* frame = sprite->frames.at(i);
+    for (Frame* frame : sprite->frames) {
         newLayout->addWidget(frame);
         connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
     }
-
-    ui->scrollArea->setWidget(sprite);
-
-    layout = new QHBoxLayout();
-
     layout = newLayout;
+    //ui->scrollArea->setWidget(sprite);
+
 
 
 }

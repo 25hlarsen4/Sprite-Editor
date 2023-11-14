@@ -105,9 +105,11 @@ bool File::saveFile(Sprite *sprite)
 
 void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 {
-//    for(Frame* frame : sprite->frames){
-//        delete frame;
-//    }
+
+    for(Frame* frame : sprite->frames){
+        delete frame;
+    }
+
     sprite->frames.clear();
 
     QJsonArray frameArray = spriteObject["frames"].toArray();
@@ -118,6 +120,7 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
         QJsonObject frameObject = frameJson.toObject();
 
         int frameSize = frameObject["width"].toInt();
+
         Frame* frame = new Frame(frameSize);
 
         QJsonArray pixelArray = frameObject["imageData"].toArray();
@@ -127,6 +130,7 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
             QJsonArray arrayRow = rowArray.toArray();
             for(const QJsonValue &pixelData : arrayRow)
             {
+
                 int x = pixelData["x"].toInt();
                 int y = pixelData["y"].toInt();
                 int red = pixelData["red"].toInt();
@@ -134,16 +138,14 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
                 int blue = pixelData["blue"].toInt();
                 int alpha = pixelData["alpha"].toInt();
                 frame->updatePixel(x, y, QColor::fromRgb(red, green, blue, alpha));
+
             }
 
         }
-        emit fileLoaded(frame);
+
         sprite->frames.append(frame);
 
     }
-
-
-
 
 }
 
@@ -170,6 +172,8 @@ bool File::loadFile(Sprite* sprite)
     QJsonObject spriteObject = jsonDoc.object();
 
     deserializeFromJson(sprite, spriteObject);
+
+    emit fileLoaded();
 
     return true;
 }

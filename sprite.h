@@ -14,6 +14,7 @@ class Sprite : public QWidget
 public:
     explicit Sprite(QWidget *parent = nullptr);
     ~Sprite();
+    Sprite& operator=(const Sprite& other);
 
     void mousePressEvent(QMouseEvent *);
 
@@ -63,7 +64,7 @@ public slots:
     void openSpriteFromFile();
     void createNewFile();
 
-    void updateSprite(Frame* frame);
+    void updateSprite();
 
 };
 

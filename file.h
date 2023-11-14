@@ -47,7 +47,7 @@ signals:
      * is loaded so the sprite knows to update the sprite information.
      * @param frame signal sends the new frame to the sprite.
      */
-    void fileLoaded(Frame* frame);
+    void fileLoaded();
 
 public slots:
 

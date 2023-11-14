@@ -5,11 +5,11 @@
 #include <QMouseEvent>
 
 Sprite::Sprite(QWidget *parent)
-    : QWidget{parent},currentFrameIndex(0)
+    : QWidget{parent},currentFrameIndex(0), framesIndex(0)
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
-    connect(timer, &QTimer::timeout, this, &Sprite::updateAnimationFrame);
+    //connect(timer, &QTimer::timeout, this, &Sprite::updateAnimationFrame);
 
 }
 
@@ -30,21 +30,25 @@ void Sprite::mousePressEvent(QMouseEvent * e)
 
 void Sprite::sendFrames()
 {
-
-    if (framesIndex == frames.size()) framesIndex = 0;
-
-    emit sendFramesToPreview(frames[framesIndex]);
-
+    if (framesIndex >= frames.size()) framesIndex = 0;
+    if(!frames.isEmpty()){
+        //emit sendFramesToPreview(frames[framesIndex]);
+    }
     framesIndex++;
 }
 
 
 void Sprite::setPreviewSpeed(int speed)
 {
-    timer->setInterval(1000 / speed);
+    if(speed > 0){
+        timer->setInterval(1000 / speed);
+    }else{
+        timer->setInterval(1000);
+    }
 }
 
 void Sprite::setSpriteSize(int size){
+
     spriteSize = size;
     Frame* frame1 = new Frame(spriteSize);
 
@@ -56,6 +60,7 @@ void Sprite::setSpriteSize(int size){
     timer->start();
 
     framesIndex = 0;
+
 }
 
 void Sprite::saveSpriteToFile()
@@ -75,9 +80,15 @@ void Sprite::createNewFile()
 
 }
 
-void Sprite::updateSprite(Frame* frame){
-    emit passChildSignal(frame);
-    emit sendSpriteToView(this);
+void Sprite::updateSprite(){
+
+    if(!frames.isEmpty()){
+
+        emit passChildSignal(frames[0]);
+        emit sendSpriteToView(this);
+
+    }
+
 }
 
 void Sprite::adjustFrameCount(int frameCount) {
