@@ -49,7 +49,7 @@ void Sprite::setPreviewSpeed(int speed)
 
     else
     {
-        timer->setInterval(1000 / speed);
+        timer->setInterval(1000);
     }
 }
 
