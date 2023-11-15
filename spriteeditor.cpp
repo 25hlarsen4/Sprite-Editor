@@ -286,6 +286,7 @@ void SpriteEditor::copyFrame() {
 
     Frame* newFrame = new Frame(mySprite->spriteSize);
     newFrame->image = selectedFrame->image.copy();
+    newFrame->selectablePixels = selectedFrame->selectablePixels;
     int index = layout->indexOf(selectedFrame);
     if (index == mySprite->frames.size()) {
         mySprite->frames.append(newFrame);
