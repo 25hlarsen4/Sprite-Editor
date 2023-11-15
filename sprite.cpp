@@ -93,8 +93,6 @@ void Sprite::saveSpriteToFile()
 void Sprite::openSpriteFromFile()
 {
     timer->stop();
-    qDebug() << "open sprite from file";
-    qDebug() << "from openspritefromfile: " << frames.size();
     emit openSprite(this);
 }
 
@@ -119,8 +117,6 @@ void Sprite::createNewFile( )
 
 void Sprite::updateSprite(){
     timer->start();
-
-    qDebug() << "from sprite: " << frames.size();
 
     if(!frames.isEmpty()){
 

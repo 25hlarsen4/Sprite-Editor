@@ -40,15 +40,6 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     ui->previewSpeedController->setFocusPolicy(Qt::NoFocus);
     ui->scrollArea->setFocusPolicy(Qt::NoFocus);
 
-    // Add Frame Button
-//    QPushButton *addFrameButton = new QPushButton("Add Frame", this);
-//    layout->addWidget(addFrameButton); // Add the button to the layout
-
-//    QPushButton *CopyFrameButton = new QPushButton("Copy Frame", this);
-//    layout->addWidget(CopyFrameButton); // Add the button to the layout
-
-//    QPushButton *DeleteFrameButton = new QPushButton("Delete Frame", this);
-//    layout->addWidget(DeleteFrameButton); // Add the button to the layout
 
     // Add the sprite frames to the layout
 
@@ -173,16 +164,6 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
 
     createFileActions(mySprite);
     createFileMenu();
-
-
-    //ui->scrollArea->setWidget(&sprite);
-
-
-//    for (int i = 0; i < sprite.frames.size(); ++i) {
-//        Frame* frame = sprite.frames.at(i);
-//        layout->addWidget(frame);
-//        connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
-//    }
 
     // will always start with 1 frame
     Frame* frame = mySprite->frames.at(0);
