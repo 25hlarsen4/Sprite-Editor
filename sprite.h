@@ -27,16 +27,24 @@ class Sprite : public QWidget
 
 public:
 
+    /**
+     * @brief Sprite - the constructor initializes the variables and
+     * connects the timer.
+     * @param parent
+     */
     explicit Sprite(QWidget *parent = nullptr);
+
+    /**
+     * Destructor deletes all of the sprites members.
+     */
     ~Sprite();
-    Sprite& operator=(const Sprite& other);
 
     // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
     QList<Frame*> frames;
     QTimer *timer;
+
     int framesIndex;
     int spriteSize;
-    int currentFrameIndex;
 
     /**
      * @brief mousePressEvent will trigger when the mouse is clicked on the sprite. It emits signals to pass the updated information of this frame to other parts of the application
@@ -52,23 +60,57 @@ public:
      */
     void adjustFrameCount(int frameCount);
 
-protected:
-
-private:
-
-
 signals:
+
+    /**
+     * @brief passChildSignal - sends a frame to the sprite canvas to be
+     * displayed.
+     * @param frame - the frame being sent.
+     */
     void passChildSignal(QWidget* frame);
-    /*
-     * This signal sends a frame to the preview.
-    */
+    /**
+     * @brief sendFramesToPreview - sends a single frame to the sprite
+     * preview class.
+     * @param frame - the frame being sent.
+     */
     void sendFramesToPreview(Frame* frame);
+
+    /**
+     * @brief frameCopied - this signal sends the newly copied frame to
+     * the sprite editor.
+     * @param newFrame - the new frame that old frame was copied to.
+     */
     void frameCopied(Frame* newFrame);
-    void framesUpdated();
+
+    /**
+     * @brief saveSprite - this signal sends the sprite to the file class
+     * and lets the file class know to save this sprite to file.
+     */
     void saveSprite(Sprite*);
+
+    /**
+     * @brief openSprite - this signal lets the file class know that it should
+     * open a file and change the internal's of the sprite that is sent with
+     * the signal.
+     */
     void openSprite(Sprite*);
+
+    /**
+     * @brief sendSpriteToView - this signal send the newly loaded sprite
+     * to the SpriteEditor so the editor can update its view.
+     */
     void sendSpriteToView(Sprite*);
+
+    /**
+     * @brief sendAllFramesToPreview - this signal sends all of the frames
+     * to the preview so it can redraw the newly opened frames.
+     */
     void sendAllFramesToPreview(QList<Frame*>);
+
+    /**
+     * @brief setCanvasSize - this signal lets the sprite canvas know that
+     * it needs to set its pixels size to size int sent with the signal.
+     */
     void setCanvasSize(int);
 
 public slots:
