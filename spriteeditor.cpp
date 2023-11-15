@@ -157,15 +157,15 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     createFileActions(mySprite);
     createFileMenu();
 
-//    layout->addWidget(sprite.frames.at(0));
-//    layout->addWidget(sprite.frames.at(1));
-//    layout->addWidget(sprite.frames.at(2));
-//    layout->addWidget(sprite.frames.at(3));
-    for (int i = 0; i < mySprite->frames.size(); ++i) {
-        Frame* frame = mySprite->frames.at(i);
-        layout->addWidget(frame);
-        connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
-    }
+    // will always start with 1 frame
+    Frame* frame = mySprite->frames.at(0);
+    layout->addWidget(frame);
+    connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
+    // give focus to the default frame
+    selectedFrame = frame;
+    frameSelected(selectedFrame);
+    selectedFrame->setFocus();
+
 }
 
 void SpriteEditor::test(bool checked) {

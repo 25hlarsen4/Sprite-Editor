@@ -58,6 +58,7 @@ void Sprite::setSpriteSize(int size){
     Frame* frame1 = new Frame(spriteSize);
     emit passChildSignal(frame1);
     frame1->image.setPixelColor(1, 1, QColor::fromRgb(255, 0, 0));
+//    frame1->setFocus();
 //    Frame* frame2 = new Frame(spriteSize);
 //    frame2->image.setPixelColor(1, 1, QColor::fromRgb(0, 255, 0));
 //    Frame* frame3 = new Frame(spriteSize);
