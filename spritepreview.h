@@ -21,8 +21,18 @@ class SpritePreview : public QWidget
 {
     Q_OBJECT
 public:
+
     explicit SpritePreview(QWidget *parent = nullptr);
+
+    /**
+     * @brief paintEvent draws the pixels of the selected frame on the ui.
+     */
     void paintEvent(QPaintEvent *);
+
+    /**
+     * @brief Helper function for copy frame in spriteeditor. Add the copied frame to the preview
+     * @param frame
+     */
     void addFrame(Frame* frame);
 
 private:
@@ -32,10 +42,16 @@ private:
 
 signals:
 public slots:
-    /*
-     * updates the frame that is currently being previewed.
-    */
+
+    /**
+     * @brief updatePreview updates the frame that is currently being previewed.
+     * @param frame
+     */
     void updatePreview(Frame* frame);
+
+    /**
+     * @brief loadNewFrames updates the preview with the frames
+     */
     void loadNewFrames(QList<Frame*>);
 
 };
