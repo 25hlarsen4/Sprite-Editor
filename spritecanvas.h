@@ -47,6 +47,8 @@ public slots:
 
 signals:
     void pastingDone();
+    void noSelectedPixelsToCopy();
+    void validCopy();
 
 };
 

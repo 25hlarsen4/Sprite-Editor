@@ -176,9 +176,11 @@ void SpriteCanvas::updateCopyPasteState() {
     // only copy if there are selected pixels
     if (selectedPixels.size() > 0) {
         clickIsForAnchorSelection = true;
+        emit validCopy();
     }
     else {
         // give message saying no selected pixels to copy
+        emit noSelectedPixelsToCopy();
     }
 
     // before

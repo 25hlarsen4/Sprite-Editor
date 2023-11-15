@@ -60,9 +60,12 @@ private slots:
 
     void test(bool);
 
+    void tellUserToSelectPixels();
+
 public slots:
     void onFrameCopied(Frame* newFrame);
     void frameSelected(Frame* frame);
+    void hideExplanation();
 
 
 

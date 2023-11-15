@@ -58,6 +58,7 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     ui->scrollArea->setWidget(mySprite);
 
     ui->cpInstructionsLabel->setVisible(false);
+    ui->explanationLabel->setVisible(false);
 
     // connection from add frame button signal to sprite slot to create new frame
     connect(ui->addFrameButton, &QPushButton::clicked, this, &SpriteEditor::addFrame);
@@ -125,10 +126,10 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             ui->canvasWidget,
             &SpriteCanvas::updateCopyPasteState);
 
-    connect(ui->copyGroupButton,
-            &QPushButton::pressed,
-            this,
-            &SpriteEditor::showCpInstructions);
+//    connect(ui->copyGroupButton,
+//            &QPushButton::pressed,
+//            this,
+//            &SpriteEditor::showCpInstructions);
 
     connect(ui->canvasWidget,
             &SpriteCanvas::pastingDone,
@@ -147,6 +148,16 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             &File::fileLoaded,
             mySprite,
             &Sprite::updateSprite);
+
+    connect(ui->canvasWidget,
+            &SpriteCanvas::noSelectedPixelsToCopy,
+            this,
+            &SpriteEditor::tellUserToSelectPixels);
+
+    connect(ui->canvasWidget,
+            &SpriteCanvas::validCopy,
+            this,
+            &SpriteEditor::showCpInstructions);
 
     connect(ui->copyFrameButton, &QPushButton::clicked, this, &SpriteEditor::copyFrame);
     connect(mySprite, &Sprite::frameCopied, this, &SpriteEditor::onFrameCopied);
@@ -336,6 +347,16 @@ void SpriteEditor::deleteFrame() {
 SpriteEditor::~SpriteEditor()
 {
     delete ui;
+}
+
+void SpriteEditor::tellUserToSelectPixels() {
+    ui->explanationLabel->setVisible(true);
+    // hide the explanation after 2 seconds
+    QTimer::singleShot(2000, this, &SpriteEditor::hideExplanation);
+}
+
+void SpriteEditor::hideExplanation() {
+    ui->explanationLabel->setVisible(false);
 }
 
 
