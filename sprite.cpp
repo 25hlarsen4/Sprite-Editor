@@ -7,9 +7,9 @@
 Sprite::Sprite(QWidget *parent)
     : QWidget{parent},currentFrameIndex(0), framesIndex(0)
 {
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
-    //connect(timer, &QTimer::timeout, this, &Sprite::updateAnimationFrame);
 
 }
 
