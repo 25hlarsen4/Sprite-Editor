@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>SpriteEditor</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="SpriteCanvas" name="canvasWidget" native="true">
     <property name="geometry">

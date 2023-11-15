@@ -10,26 +10,24 @@
  * using JSON for serialization and deserialization.
  *
  * @date 2023-11-14
+ *
+ * This file was reviewed by Todd Oldham
  */
 #include "file.h"
 
 File::File(QWidget *parent)
     : QWidget{parent}
-    , fileName("untitled.ssp")
-{
-
+    , fileName("untitled.ssp"){
 }
 
-const QJsonObject File::serializeToJson(Sprite *sprite)
-{
+const QJsonObject File::serializeToJson(Sprite *sprite){
 
     QJsonObject spriteObject;
     QJsonArray frameArray;
 
     spriteObject["spriteSize"] = sprite->spriteSize;
 
-    for (Frame* frame : sprite->frames)
-    {
+    for (Frame* frame : sprite->frames){
 
         QJsonObject frameObject;
 
@@ -38,13 +36,11 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
 
         QJsonArray pixelArray;
 
-        for(int i = 0; i < frame->width; i++)
-        {
+        for(int i = 0; i < frame->width; i++){
 
             QJsonArray arrayRow;
 
-            for(int j = 0; j < frame->height; j++)
-            {
+            for(int j = 0; j < frame->height; j++){
 
                 QColor currentPixel = frame->image.pixelColor(i,j);
 
@@ -53,10 +49,6 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
 
                 currentPixel.getRgb(&red, &green, &blue, &alpha);
 
-                qDebug() << "red: " << red;
-                qDebug() << "green: " << green;
-                qDebug() << "blue: " << blue;
-
                 pixelData["x"] = i;
                 pixelData["y"] = j;
                 pixelData["red"] = red;
@@ -64,11 +56,10 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
                 pixelData["blue"] = blue;
                 pixelData["alpha"] = alpha;
 
-                qDebug() << pixelData["alpha"];
-
                 arrayRow.append(pixelData);
 
             }
+
             frameObject["row"] = arrayRow;
 
             pixelArray.append(arrayRow);
@@ -86,17 +77,11 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
     return spriteObject;
 }
 
-bool File::saveFile(Sprite *sprite)
-{
-
+bool File::saveFile(Sprite *sprite){
 
     fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save Sprite"), "",
-                                                    tr("sprite (*.ssp)"));
-
-
-    qDebug() << "saving file";
-
+                           tr("Save Sprite"), "",
+                           tr("sprite (*.ssp)"));
 
     QFile file(fileName);
 
@@ -117,8 +102,7 @@ bool File::saveFile(Sprite *sprite)
     return true;
 }
 
-void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
-{
+void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject){
 
     for(Frame* frame : sprite->frames){
         delete frame;
@@ -126,7 +110,7 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 
     sprite->frames.clear();
 
-    sprite->spriteSize = spriteObject["spriteObject"].toInt();
+    sprite->spriteSize = spriteObject["spriteSize"].toInt();
 
     QJsonArray frameArray = spriteObject["frames"].toArray();
 
@@ -141,11 +125,11 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 
         QJsonArray pixelArray = frameObject["imageData"].toArray();
 
-        for(const QJsonValue &rowArray : pixelArray )
-        {
+        for(const QJsonValue &rowArray : pixelArray ){
+
             QJsonArray arrayRow = rowArray.toArray();
-            for(const QJsonValue &pixelData : arrayRow)
-            {
+
+            for(const QJsonValue &pixelData : arrayRow){
 
                 int x = pixelData["x"].toInt();
                 int y = pixelData["y"].toInt();
@@ -156,31 +140,27 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 
                 frame->updatePixel(x, y, QColor::fromRgb(red, green, blue, alpha));
 
-                if (alpha > 0) {
+                if (alpha > 0){
+
                     frame->selectablePixels.append(qMakePair(x, y));
                 }
-
             }
-
         }
 
         sprite->frames.append(frame);
-
     }
-
 }
 
 bool File::loadFile(Sprite* sprite)
 {
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    "/home",
+                                                                  "/home",
                                                     tr("sprite (*.ssp)"));
 
     QFile file(fileName);
 
-    if (!file.open(QIODevice::ReadOnly))
-    {
+    if (!file.open(QIODevice::ReadOnly)){
         qWarning("Couldn't open save file.");
         return false;
     }

@@ -10,7 +10,10 @@
  * using JSON for serialization and deserialization.
  *
  * @date 2023-11-14
+ *
+ * This file was reviewed by Todd Oldham
  */
+
 #ifndef FILE_H
 #define FILE_H
 #include <QJsonObject>
@@ -20,8 +23,7 @@
 #include <QWidget>
 #include "sprite.h"
 
-class File : public QWidget
-{
+class File : public QWidget{
     Q_OBJECT
 
 public:
