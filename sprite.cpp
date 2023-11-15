@@ -53,7 +53,7 @@ void Sprite::sendFrames()
     if (framesIndex >= frames.size()) framesIndex = 0;
     if(!frames.isEmpty()){
         emit sendFramesToPreview(frames[framesIndex]);
-        qDebug() << "frames[index]: " << framesIndex;
+//        qDebug() << "frames[index]: " << framesIndex;
     }
 
     framesIndex++;
