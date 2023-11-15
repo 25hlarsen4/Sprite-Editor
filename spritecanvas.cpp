@@ -336,6 +336,7 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
 
         // otherwise just add to group
         else {
+            qDebug() << "here";
             QPair<int, int> pixelCoords = qMakePair(pixelXCoord, pixelYCoord);
 
             // only "select" the pixel if it is "selectable" (has been drawn on before and is not already selected)
@@ -363,6 +364,11 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     }
 }
 
+// called when focus switches between frames
 void SpriteCanvas::clearSelectedPixels() {
     selectedPixels.clear();
+
+    // reset everything to their base states just in case
+    emit pastingDone();
+    clickIsForAnchorSelection = false;
 }
