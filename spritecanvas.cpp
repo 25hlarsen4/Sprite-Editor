@@ -282,6 +282,8 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
                 currFrame->selectablePixels.append(pixel);
             }
         }
+        currFrame->repaint();
+        repaint();
     }
 
     else if (eraserOn) {
