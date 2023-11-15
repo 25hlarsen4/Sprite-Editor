@@ -15,7 +15,7 @@ public:
     void paintEvent(QPaintEvent *);
     void focusInEvent(QFocusEvent *);
     void focusOutEvent(QFocusEvent *);
-    void bucketFill(int pixelX, int pixelY, QColor newColor);
+    QList<QPair<int, int>> bucketFill(int pixelX, int pixelY, QColor newColor);
     bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor);
 
     QImage image;
@@ -27,6 +27,8 @@ public:
 
 signals:
     void clicked(Frame* frame);
+    // if ever changing focus between frames, clear selected pixels
+    void focusLost();
 
 public slots:
 

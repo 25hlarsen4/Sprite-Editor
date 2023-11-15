@@ -13,7 +13,6 @@ const QJsonObject File::serializeToJson(Sprite *sprite)
     QJsonObject spriteObject;
     QJsonArray frameArray;
 
-    // temp
     for (Frame* frame : sprite->frames)
     {
 
@@ -149,12 +148,10 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
         }
 
         sprite->frames.append(frame);
-        sprite->setSpriteSize(frameSize);
 
     }
 
 }
-
 
 bool File::loadFile(Sprite* sprite)
 {

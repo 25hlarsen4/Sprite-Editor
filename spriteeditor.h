@@ -16,7 +16,7 @@ class SpriteEditor : public QMainWindow
     Q_OBJECT
 
 public:
-    SpriteEditor(Sprite& sprite, File& file, QWidget *parent = nullptr);
+    SpriteEditor(File& file, QWidget *parent = nullptr);
     ~SpriteEditor();
     QHBoxLayout* layout;
     //QSlider *frameCountSlider;
@@ -29,9 +29,11 @@ signals:
 private:
     Ui::SpriteEditor *ui;
     int spriteSize;
-    Sprite& mySprite;
+//    Sprite& mySprite;
+    Sprite* mySprite;
+
     void setSpriteSize();
-    void createFileActions(Sprite &sprite);
+    void createFileActions(Sprite* sprite);
     void createFileMenu();
 
     QMenu *fileMenu;
@@ -58,9 +60,14 @@ private slots:
     void showCpInstructions();
     void hideCpInstructions();
 
+    void test(bool);
+
+    void tellUserToSelectPixels();
+
 public slots:
     void onFrameCopied(Frame* newFrame);
     void frameSelected(Frame* frame);
+    void hideExplanation();
 
 
 

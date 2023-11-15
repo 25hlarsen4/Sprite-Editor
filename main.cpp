@@ -5,9 +5,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Sprite sprite;
+//    Sprite sprite;
     File file;
-    SpriteEditor w(sprite, file);
+    SpriteEditor w(file);
     w.show();
     return a.exec();
 }

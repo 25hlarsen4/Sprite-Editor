@@ -23,10 +23,11 @@ Sprite::~Sprite(){
 void Sprite::mousePressEvent(QMouseEvent * e)
 {
 
-    QWidget* frame = this->childAt(e->pos());
-    emit passChildSignal(frame);
-    emit sendFramesToPreview(frames[0]);
-
+    if(frames.size() != 0){
+        QWidget* frame = this->childAt(e->pos());
+        emit passChildSignal(frame);
+        emit sendFramesToPreview(frames[0]);
+    }
 }
 
 
@@ -34,10 +35,8 @@ void Sprite::sendFrames()
 {
     if (framesIndex >= frames.size()) framesIndex = 0;
     if(!frames.isEmpty()){
-
-        qDebug() << "frames[index]: " << framesIndex;
-
         emit sendFramesToPreview(frames[framesIndex]);
+        qDebug() << "frames[index]: " << framesIndex;
     }
     framesIndex++;
 }
@@ -45,9 +44,14 @@ void Sprite::sendFrames()
 
 void Sprite::setPreviewSpeed(int speed)
 {
-    if(speed > 0){
+
+    if (speed > 0)
+    {
         timer->setInterval(1000 / speed);
-    }else{
+    }
+
+    else
+    {
         timer->setInterval(1000);
     }
 }
@@ -55,12 +59,22 @@ void Sprite::setPreviewSpeed(int speed)
 void Sprite::setSpriteSize(int size){
 
     spriteSize = size;
-    if(frames.isEmpty()){
-        Frame* frame1 = new Frame(spriteSize);
-        emit passChildSignal(frame1);
-        frames.append(frame1);
-    }
 
+    Frame* frame1 = new Frame(spriteSize);
+    emit passChildSignal(frame1);
+//    frame1->image.setPixelColor(1, 1, QColor::fromRgb(255, 0, 0));
+//    frame1->setFocus();
+//    Frame* frame2 = new Frame(spriteSize);
+//    frame2->image.setPixelColor(1, 1, QColor::fromRgb(0, 255, 0));
+//    Frame* frame3 = new Frame(spriteSize);
+//    frame3->image.setPixelColor(1, 1, QColor::fromRgb(0, 0, 255));
+//    Frame* frame4 = new Frame(spriteSize);
+//    frame4->image.setPixelColor(1, 1, QColor::fromRgb(0, 100, 100));
+
+    frames.append(frame1);
+//    frames.append(frame2);
+//    frames.append(frame3);
+//    frames.append(frame4);
 
 
     timer->setInterval(1000);
@@ -80,6 +94,7 @@ void Sprite::openSpriteFromFile()
 {
     timer->stop();
     qDebug() << "open sprite from file";
+    qDebug() << "from openspritefromfile: " << frames.size();
     emit openSprite(this);
 }
 
@@ -104,6 +119,8 @@ void Sprite::createNewFile( )
 
 void Sprite::updateSprite(){
     timer->start();
+
+    qDebug() << "from sprite: " << frames.size();
 
     if(!frames.isEmpty()){
 

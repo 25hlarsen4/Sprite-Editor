@@ -28,7 +28,10 @@ private:
     bool clickIsForAnchorSelection;
     bool clickIsForPasting;
     bool bucketFillOn;
+    bool eraserOn;
+    bool penToolOn;
     Frame *selectedFrame;
+    int editScreenSize;
 
 signals:
 
@@ -36,12 +39,17 @@ public slots:
     void updateDisplay(QWidget* frame);
     void changeColor(QColor);
     void setSpriteSize(int);
-    void updateGroupSelectState();
+    void updateGroupSelectState(bool);
     void updateCopyPasteState();
-    void updateBucketFillState();
+    void updateBucketFillState(bool);
+    void updateEraserState(bool);
+    void updatePenToolState(bool);
+    void clearSelectedPixels();
 
 signals:
     void pastingDone();
+    void noSelectedPixelsToCopy();
+    void validCopy();
 
 };
 
