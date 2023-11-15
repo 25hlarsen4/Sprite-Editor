@@ -67,7 +67,7 @@ signals:
      * displayed.
      * @param frame - the frame being sent.
      */
-    void passChildSignal(QWidget* frame);
+    void passFrameSignal(Frame* frame);
     /**
      * @brief sendFramesToPreview - sends a single frame to the sprite
      * preview class.

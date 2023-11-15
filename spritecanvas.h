@@ -47,11 +47,11 @@ public:
      */
     void wheelEvent(QWheelEvent *);
 
-    /**
-     * @brief setCurrentFrame is used to set the current frame that is being displayed and edited on the canvas.
-     * @param frame
-     */
-    void setCurrentFrame(Frame* frame);
+//    /**
+//     * @brief setCurrentFrame is used to set the current frame that is being displayed and edited on the canvas.
+//     * @param frame- the frame to set currframe to
+//     */
+//    void setCurrentFrame(Frame* frame);
 
 private:
 
@@ -131,11 +131,10 @@ private:
 public slots:
 
     /**
-     * @brief Called when a new frame has been selected/ given focus. Currframe
-     * will be updated to this frame.
-     * @param frame - The frame that was selected.
+     * @brief setCurrentFrame is used to set the current frame that is being displayed and edited on the canvas.
+     * @param frame- the frame to set currframe to
      */
-    void updateDisplay(QWidget* frame);
+    void setCurrentFrame(Frame* frame);
 
     /**
      * @brief Called when a new color has been picked by the user, this method

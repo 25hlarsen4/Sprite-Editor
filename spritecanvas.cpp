@@ -34,6 +34,11 @@ SpriteCanvas::SpriteCanvas(QWidget *parent)
     editScreenSize = 325;
 }
 
+void SpriteCanvas::setSpriteSize(int size) {
+    spriteSize = size;
+    source.setRect(0, 0, spriteSize, spriteSize);
+}
+
 void SpriteCanvas::setCurrentFrame(Frame* frame) {
     currFrame = frame;
 }
@@ -81,46 +86,6 @@ void SpriteCanvas::paintEvent(QPaintEvent *) {
     }
 }
 
-void SpriteCanvas::wheelEvent(QWheelEvent * e) {
-    int newSize = source.width();
-    int newX = source.x();
-    int newY = source.y();
-
-    if(e->angleDelta().y() > 0) {
-        if(source.width() > 1) {
-            newSize = source.width() - 1;
-        }
-        if(e->position().x() - 125 > 0) {
-            if(newX < spriteSize - 1) {
-                newX = newX + 1;
-            }
-        }
-        if(e->position().y() - 125 > 0) {
-            if(newY < spriteSize - 1) {
-                newY = newY + 1;
-            }
-        }
-    }else{
-        if(source.width() < spriteSize) {
-            newSize = source.width() + 1;
-        }
-        if(newX > 0) {
-            newX = newX - 1;
-        }
-        if(newY > 0) {
-            newY = newY - 1;
-        }
-    }
-    source.setRect(newX, newY, newSize, newSize);
-    currFrame->repaint();
-    repaint();
-}
-
-void SpriteCanvas::updateDisplay(QWidget* frameWidget) {
-    currFrame = dynamic_cast<Frame *>(frameWidget);
-    repaint();
-}
-
 void SpriteCanvas::changeColor(QColor newColor) {
     color = newColor;
 
@@ -138,12 +103,6 @@ void SpriteCanvas::changeColor(QColor newColor) {
     }
 }
 
-
-void SpriteCanvas::setSpriteSize(int size) {
-    spriteSize = size;
-    source.setRect(0, 0, spriteSize, spriteSize);
-}
-
 void SpriteCanvas::updateGroupSelectState(bool checked) {
     groupSelect = checked;
 
@@ -152,7 +111,6 @@ void SpriteCanvas::updateGroupSelectState(bool checked) {
     if (!groupSelect) {
         selectedPixels.clear();
     }
-
 }
 
 void SpriteCanvas::updateBucketFillState(bool checked) {
@@ -167,7 +125,6 @@ void SpriteCanvas::updatePenToolState(bool checked) {
     penToolOn = checked;
 }
 
-
 void SpriteCanvas::updateCopyPasteState() {
     // only copy if there are selected pixels
     if (selectedPixels.size() > 0) {
@@ -177,6 +134,14 @@ void SpriteCanvas::updateCopyPasteState() {
         // give message saying no selected pixels to copy
         emit noSelectedPixelsToCopy();
     }
+}
+
+void SpriteCanvas::clearSelectedPixels() {
+    selectedPixels.clear();
+
+    // reset everything to their base states just in case
+    emit pastingDone();
+    clickIsForAnchorSelection = false;
 }
 
 void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
@@ -243,13 +208,6 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     int pixelYCoord = source.y() + yPos/(editScreenSize/source.height());
 
     if (bucketFillOn) {
-
-        int xPos = e->pos().x();
-        int yPos = e->pos().y();
-
-        int pixelXCoord = source.x() + xPos/(editScreenSize/source.width());
-        int pixelYCoord = source.y() + yPos/(editScreenSize/source.height());
-
         QList<QPair<int, int>> modifiedPixels = currFrame->bucketFill(pixelXCoord, pixelYCoord, color);
         // these pixels are now selectable since they've been colored
         for (QPair<int, int> pixel : modifiedPixels) {
@@ -343,11 +301,38 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
     }
 }
 
-// called when focus switches between frames
-void SpriteCanvas::clearSelectedPixels() {
-    selectedPixels.clear();
+void SpriteCanvas::wheelEvent(QWheelEvent * e) {
+    int newSize = source.width();
+    int newX = source.x();
+    int newY = source.y();
 
-    // reset everything to their base states just in case
-    emit pastingDone();
-    clickIsForAnchorSelection = false;
+    if(e->angleDelta().y() > 0) {
+        if(source.width() > 1) {
+            newSize = source.width() - 1;
+        }
+        if(e->position().x() - 125 > 0) {
+            if(newX < spriteSize - 1) {
+                newX = newX + 1;
+            }
+        }
+        if(e->position().y() - 125 > 0) {
+            if(newY < spriteSize - 1) {
+                newY = newY + 1;
+            }
+        }
+    }else {
+        if(source.width() < spriteSize) {
+            newSize = source.width() + 1;
+        }
+        if(newX > 0) {
+            newX = newX - 1;
+        }
+        if(newY > 0) {
+            newY = newY - 1;
+        }
+    }
+
+    source.setRect(newX, newY, newSize, newSize);
+    currFrame->repaint();
+    repaint();
 }

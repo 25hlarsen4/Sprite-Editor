@@ -53,9 +53,7 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
 
 
     // Add the sprite frames to the layout
-
     ui->scrollArea->setWidget(mySprite);
-
 
     ui->cpInstructionsLabel->setVisible(false);
     ui->explanationLabel->setVisible(false);
@@ -63,12 +61,10 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     // connection from add frame button signal to sprite slot to create new frame
     connect(ui->addFrameButton, &QPushButton::clicked, this, &SpriteEditor::addFrame);
 
-    // connection from sprite frame added signal to this slot to add the frame widget to layout
-    // (can just access the last frame in the list)
     connect(mySprite,
-            &Sprite::passChildSignal,
+            &Sprite::passFrameSignal,
             ui->canvasWidget,
-            &SpriteCanvas::updateDisplay);
+            &SpriteCanvas::setCurrentFrame);
 
     connect(mySprite,
             &Sprite::sendFramesToPreview,
@@ -124,11 +120,6 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             &QPushButton::pressed,
             ui->canvasWidget,
             &SpriteCanvas::updateCopyPasteState);
-
-//    connect(ui->copyGroupButton,
-//            &QPushButton::pressed,
-//            this,
-//            &SpriteEditor::showCpInstructions);
 
     connect(ui->canvasWidget,
             &SpriteCanvas::pastingDone,

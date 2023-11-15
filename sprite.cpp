@@ -45,12 +45,7 @@ Sprite::~Sprite(){
 void Sprite::mousePressEvent(QMouseEvent * e){
 
     if(frames.size() != 0){
-
-        QWidget* frame = this->childAt(e->pos());
-
-        emit passChildSignal(frame);
         emit sendFramesToPreview(frames[0]);
-
     }
 
 }
@@ -95,7 +90,7 @@ void Sprite::setSpriteSize(int size){
     Frame* frame1 = new Frame(spriteSize);
     frames.append(frame1);
 
-    emit passChildSignal(frame1);
+    emit passFrameSignal(frame1);
 
     timer->setInterval(1000);
     timer->start();
@@ -126,7 +121,7 @@ void Sprite::createNewFile( ){
     Frame* frame = new Frame(spriteSize);
     frames.append(frame);
 
-    emit passChildSignal(frame);
+    emit passFrameSignal(frame);
     emit sendSpriteToView(this);
     emit sendAllFramesToPreview(frames);
 
@@ -140,7 +135,7 @@ void Sprite::updateSprite(){
 
     if(!frames.isEmpty()){
 
-        emit passChildSignal(frames[0]);
+        emit passFrameSignal(frames[0]);
         emit sendSpriteToView(this);
         emit sendAllFramesToPreview(frames);
         emit setCanvasSize(spriteSize);
