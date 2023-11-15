@@ -201,6 +201,10 @@ void SpriteCanvas::updateCopyPasteState() {
 }
 
 void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
+    if (!currFrame) {
+        return;
+    }
+
     int xPos = e->pos().x();
     int yPos = e->pos().y();
 
@@ -254,6 +258,10 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
 }
 
 void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
+    if (!currFrame) {
+        return;
+    }
+
     int xPos = e->pos().x();
     int yPos = e->pos().y();
 

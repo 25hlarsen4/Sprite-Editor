@@ -47,8 +47,11 @@ void SpritePreview::updatePreview(Frame* frame){
 
     if(frame){
         currFrame = frame;
-        repaint();
     }
+    else {
+        currFrame = nullptr;
+    }
+    repaint();
 
 }
 

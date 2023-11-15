@@ -367,7 +367,7 @@ void SpriteEditor::deleteFrame() {
 
     // Update selectedFrame
     if (!mySprite->frames.isEmpty()) {
-        // switch focus to the frame before the one deleted
+        // switch focus to the frame before the deleted one
         if (index == 0) {
             selectedFrame = mySprite->frames.first();
         }

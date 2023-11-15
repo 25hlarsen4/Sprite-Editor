@@ -49,12 +49,14 @@ void Sprite::mousePressEvent(QMouseEvent * e)
 
 void Sprite::sendFrames()
 {
+    if (frames.isEmpty()) {
+        emit sendFramesToPreview(nullptr);
+        return;
+    }
 
     if (framesIndex >= frames.size()) framesIndex = 0;
-    if(!frames.isEmpty()){
-        emit sendFramesToPreview(frames[framesIndex]);
-//        qDebug() << "frames[index]: " << framesIndex;
-    }
+
+    emit sendFramesToPreview(frames[framesIndex]);
 
     framesIndex++;
 
