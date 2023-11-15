@@ -126,7 +126,7 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
 
     sprite->frames.clear();
 
-    sprite->spriteSize = spriteObject["spriteObject"].toInt();
+    sprite->spriteSize = spriteObject["spriteSize"].toInt();
 
     QJsonArray frameArray = spriteObject["frames"].toArray();
 
