@@ -33,7 +33,9 @@ Sprite::Sprite(QWidget *parent)
 Sprite::~Sprite(){
 
     for(Frame* frame : frames){
+
         delete frame;
+
     }
 
     frames.clear();
@@ -45,6 +47,7 @@ void Sprite::mousePressEvent(QMouseEvent * e){
     if(frames.size() != 0){
 
         QWidget* frame = this->childAt(e->pos());
+
         emit passChildSignal(frame);
         emit sendFramesToPreview(frames[0]);
 
@@ -103,7 +106,6 @@ void Sprite::setSpriteSize(int size){
 
 void Sprite::saveSpriteToFile(){
 
-    qDebug() << "save sprite to file";
     emit saveSprite(this);
 
 }
@@ -116,8 +118,6 @@ void Sprite::openSpriteFromFile(){
 }
 
 void Sprite::createNewFile( ){
-
-    qDebug() << "new file";
 
     timer->stop();
 
