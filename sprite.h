@@ -69,6 +69,7 @@ signals:
     void openSprite(Sprite*);
     void sendSpriteToView(Sprite*);
     void sendAllFramesToPreview(QList<Frame*>);
+    void setCanvasSize(int);
 
 public slots:
 

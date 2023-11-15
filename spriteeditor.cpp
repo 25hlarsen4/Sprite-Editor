@@ -139,6 +139,10 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             &Sprite::sendAllFramesToPreview,
             ui->previewWidget,
             &SpritePreview::loadNewFrames);
+    connect(mySprite,
+            &Sprite::setCanvasSize,
+            ui->canvasWidget,
+            &SpriteCanvas::setSpriteSize);
 
     connect(mySprite,
             &Sprite::saveSprite,

@@ -136,6 +136,7 @@ void Sprite::updateSprite(){
         emit passChildSignal(frames[0]);
         emit sendSpriteToView(this);
         emit sendAllFramesToPreview(frames);
+        emit setCanvasSize(spriteSize);
     }
 
 }
