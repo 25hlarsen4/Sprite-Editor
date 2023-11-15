@@ -20,17 +20,41 @@
 class SpriteCanvas : public QWidget
 {
     Q_OBJECT
+
 public:
+
     explicit SpriteCanvas(QWidget *parent = nullptr);
 
-    // Override the default paintEvent with drawing of the shape
+    /**
+     * @brief paintEvent handles drawing operations such as displaying the sprite's image, indicating selected pixels.
+     * Override the default paintEvent with drawing of the shape.
+     */
     void paintEvent(QPaintEvent *);
+
+    /**
+     * @brief mouseMoveEvent is reponsible for mouse movement events such as drawing, erasing, or selecting pixels on the sprite frame.
+     */
     void mouseMoveEvent(QMouseEvent *);
+
+    /**
+     * @brief mousePressEvent is reponsible for actions when the mouse is pressed, such as drawing, erasing, or selecting pixels on the sprite frame
+     * when the mouse is pressed.
+     */
     void mousePressEvent(QMouseEvent *);
+
+    /**
+     * @brief wheelEvent is reponsible for mouse wheel movements, allowing the user to zoom in or out on the sprite frame being edited
+     */
     void wheelEvent(QWheelEvent *);
+
+    /**
+     * @brief setCurrentFrame is used to set the current frame that is being displayed and edited on the canvas.
+     * @param frame
+     */
     void setCurrentFrame(Frame* frame);
 
 private:
+
     /**
      * @brief Keeps track of which frame has focus.
      */
@@ -105,6 +129,7 @@ private:
 
 
 public slots:
+
     /**
      * @brief Called when a new frame has been selected/ given focus. Currframe
      * will be updated to this frame.
@@ -167,6 +192,7 @@ public slots:
     void clearSelectedPixels();
 
 signals:
+
     /**
      * @brief Emitted when a group of pixels has been pasted successfully.
      */

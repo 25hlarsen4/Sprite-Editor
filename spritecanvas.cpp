@@ -21,18 +21,17 @@
 SpriteCanvas::SpriteCanvas(QWidget *parent)
     : QWidget{parent}
 {
-    currFrame = nullptr;
 
+    currFrame = nullptr;
     groupSelect = false;
     clickIsForAnchorSelection = false;
     clickIsForPasting = false;
     bucketFillOn = false;
     eraserOn = false;
     penToolOn = true;
-
     color = QColor::fromRgb(0, 0, 0);
-
     editScreenSize = 325;
+
 }
 
 void SpriteCanvas::setCurrentFrame(Frame* frame) {
