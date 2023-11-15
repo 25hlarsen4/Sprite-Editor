@@ -1,6 +1,7 @@
 /**
  * @file frame.cpp
  * @author teamname: The QT's
+ * Reviewer name: Justin Zhu
  *
  * @brief
  * CS 3505
@@ -10,7 +11,7 @@
  * and pixel updates. It provides functionalities like bucket filling and updating individual pixels, essential
  * for editing and visualizing sprite animations or images.
  *
- * @date 2023-11-14
+ * @date 2023-11-15
  */
 #include "frame.h"
 #include "qpainter.h"
@@ -19,15 +20,12 @@
 #include <QSizePolicy>
 #include <QQueue>
 
-Frame::Frame(int spriteSize, QWidget *parent)
-    : QWidget{parent}
-{
+Frame::Frame(int spriteSize, QWidget *parent) : QWidget{parent} {
     this->setFixedSize(QSize(120, 120));
     this->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     this->setFocusPolicy(Qt::ClickFocus);
 
-
-
+    // Set the size of the image
     width = spriteSize;
     height = spriteSize;
     QPixmap pixmap(width, height);
@@ -35,13 +33,11 @@ Frame::Frame(int spriteSize, QWidget *parent)
     // An image should start fully transparent
     pixmap.fill(QColor::fromRgb(0,0,0,0));
     image = pixmap.toImage();
-
 }
 
 
 void Frame::paintEvent(QPaintEvent *) {
     QPainter painter(this);
-
     int x = 3;
     int y = 3;
     int w = 110;
@@ -54,31 +50,27 @@ void Frame::paintEvent(QPaintEvent *) {
         int penWidth = 6;
         pen.setWidth(penWidth);
         painter.setPen(pen);
-        painter.drawRect(x-3, y-3, w+3, h+3);
+        painter.drawRect(x - 3, y - 3, w + 3, h + 3);
     }
 
     // want to draw checkers to signify transparency, but do it on a copy so we don't change
     // the actual image data
     QImage copy = image.copy(0, 0, width, height);
 
+    // Set the color of every pixel in copy
     for(int i = 0; i < width; i++) {
-        for(int j = 0; j < height; j++)
-        {
-            if(i % 2 != 0 && j % 2 != 0 && image.pixelColor(i, j).alpha() == 0)
-            {
+        for(int j = 0; j < height; j++) {
+            if(i % 2 != 0 && j % 2 != 0 && image.pixelColor(i, j).alpha() == 0) {
                 copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,60));
             }
-            else if(i % 2 == 0 && j % 2 == 0 && image.pixelColor(i, j).alpha() == 0)
-            {
+            else if(i % 2 == 0 && j % 2 == 0 && image.pixelColor(i, j).alpha() == 0) {
                 copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,60));
             }
-            else if (image.pixelColor(i, j).alpha() == 0)
-            {
+            else if(image.pixelColor(i, j).alpha() == 0) {
                 copy.setPixelColor(i, j, QColor::fromRgb(0,0,0,50));
             }
         }
     }
-
     painter.drawImage(target, copy);
 }
 
@@ -106,8 +98,7 @@ void Frame::mousePressEvent(QMouseEvent *event) {
 }
 
 // https://www.geeksforgeeks.org/flood-fill-algorithm/
-QList<QPair<int, int>> Frame::bucketFill(int pixelX, int pixelY, QColor newColor)
-{
+QList<QPair<int, int>> Frame::bucketFill(int pixelX, int pixelY, QColor newColor) {
     QList<QPair<int, int>> modifiedPixels;
 
     QColor oldColor = image.pixelColor(pixelX, pixelY);
@@ -121,15 +112,14 @@ QList<QPair<int, int>> Frame::bucketFill(int pixelX, int pixelY, QColor newColor
     modifiedPixels.append(qMakePair(pixelX, pixelY));
 
     while (pixelQueue.size() > 0) {
-
         QPair<int, int> currPixel = pixelQueue.front();
         pixelQueue.dequeue();
 
         int posX = currPixel.first;
         int posY = currPixel.second;
 
+        // Check every pixel around the current pixel
         if (isValidPixel(posX + 1, posY, oldColor, newColor)) {
-
             image.setPixelColor(posX + 1,posY,newColor);
             modifiedPixels.append(qMakePair(posX + 1, posY));
             pixel.first = posX + 1;
@@ -161,13 +151,12 @@ QList<QPair<int, int>> Frame::bucketFill(int pixelX, int pixelY, QColor newColor
             pixelQueue.enqueue(pixel);
         }
     }
-
     return modifiedPixels;
 }
 
-bool Frame::isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor)
-{
-    if (pixelX < 0 || pixelX >= width || pixelY < 0 || pixelY >= height || image.pixelColor(pixelX,pixelY) != OldColor || image.pixelColor(pixelX,pixelY) == newColor)
+bool Frame::isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor) {
+    if (pixelX < 0 || pixelX >= width || pixelY < 0 || pixelY >= height || image.pixelColor(pixelX,pixelY) != OldColor || image.pixelColor(pixelX,pixelY) == newColor) {
         return false;
+    }
     return true;
 }
