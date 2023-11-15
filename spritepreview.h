@@ -23,6 +23,7 @@ public slots:
      * updates the frame that is currently being previewed.
     */
     void updatePreview(Frame* frame);
+    void loadNewFrames(QList<Frame*>);
 
 };
 

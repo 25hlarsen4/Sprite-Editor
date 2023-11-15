@@ -34,7 +34,9 @@ void Sprite::sendFrames()
 {
     if (framesIndex >= frames.size()) framesIndex = 0;
     if(!frames.isEmpty()){
+
         qDebug() << "frames[index]: " << framesIndex;
+
         emit sendFramesToPreview(frames[framesIndex]);
     }
     framesIndex++;
@@ -81,8 +83,22 @@ void Sprite::openSpriteFromFile()
     emit openSprite(this);
 }
 
-void Sprite::createNewFile()
+void Sprite::createNewFile( )
 {
+    qDebug() << "new file";
+
+    timer->stop();
+
+    this->frames.clear();
+
+    Frame* frame = new Frame(spriteSize);
+    frames.append(frame);
+
+    emit passChildSignal(frame);
+    emit sendSpriteToView(this);
+    emit sendAllFramesToPreview(frames);
+
+    timer->start();
 
 }
 
@@ -93,6 +109,7 @@ void Sprite::updateSprite(){
 
         emit passChildSignal(frames[0]);
         emit sendSpriteToView(this);
+        emit sendAllFramesToPreview(frames);
 
     }
 
@@ -111,10 +128,4 @@ void Sprite::adjustFrameCount(int frameCount) {
 
     // Optionally, emit a signal to update the UI
     emit framesUpdated();
-}
-
-void Sprite::updateAnimationFrame() {
-    // Update the frame index and the preview
-    currentFrameIndex = (currentFrameIndex + 1) % frames.size();
-    emit sendFramesToPreview(frames[currentFrameIndex]);
 }

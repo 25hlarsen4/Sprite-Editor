@@ -42,3 +42,8 @@ void SpritePreview::updatePreview(Frame* frame){
         repaint();
     }
 }
+
+void SpritePreview::loadNewFrames(QList<Frame*> newFrames){
+    frames = newFrames;
+    currFrame = frames[0];
+}

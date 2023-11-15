@@ -137,7 +137,12 @@ void File::deserializeFromJson(Sprite *sprite, QJsonObject spriteObject)
                 int green = pixelData["green"].toInt();
                 int blue = pixelData["blue"].toInt();
                 int alpha = pixelData["alpha"].toInt();
+
                 frame->updatePixel(x, y, QColor::fromRgb(red, green, blue, alpha));
+
+                if (alpha > 0) {
+                    frame->selectablePixels.append(qMakePair(x, y));
+                }
 
             }
 

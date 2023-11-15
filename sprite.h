@@ -47,6 +47,7 @@ signals:
     void saveSprite(Sprite*);
     void openSprite(Sprite*);
     void sendSpriteToView(Sprite*);
+    void sendAllFramesToPreview(QList<Frame*>);
 
 public slots:
 
