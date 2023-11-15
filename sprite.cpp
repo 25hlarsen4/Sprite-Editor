@@ -9,8 +9,11 @@
  * The sprite class manages sprite animations by handling a collection of Frame objects and
  * controlling their display and updates.
  *
+ * Reviewed by Bracken Asay.
+ *
  * @date 2023-11-14
  */
+
 #include "sprite.h"
 #include "frame.h"
 #include <QDebug>
@@ -18,7 +21,8 @@
 #include <QMouseEvent>
 
 Sprite::Sprite(QWidget *parent)
-    : QWidget{parent},currentFrameIndex(0), framesIndex(0)
+    : QWidget{parent},
+    framesIndex(0)
 {
 
     timer = new QTimer(this);
@@ -31,27 +35,32 @@ Sprite::~Sprite(){
     for(Frame* frame : frames){
         delete frame;
     }
+
     frames.clear();
 
 }
 
-void Sprite::mousePressEvent(QMouseEvent * e)
-{
+void Sprite::mousePressEvent(QMouseEvent * e){
 
     if(frames.size() != 0){
+
         QWidget* frame = this->childAt(e->pos());
         emit passChildSignal(frame);
         emit sendFramesToPreview(frames[0]);
+
     }
 
 }
 
 
-void Sprite::sendFrames()
-{
+void Sprite::sendFrames(){
+
     if (frames.isEmpty()) {
+
         emit sendFramesToPreview(nullptr);
+
         return;
+
     }
 
     if (framesIndex >= frames.size()) framesIndex = 0;
@@ -63,16 +72,13 @@ void Sprite::sendFrames()
 }
 
 
-void Sprite::setPreviewSpeed(int speed)
-{
+void Sprite::setPreviewSpeed(int speed){
 
-    if (speed > 0)
-    {
+    if (speed > 0){
+
         timer->setInterval(1000 / speed);
-    }
 
-    else
-    {
+    }else{
         timer->setInterval(1000);
     }
 
@@ -83,33 +89,33 @@ void Sprite::setSpriteSize(int size){
     spriteSize = size;
 
     Frame* frame1 = new Frame(spriteSize);
+    frames.append(frame1);
+
     emit passChildSignal(frame1);
 
-    frames.append(frame1);
     timer->setInterval(1000);
     timer->start();
+
     framesIndex = 0;
 
 }
 
-void Sprite::saveSpriteToFile()
-{
+void Sprite::saveSpriteToFile(){
 
     qDebug() << "save sprite to file";
     emit saveSprite(this);
 
 }
 
-void Sprite::openSpriteFromFile()
-{
+void Sprite::openSpriteFromFile(){
 
     timer->stop();
     emit openSprite(this);
 
 }
 
-void Sprite::createNewFile( )
-{
+void Sprite::createNewFile( ){
+
     qDebug() << "new file";
 
     timer->stop();
@@ -137,22 +143,7 @@ void Sprite::updateSprite(){
         emit sendSpriteToView(this);
         emit sendAllFramesToPreview(frames);
         emit setCanvasSize(spriteSize);
+
     }
 
-}
-
-void Sprite::adjustFrameCount(int frameCount) {
-
-    while (frames.size() > frameCount) {
-        Frame* frame = frames.takeLast();
-        delete frame;
-    }
-
-    while (frames.size() < frameCount) {
-        Frame* newFrame = new Frame(spriteSize);
-        frames.append(newFrame);
-    }
-
-    // Optionally, emit a signal to update the UI
-    emit framesUpdated();
 }
