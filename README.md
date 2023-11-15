@@ -12,12 +12,14 @@ Features
 6.	Zoom and Pan: Users can zoom in and out of the canvas and pan across the sprite.
 7.	Save and Load: Functionality to save and load sprites using a custom .ssp format.
 8.	User Interface: Intuitive UI with clear labels and logical layout.
+
 Installation
 To install the QT's Sprite Editor, follow these steps:
 1.	Ensure you have Qt5 installed on your system.
 2.	Clone the repository from [GitHub link].
 3.	Open the project in Qt Creator.
 4.	Build and run the application.
+
 Usage
 Starting a New Sprite
 1.	Click on File > New to start a new sprite project.
@@ -25,17 +27,16 @@ Editing Frames
 1.	Select a frame from the bottom scroll area.
 2.	Use the drawing tools to edit the frame.
 3.	Use the color picker to choose colors.
+
 Previewing Animations
 1.	Adjust the speed using the slider.
 2.	View the animation in the preview window.
+
 Saving and Loading
 1.	To save, click File > Save.
 2.	To load, click File > Open and select a .ssp file.
-Contributing
-We welcome contributions to the QT's Sprite Editor. If you're interested in contributing, please read our contribution guidelines in CONTRIBUTING.md.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+
+
 Acknowledgments
 •	Special thanks to the CS 3505 teaching staff.
 •	All contributors and testers who helped in refining this application.
-![image](https://github.com/University-of-Utah-CS3505/a8-sprite-editor-f23-25hlarsen4/assets/112060411/31f2e7b2-71ea-482e-a340-9150c0f4108c)
