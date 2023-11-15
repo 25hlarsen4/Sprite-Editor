@@ -362,3 +362,7 @@ void SpriteCanvas::mousePressEvent(QMouseEvent * e) {
         }
     }
 }
+
+void SpriteCanvas::clearSelectedPixels() {
+    selectedPixels.clear();
+}

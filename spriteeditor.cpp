@@ -172,6 +172,7 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     Frame* frame = mySprite->frames.at(0);
     layout->addWidget(frame);
     connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
+    connect(frame, &Frame::focusLost, ui->canvasWidget, &SpriteCanvas::clearSelectedPixels);
     // give focus to the default frame
     selectedFrame = frame;
     frameSelected(selectedFrame);
@@ -273,6 +274,7 @@ void SpriteEditor::addFrame()
     mySprite->frames.append(newFrame);
     layout->addWidget(newFrame);
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
+    connect(newFrame, &Frame::focusLost, ui->canvasWidget, &SpriteCanvas::clearSelectedPixels);
     selectedFrame = newFrame;
     frameSelected(selectedFrame);
     // automatically give the new frame focus
@@ -295,6 +297,7 @@ void SpriteEditor::copyFrame() {
     }
     layout->insertWidget(index, newFrame);
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
+    connect(newFrame, &Frame::focusLost, ui->canvasWidget, &SpriteCanvas::clearSelectedPixels);
     emit mySprite->frameCopied(newFrame);
     newFrame->show();
 }

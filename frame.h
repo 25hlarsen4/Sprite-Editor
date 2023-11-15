@@ -27,6 +27,8 @@ public:
 
 signals:
     void clicked(Frame* frame);
+    // if ever changing focus between frames, clear selected pixels
+    void focusLost();
 
 public slots:
 

@@ -44,6 +44,7 @@ public slots:
     void updateBucketFillState(bool);
     void updateEraserState(bool);
     void updatePenToolState(bool);
+    void clearSelectedPixels();
 
 signals:
     void pastingDone();

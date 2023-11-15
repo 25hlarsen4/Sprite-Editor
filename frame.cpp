@@ -77,6 +77,9 @@ void Frame::focusInEvent(QFocusEvent *) {
 void Frame::focusOutEvent(QFocusEvent *) {
     qDebug() << "losing focus";
     repaint();
+
+    // clear any selected pixels
+    emit focusLost();
 }
 
 void Frame::updatePixel(int pixelX, int pixelY, QColor color) {
