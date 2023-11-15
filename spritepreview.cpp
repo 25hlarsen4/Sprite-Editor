@@ -22,7 +22,6 @@ SpritePreview::SpritePreview(QWidget *parent)
     currFrame = nullptr;
 }
 
-// just draw border for now to make visible
 void SpritePreview::paintEvent(QPaintEvent *) {
 
     QPainter painter(this);
