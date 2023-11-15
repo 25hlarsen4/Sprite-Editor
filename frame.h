@@ -6,7 +6,7 @@
  * CS 3505
  * Assignment Name: A8: Sprite Editor Implementation
  *
- * The frame class is reponsible for displaying and interacting with sprite frames, handling rendering, mouse events,
+ * The frame class is responsible for displaying and interacting with sprite frames, handling rendering, mouse events,
  * and pixel updates. It provides functionalities like bucket filling and updating individual pixels, essential
  * for editing and visualizing sprite animations or images.
  *
@@ -27,11 +27,40 @@ class Frame : public QWidget
 public:
 
     Frame(int spriteSize, QWidget *parent = nullptr);
+
+    /**
+     * @brief This function creates an empty frame on the ui.
+     */
     void paintEvent(QPaintEvent *);
+
+    /**
+     * @brief focusInEvent draws a frame around the selected frame, indicating it is being selected in ui.
+     */
     void focusInEvent(QFocusEvent *);
+
+    /**
+     * @brief focusOutEvent remove the frame around the original selected frame as it is no longer selected.
+     */
     void focusOutEvent(QFocusEvent *);
+
+    /**
+     * @brief bucketFill fills the pixels inside a boundary to a new color selected by user.
+     * @param pixelX
+     * @param pixelY
+     * @param newColor
+     * @return
+     */
     QList<QPair<int, int>> bucketFill(int pixelX, int pixelY, QColor newColor);
-    bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor);
+
+    /**
+     * @brief A helper method  for bucketFill to ensure that color operations are applied only to the intended pixels within the frame.
+     * @param pixelX
+     * @param pixelY
+     * @param OldColor
+     * @param newColor
+     * @return
+     */
+    bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor); //private?
 
     QImage image;
     int width;
