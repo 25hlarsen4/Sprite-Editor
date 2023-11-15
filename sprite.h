@@ -24,22 +24,33 @@
 class Sprite : public QWidget
 {
     Q_OBJECT
+
 public:
+
     explicit Sprite(QWidget *parent = nullptr);
     ~Sprite();
     Sprite& operator=(const Sprite& other);
 
-    void mousePressEvent(QMouseEvent *);
-
-    void adjustFrameCount(int frameCount);
-
     // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
     QList<Frame*> frames;
     QTimer *timer;
-
     int framesIndex;
     int spriteSize;
     int currentFrameIndex;
+
+    /**
+     * @brief mousePressEvent will trigger when the mouse is clicked on the sprite. It emits signals to pass the updated information of this frame to other parts of the application
+     * and update the sprite preview.
+     */
+    void mousePressEvent(QMouseEvent *);
+
+    /**
+     * @brief adjustFrameCount checks if the number of frames in the sprite to match the specified frameCount.
+     * It adds new frames or deletes excess frames to ensure the total number of frames equals frameCount.
+     * It emits a signal to update the user interface with these changes.
+     * @param frameCount
+     */
+    void adjustFrameCount(int frameCount);
 
 protected:
 
@@ -48,14 +59,12 @@ private:
 
 signals:
     void passChildSignal(QWidget* frame);
-
     /*
      * This signal sends a frame to the preview.
     */
     void sendFramesToPreview(Frame* frame);
     void frameCopied(Frame* newFrame);
     void framesUpdated();
-
     void saveSprite(Sprite*);
     void openSprite(Sprite*);
     void sendSpriteToView(Sprite*);
@@ -63,20 +72,39 @@ signals:
 
 public slots:
 
-    /*
-     * emits a signal to spritepreview of the frame at the current index to be previewed.
-     * Increment index or set to 0 if current index is greater than number of frames.
-    */
+    /**
+     * @brief sendFrames cycles through the sprite's frames, emitting a signal to display each frame in sequence for to preview the animation on top right.
+     */
     void sendFrames();
+
+    /**
+     * @brief setPreviewSpeed adjusts the preview speed by setting the interval of a timer based on the provided speed value.
+     */
     void setPreviewSpeed(int);
+
+    /**
+     * @brief setSpriteSize set the size of the frames when the program starts.
+     */
     void setSpriteSize(int);
 
-
-
+    /**
+     * @brief saveSpriteToFile emits saveSprite signal when the save button is clicked.
+     */
     void saveSpriteToFile();
+
+    /**
+     * @brief openSpriteFromFile emits openSprite signal when the open button is clicked.
+     */
     void openSpriteFromFile();
+
+    /**
+     * @brief createNewFile indicates we are getting a new frame.
+     */
     void createNewFile();
 
+    /**
+     * @brief updateSprite indicates to update sprite.
+     */
     void updateSprite();
 
 };
