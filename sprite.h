@@ -1,3 +1,16 @@
+/**
+ * @file sprite.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The sprite class manages sprite animations by handling a collection of Frame objects and
+ * controlling their display and updates.
+ *
+ * @date 2023-11-14
+ */
 #ifndef SPRITE_H
 #define SPRITE_H
 
@@ -5,8 +18,8 @@
 #include <QTimer>
 #include <QJsonObject>
 #include <QJsonArray>
-
 #include "frame.h"
+
 
 class Sprite : public QWidget
 {

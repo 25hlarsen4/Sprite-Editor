@@ -1,9 +1,20 @@
+/**
+ * @file spriteeditor.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The spriteeditor class is reponsible for functions on the ui application like addFrame, copyFrame, saveFiles etc.
+ *
+ * @date 2023-11-14
+ */
 #ifndef SPRITEEDITOR_H
 #define SPRITEEDITOR_H
 
 #include <QMainWindow>
 #include "QtWidgets/qboxlayout.h"
-#include "QtWidgets/qslider.h"
 #include "sprite.h"
 #include "file.h"
 
@@ -19,7 +30,6 @@ public:
     SpriteEditor(File& file, QWidget *parent = nullptr);
     ~SpriteEditor();
     QHBoxLayout* layout;
-    //QSlider *frameCountSlider;
 
 signals:
     void changeColor(QColor);
@@ -29,7 +39,6 @@ signals:
 private:
     Ui::SpriteEditor *ui;
     int spriteSize;
-//    Sprite& mySprite;
     Sprite* mySprite;
 
     void setSpriteSize();
@@ -65,6 +74,7 @@ private slots:
     void tellUserToSelectPixels();
 
 public slots:
+
     void onFrameCopied(Frame* newFrame);
     void frameSelected(Frame* frame);
     void hideExplanation();

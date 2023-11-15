@@ -1,3 +1,16 @@
+/**
+ * @file file.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The file class is responsible for saving and loading Sprite objects to and from files,
+ * using JSON for serialization and deserialization.
+ *
+ * @date 2023-11-14
+ */
 #ifndef FILE_H
 #define FILE_H
 #include <QJsonObject>
@@ -5,17 +18,12 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QWidget>
-
 #include "sprite.h"
-#include "frame.h"
 
-/*
- * need to save:
- * frames
-*/
 class File : public QWidget
 {
     Q_OBJECT
+
 public:
 
     File(QWidget *parent = nullptr);
@@ -38,6 +46,7 @@ public:
     void deserializeFromJson(Sprite *sprite, QJsonObject spriteObject);
 
 private:
+
     QString fileName;
 
 signals:

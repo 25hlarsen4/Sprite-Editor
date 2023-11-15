@@ -1,3 +1,16 @@
+/**
+ * @file spritepreview.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The spritepreview class is reponsible for displaying the preview of the frame animation on the top right corner
+ * of the ui.
+ *
+ * @date 2023-11-14
+ */
 #ifndef SPRITEPREVIEW_H
 #define SPRITEPREVIEW_H
 

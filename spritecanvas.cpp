@@ -1,3 +1,16 @@
+/**
+ * @file spritecanvas.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The spritecanvas class is reponsible for displaying and editing individual frames of a sprite,
+ * handling user inputs like mouse movements and clicks for drawing and manipulating pixels.
+ *
+ * @date 2023-11-14
+ */
 #include "spritecanvas.h"
 #include "qpainter.h"
 #include "frame.h"
@@ -238,19 +251,6 @@ void SpriteCanvas::mouseMoveEvent(QMouseEvent * e) {
         return;
     }
 
-    // from Tiffany's code, not sure can delete or not
-//    int canvasSize = 250;
-//    qreal xRatio = static_cast<qreal>(currFrame->image.width()) / canvasSize;
-//    qreal yRatio = static_cast<qreal>(currFrame->image.height()) / canvasSize;
-
-//    int imageX = static_cast<int>(e->pos().x() * xRatio);
-//    int imageY = static_cast<int>(e->pos().y() * yRatio);
-
-
-//    if (imageX >= 0 && imageX < currFrame->image.width() && imageY >= 0 && imageY < currFrame->image.height()) {
-//        currFrame->image.setPixelColor(imageX, imageY, color);
-//        currFrame->update();
-//    }
 }
 
 void SpriteCanvas::mousePressEvent(QMouseEvent * e) {

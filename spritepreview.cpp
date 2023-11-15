@@ -1,3 +1,16 @@
+/**
+ * @file spritepreview.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The spritepreview class is reponsible for displaying the preview of the frame animation on the top right corner
+ * of the ui.
+ *
+ * @date 2023-11-14
+ */
 #include <QImage>
 #include <QDebug>
 #include "spritepreview.h"
@@ -19,31 +32,29 @@ void SpritePreview::paintEvent(QPaintEvent *) {
         painter.drawImage(target, currFrame->image);
     }
 
-//    else {
-//        int width = 10;
-//        int height = 10;
-//        QPixmap pixmap(width, height);
-//        pixmap.fill(QColor::fromRgb(128, 128, 128));
-//        QImage image = pixmap.toImage();
-
-//        painter.drawImage(target, image);
-//    }
 }
 
 void SpritePreview::addFrame(Frame* frame) {
+
     if(frame){
         currFrame = frame;
         repaint();
     }
+
 }
+
 void SpritePreview::updatePreview(Frame* frame){
+
     if(frame){
         currFrame = frame;
         repaint();
     }
+
 }
 
 void SpritePreview::loadNewFrames(QList<Frame*> newFrames){
+
     frames = newFrames;
     currFrame = frames[0];
+
 }

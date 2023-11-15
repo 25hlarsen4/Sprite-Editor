@@ -1,3 +1,15 @@
+/**
+ * @file spriteeditor.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The spriteeditor class is reponsible for functions on the ui application like addFrame, copyFrame, saveFiles etc.
+ *
+ * @date 2023-11-14
+ */
 #include "spriteeditor.h"
 #include "ui_spriteeditor.h"
 #include "spritecanvas.h"
@@ -13,7 +25,6 @@
 SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::SpriteEditor)
-//    , mySprite(&sprite)
     , mySprite(new Sprite)
 {
     ui->setupUi(this);

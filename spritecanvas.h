@@ -1,3 +1,16 @@
+/**
+ * @file spritecanvas.h
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The spritecanvas class is reponsible for displaying and editing individual frames of a sprite,
+ * handling user inputs like mouse movements and clicks for drawing and manipulating pixels.
+ *
+ * @date 2023-11-14
+ */
 #ifndef SPRITECANVAS_H
 #define SPRITECANVAS_H
 
@@ -32,8 +45,6 @@ private:
     bool penToolOn;
     Frame *selectedFrame;
     int editScreenSize;
-
-signals:
 
 public slots:
     void updateDisplay(QWidget* frame);

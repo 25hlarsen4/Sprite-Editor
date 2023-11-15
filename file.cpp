@@ -1,3 +1,16 @@
+/**
+ * @file file.cpp
+ * @author teamname: The QT's
+ *
+ * @brief
+ * CS 3505
+ * Assignment Name: A8: Sprite Editor Implementation
+ *
+ * The file class is responsible for saving and loading Sprite objects to and from files,
+ * using JSON for serialization and deserialization.
+ *
+ * @date 2023-11-14
+ */
 #include "file.h"
 
 File::File(QWidget *parent)
