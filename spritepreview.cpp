@@ -1,5 +1,4 @@
 #include <QImage>
-#include <QDebug>
 #include "spritepreview.h"
 #include "qpainter.h"
 

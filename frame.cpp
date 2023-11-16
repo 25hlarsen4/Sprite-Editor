@@ -16,7 +16,6 @@
 #include "frame.h"
 #include "qpainter.h"
 #include <QPixmap>
-#include <QDebug>
 #include <QSizePolicy>
 #include <QQueue>
 
@@ -81,7 +80,6 @@ void Frame::focusInEvent(QFocusEvent *) {
 
 // if a widget loses focus, get rid of border
 void Frame::focusOutEvent(QFocusEvent *) {
-    qDebug() << "losing focus";
     repaint();
 
     // clear any selected pixels

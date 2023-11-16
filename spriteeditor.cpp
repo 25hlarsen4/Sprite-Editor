@@ -15,7 +15,6 @@
 #include "spritecanvas.h"
 #include "sprite.h"
 #include <QHBoxLayout>
-#include <QDebug>
 #include <QColorDialog>
 #include <QInputDialog>
 #include <QQueue>
@@ -254,19 +253,6 @@ void SpriteEditor::createFileMenu() {
     fileMenu->addAction(saveAction);
     fileMenu->addSeparator();
 
-//    editMenu = menuBar()->addMenu(tr("&Edit"));
-//    editMenu->addAction(undoAct);
-//    editMenu->addAction(redoAct);
-//    editMenu->addSeparator();
-//    editMenu->addAction(cutAct);
-//    editMenu->addAction(copyAct);
-//    editMenu->addAction(pasteAct);
-//    editMenu->addSeparator();
-
-//    helpMenu = menuBar()->addMenu(tr("&Help"));
-//    helpMenu->addAction(aboutAct);
-//    helpMenu->addAction(aboutQtAct);
-
     QString  menuStyle(
         "QMenuBar {"
             "background-color: rgb(75, 75, 75);"
@@ -348,13 +334,11 @@ void SpriteEditor::frameSelected(Frame* frame) {
 
 void SpriteEditor::deleteFrame() {
     if (!selectedFrame) {
-        qDebug() << "No frame selected to delete.";
         return;
     }
 
     int index = mySprite->frames.indexOf(selectedFrame);
     if (index == -1) {
-        qDebug() << "Selected frame is not in the list.";
         return;
     }
 

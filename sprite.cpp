@@ -16,7 +16,6 @@
 
 #include "sprite.h"
 #include "frame.h"
-#include <QDebug>
 #include <QColor>
 #include <QMouseEvent>
 
@@ -24,41 +23,29 @@ Sprite::Sprite(QWidget *parent)
     : QWidget{parent},
     framesIndex(0)
 {
-
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Sprite::sendFrames);
-
 }
 
-Sprite::~Sprite(){
-
+Sprite::~Sprite() {
     for(Frame* frame : frames){
-
         delete frame;
-
     }
 
     frames.clear();
-
 }
 
-void Sprite::mousePressEvent(QMouseEvent * e){
-
+void Sprite::mousePressEvent(QMouseEvent *) {
     if(frames.size() != 0){
         emit sendFramesToPreview(frames[0]);
     }
-
 }
 
 
-void Sprite::sendFrames(){
-
+void Sprite::sendFrames() {
     if (frames.isEmpty()) {
-
         emit sendFramesToPreview(nullptr);
-
         return;
-
     }
 
     if (framesIndex >= frames.size()) framesIndex = 0;
@@ -66,25 +53,18 @@ void Sprite::sendFrames(){
     emit sendFramesToPreview(frames[framesIndex]);
 
     framesIndex++;
-
 }
 
 
-void Sprite::setPreviewSpeed(int speed){
-
-    if (speed > 0){
-
+void Sprite::setPreviewSpeed(int speed) {
+    if (speed > 0) {
         timer->setInterval(1000 / speed);
-
     }else{
-
         timer->setInterval(1000);
     }
-
 }
 
-void Sprite::setSpriteSize(int size){
-
+void Sprite::setSpriteSize(int size) {
     spriteSize = size;
 
     Frame* frame1 = new Frame(spriteSize);
@@ -96,24 +76,18 @@ void Sprite::setSpriteSize(int size){
     timer->start();
 
     framesIndex = 0;
-
 }
 
-void Sprite::saveSpriteToFile(){
-
+void Sprite::saveSpriteToFile() {
     emit saveSprite(this);
-
 }
 
-void Sprite::openSpriteFromFile(){
-
+void Sprite::openSpriteFromFile() {
     timer->stop();
     emit openSprite(this);
-
 }
 
-void Sprite::createNewFile( ){
-
+void Sprite::createNewFile( ) {
     timer->stop();
 
     this->frames.clear();
@@ -126,20 +100,15 @@ void Sprite::createNewFile( ){
     emit sendAllFramesToPreview(frames);
 
     timer->start();
-
 }
 
-void Sprite::updateSprite(){
-
+void Sprite::updateSprite() {
     timer->start();
 
-    if(!frames.isEmpty()){
-
+    if(!frames.isEmpty()) {
         emit passFrameSignal(frames[0]);
         emit sendSpriteToView(this);
         emit sendAllFramesToPreview(frames);
         emit setCanvasSize(spriteSize);
-
     }
-
 }

@@ -16,7 +16,6 @@
 #include "spritecanvas.h"
 #include "qpainter.h"
 #include "frame.h"
-#include <QDebug>
 #include <QPixmap>
 #include <QMouseEvent>
 
