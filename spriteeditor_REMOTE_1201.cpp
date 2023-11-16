@@ -1,5 +1,5 @@
 /**
- * @file spriteeditor.h
+ * @file spriteeditor.cpp
  * @author teamname: The QT's
  *
  * @brief
@@ -8,6 +8,7 @@
  *
  * The spriteeditor class is reponsible for functions on the ui application like addFrame, copyFrame, saveFiles etc.
  *
+ * Review by Tiffany Yau.
  * @date 2023-11-14
  */
 #include "spriteeditor.h"
@@ -25,8 +26,7 @@
 SpriteEditor::SpriteEditor(File& file, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::SpriteEditor)
-    , mySprite(new Sprite)
-{
+    , mySprite(new Sprite) {
     ui->setupUi(this);
 
     // set icons
@@ -54,19 +54,17 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
 
     // Add the sprite frames to the layout
     ui->scrollArea->setWidget(mySprite);
-
     ui->cpInstructionsLabel->setVisible(false);
     ui->explanationLabel->setVisible(false);
 
-    connect(ui->addFrameButton,
-            &QPushButton::clicked,
-            this,
-            &SpriteEditor::addFrame);
+    // connection from add frame button signal to sprite slot to create new frame
+    connect(ui->addFrameButton, &QPushButton::clicked, this, &SpriteEditor::addFrame);
 
+    // connection from sprite frame added signal to this slot to add the frame widget to layout
     connect(mySprite,
-            &Sprite::passFrameSignal,
+            &Sprite::passChildSignal,
             ui->canvasWidget,
-            &SpriteCanvas::setCurrentFrame);
+            &SpriteCanvas::updateDisplay);
 
     connect(mySprite,
             &Sprite::sendFramesToPreview,
@@ -132,7 +130,6 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             &Sprite::sendAllFramesToPreview,
             ui->previewWidget,
             &SpritePreview::loadNewFrames);
-
     connect(mySprite,
             &Sprite::setCanvasSize,
             ui->canvasWidget,
@@ -142,17 +139,14 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             &Sprite::saveSprite,
             &file,
             &File::saveFile);
-
     connect(mySprite,
             &Sprite::openSprite,
             &file,
             &File::loadFile);
-
     connect(&file,
             &File::fileLoaded,
             mySprite,
             &Sprite::updateSprite);
-
     connect(mySprite,
             &Sprite::sendSpriteToView,
             this,
@@ -168,6 +162,7 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             this,
             &SpriteEditor::showCpInstructions);
 
+    // Functions for addFrame, CopyFrame and DeleteFrame
     connect(ui->copyFrameButton,
             &QPushButton::clicked,
             this,
@@ -184,40 +179,52 @@ SpriteEditor::SpriteEditor(File& file, QWidget *parent)
             &SpriteEditor::deleteFrame);
 
     setSpriteSize();
-
     createFileActions(mySprite);
     createFileMenu();
 
     // will always start with 1 frame
     Frame* frame = mySprite->frames.at(0);
     layout->addWidget(frame);
-    connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected); // Connect the clicked signal to the slot
-    connect(frame, &Frame::focusLost, ui->canvasWidget, &SpriteCanvas::clearSelectedPixels);
+    connect(frame,
+            &Frame::clicked,
+            this,
+            &SpriteEditor::frameSelected);
+
+    connect(frame,
+            &Frame::focusLost,
+            ui->canvasWidget,
+            &SpriteCanvas::clearSelectedPixels);
+
     // give focus to the default frame
     selectedFrame = frame;
     frameSelected(selectedFrame);
     selectedFrame->setFocus();
+
 }
 
 void SpriteEditor::addFramesToLayout(Sprite *sprite) {
+
     QLayoutItem *child;
-    while ((child = layout->takeAt(0)) != 0) {
+    while ((child = layout->takeAt(0)) != 0){
         delete child->widget();
         delete child;
     }
     delete layout;
 
     QHBoxLayout *newLayout = new QHBoxLayout(sprite);
-
     // Add the sprite frames to the layout
     for (Frame* frame : sprite->frames) {
         newLayout->addWidget(frame);
-        connect(frame, &Frame::clicked, this, &SpriteEditor::frameSelected);
+        connect(frame,
+                &Frame::clicked,
+                this,
+                &SpriteEditor::frameSelected);
     }
     layout = newLayout;
 }
 
 void SpriteEditor::chooseColor() {
+
     QColor color = QColorDialog::getColor(Qt::white, this);
     QString backGroundColor("background-color: rgb(" + QString::number(color.red()) + "," + QString::number(color.green()) + "," + QString::number(color.blue()) +");");
     ui->colorButton->setStyleSheet(backGroundColor);
@@ -225,12 +232,16 @@ void SpriteEditor::chooseColor() {
 }
 
 void SpriteEditor::setSpriteSize() {
-    spriteSize = QInputDialog::getInt(this, tr("Sprite Editor"),
-                                          tr("Please Choose A Sprite Size From 10-50!"), 10, 10, 50);
+
+    spriteSize = QInputDialog::getInt(this,
+                                      tr("Sprite Editor"),
+                                      tr("Please Choose A Sprite Size From 10-50!"),
+                                      10, 10, 50);
     emit sendSpriteSize(spriteSize);
 }
 
 void SpriteEditor::createFileActions(Sprite* mySprite) {
+
     newAction = new QAction(tr("&New"), this);
     newAction->setShortcuts(QKeySequence::New);
     newAction->setStatusTip(tr("Create a new file"));
@@ -248,24 +259,12 @@ void SpriteEditor::createFileActions(Sprite* mySprite) {
 }
 
 void SpriteEditor::createFileMenu() {
+
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(newAction);
     fileMenu->addAction(openAction);
     fileMenu->addAction(saveAction);
     fileMenu->addSeparator();
-
-//    editMenu = menuBar()->addMenu(tr("&Edit"));
-//    editMenu->addAction(undoAct);
-//    editMenu->addAction(redoAct);
-//    editMenu->addSeparator();
-//    editMenu->addAction(cutAct);
-//    editMenu->addAction(copyAct);
-//    editMenu->addAction(pasteAct);
-//    editMenu->addSeparator();
-
-//    helpMenu = menuBar()->addMenu(tr("&Help"));
-//    helpMenu->addAction(aboutAct);
-//    helpMenu->addAction(aboutQtAct);
 
     QString  menuStyle(
         "QMenuBar {"
@@ -298,6 +297,7 @@ void SpriteEditor::hideCpInstructions() {
 }
 
 void SpriteEditor::addFrame() {
+
     Frame* newFrame = new Frame(spriteSize);
     mySprite->frames.append(newFrame);
     layout->addWidget(newFrame);
@@ -305,24 +305,23 @@ void SpriteEditor::addFrame() {
     connect(newFrame, &Frame::focusLost, ui->canvasWidget, &SpriteCanvas::clearSelectedPixels);
     selectedFrame = newFrame;
     frameSelected(selectedFrame);
+
     // automatically give the new frame focus
     selectedFrame->setFocus();
 }
 
 void SpriteEditor::copyFrame() {
-    if (!selectedFrame) {
-        return; // No selected frame to copy
-    }
+
+    if (!selectedFrame) return; // No selected frame to copy
 
     Frame* newFrame = new Frame(mySprite->spriteSize);
     newFrame->image = selectedFrame->image.copy();
     newFrame->selectablePixels = selectedFrame->selectablePixels;
     int index = layout->indexOf(selectedFrame);
-    if (index == mySprite->frames.size()) {
-        mySprite->frames.append(newFrame);
-    } else {
-        mySprite->frames.insert(index, newFrame);
-    }
+
+    if (index == mySprite->frames.size()) mySprite->frames.append(newFrame);
+    else mySprite->frames.insert(index, newFrame);
+
     layout->insertWidget(index, newFrame);
     connect(newFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
     connect(newFrame, &Frame::focusLost, ui->canvasWidget, &SpriteCanvas::clearSelectedPixels);
@@ -347,16 +346,10 @@ void SpriteEditor::frameSelected(Frame* frame) {
 }
 
 void SpriteEditor::deleteFrame() {
-    if (!selectedFrame) {
-        qDebug() << "No frame selected to delete.";
-        return;
-    }
 
+    if (!selectedFrame) return;
     int index = mySprite->frames.indexOf(selectedFrame);
-    if (index == -1) {
-        qDebug() << "Selected frame is not in the list.";
-        return;
-    }
+    if (index == -1) return;
 
     disconnect(selectedFrame, &Frame::clicked, this, &SpriteEditor::frameSelected);
     layout->removeWidget(selectedFrame);
@@ -374,13 +367,18 @@ void SpriteEditor::deleteFrame() {
         }
         frameSelected(selectedFrame);
         selectedFrame->setFocus();
-    } else {
+    }
+    else {
         selectedFrame = nullptr;
         ui->canvasWidget->setCurrentFrame(nullptr);
         ui->previewWidget->updatePreview(nullptr); // Update preview with null
     }
 
     ui->canvasWidget->update();
+}
+
+SpriteEditor::~SpriteEditor() {
+    delete ui;
 }
 
 void SpriteEditor::tellUserToSelectPixels() {
@@ -392,12 +390,3 @@ void SpriteEditor::tellUserToSelectPixels() {
 void SpriteEditor::hideExplanation() {
     ui->explanationLabel->setVisible(false);
 }
-
-SpriteEditor::~SpriteEditor()
-{
-    delete ui;
-}
-
-
-
-

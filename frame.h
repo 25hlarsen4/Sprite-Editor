@@ -45,37 +45,53 @@ public:
 
     /**
      * @brief bucketFill fills the pixels inside a boundary to a new color selected by user.
-     * @param pixelX
-     * @param pixelY
-     * @param newColor
-     * @return
+     * @param pixelX- the x coord of the pixel that was clicked
+     * @param pixelY- the y coord of the pixel that was clicked
+     * @param newColor- the color to bucket fill with
+     * @return a list of the modified pixels
      */
     QList<QPair<int, int>> bucketFill(int pixelX, int pixelY, QColor newColor);
 
     /**
-     * @brief A helper method  for bucketFill to ensure that color operations are applied only to the intended pixels within the frame.
-     * @param pixelX
-     * @param pixelY
-     * @param OldColor
-     * @param newColor
-     * @return
+     * @brief A helper method for bucketFill to ensure that color operations are applied only to the intended pixels within the frame.
+     * @param pixelX- the x coord of the pixel
+     * @param pixelY- the y coord of the pixel
+     * @param OldColor- the original color of the pixel
+     * @param newColor- the desired new color
+     * @return whether or not this pixel needs to be recolored
      */
-    bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor); //private?
+    bool isValidPixel(int pixelX, int pixelY, QColor OldColor, QColor newColor);
 
-    QImage image;
-    int width;
-    int height;
+    /**
+     * @brief mousePressEvent is reponsible drawing the Qimage within the frame
+     */
     void mousePressEvent(QMouseEvent *event);
 
     QList<QPair<int, int>> selectablePixels;
+    QImage image;
+    int width;
+    int height;
 
 signals:
+    /**
+     * @brief Called when a frame is clicked.
+     */
     void clicked(Frame* frame);
-    // if ever changing focus between frames, clear selected pixels
+
+    /**
+     * @brief Called when focus between frames, at which point we
+     * must clear any selected pixels
+     */
     void focusLost();
 
 public slots:
 
+    /**
+     * @brief Updates the given pixel to the given color
+     * @param pixelX- the x coord of the pixel
+     * @param pixelY- the y coord of the pixel
+     * @param color- the color
+     */
     void updatePixel(int pixelX, int pixelY, QColor color);
 
 };

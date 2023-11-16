@@ -38,7 +38,7 @@ public:
     void addFrame(Frame* frame);
 
 private:
-    QList<Frame*> frames; // Keep these in sync with Sprite's frame list.
+    QList<Frame*> frames;
     Frame *currFrame;
 
 public slots:

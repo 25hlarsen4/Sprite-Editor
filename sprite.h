@@ -39,11 +39,25 @@ public:
      */
     ~Sprite();
 
-    // made this an array of ptrs because QObjects are not copyable, must work with pointers instead
+    /**
+     * @brief Holds the frames of this sprite.
+     */
     QList<Frame*> frames;
+
+    /**
+     * @brief A timer for sending frames to the preview.
+     */
     QTimer *timer;
 
+    /**
+     * @brief Holds the current index in the frame list we're at when sending frames
+     * to preview.
+     */
     int framesIndex;
+
+    /**
+     * @brief Holds the size of this sprite (length and width)
+     */
     int spriteSize;
 
     /**
@@ -68,6 +82,7 @@ signals:
      * @param frame - the frame being sent.
      */
     void passFrameSignal(Frame* frame);
+
     /**
      * @brief sendFramesToPreview - sends a single frame to the sprite
      * preview class.

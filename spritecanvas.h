@@ -47,12 +47,6 @@ public:
      */
     void wheelEvent(QWheelEvent *);
 
-//    /**
-//     * @brief setCurrentFrame is used to set the current frame that is being displayed and edited on the canvas.
-//     * @param frame- the frame to set currframe to
-//     */
-//    void setCurrentFrame(Frame* frame);
-
 private:
 
     /**

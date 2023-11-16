@@ -60,26 +60,56 @@ private slots:
      * Source: https://www.youtube.com/watch?v=fl3q_5bxhlk
      */
     void chooseColor();
+
+    /**
+     * @brief Copies the focused frame when the copy frame button is clicked.
+     */
     void copyFrame();
+
+    /**
+     * @brief Deletes the focused frame when the delete frame button is clicked.
+     */
     void deleteFrame();
 
+    /**
+     * @brief Adds a loaded sprite's frames to the layout.
+     */
     void addFramesToLayout(Sprite *sprite);
 
-
+    /**
+     * @brief Called to display instructions on copy-pasting when the copy pixels
+     * button is clicked.
+     */
     void showCpInstructions();
+
+    /**
+     * @brief Called to hide the instructions on copy-pasting when the copy-paste
+     * has completed.
+     */
     void hideCpInstructions();
 
-    void test(bool);
-
+    /**
+     * @brief Called to display a message to select pixels if the user hits the copy
+     * pixels button and there are no selected pixels.
+     */
     void tellUserToSelectPixels();
+
+    /**
+     * @brief Called to hide the message to select pixels.
+     */
+    void hideExplanation();
 
 public slots:
 
+    /**
+     * @brief Takes care of copying the given frame.
+     */
     void onFrameCopied(Frame* newFrame);
+
+    /**
+     * @brief Sets the selected frame to frame.
+     */
     void frameSelected(Frame* frame);
-    void hideExplanation();
-
-
 
 };
 #endif // SPRITEEDITOR_H
