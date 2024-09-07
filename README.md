@@ -39,4 +39,4 @@ Saving and Loading
 
 Acknowledgments
 •	Special thanks to the CS 3505 teaching staff.
-•	All contributors and testers who helped in refining this application.
+•	All contributors and testers who helped in refining this application (Hannah Larsen, Todd Oldham, Justin Zhu, Bracken Asay, Tiffany Yau, Matthew Lam).
