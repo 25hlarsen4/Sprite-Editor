@@ -15,7 +15,7 @@ The QT's Sprite Editor is a comprehensive sprite editing application designed fo
 # Installation
 To install the QT's Sprite Editor, follow these steps:
 1.	Ensure you have Qt5 installed on your system.
-2.	Clone the repository from [GitHub link].
+2.	Clone this repository.
 3.	Open the project in Qt Creator.
 4.	Build and run the application.
 
