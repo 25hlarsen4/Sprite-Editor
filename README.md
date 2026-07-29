@@ -2,6 +2,8 @@
 # Introduction
 The QT's Sprite Editor is a comprehensive sprite editing application designed for creating and manipulating sprite animations. Developed as part of CS 3505, this tool offers a user-friendly interface and a suite of features essential for both novice and experienced sprite artists.
 
+**Check out this quick [demo video](https://youtu.be/iCZqQvhRWu4) of the project.**
+
 # Features
 1.	Frame Management: Users can add, copy, and delete frames from their sprite animations.
 2.	Drawing Tools: Includes a pen tool, eraser, and bucket fill for editing pixels on each frame.
